@@ -1,0 +1,33 @@
+https://leetcode.com/problems/asteroid-collision/description/
+
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> st = new Stack<>();
+        for(int i = 0; i < asteroids.length; i++)
+        {
+            while(!st.isEmpty() && st.peek() > 0 && asteroids[i] < 0)
+            //means collision occur
+            {
+                int sum = asteroids[i] + st.peek();
+                if(sum < 0) st.pop();
+                else if(sum > 0)
+                {
+                    asteroids[i] = 0;
+                    break;
+                }
+                else //it means sum = 0; (2) ---- (-2)
+                {
+                    asteroids[i] = 0;
+                    st.pop();
+                }
+            }
+            if(asteroids[i] != 0)
+             st.push(asteroids[i]);
+        }
+
+        int ans[] = new int[st.size()];
+        for(int i = st.size() - 1; i >= 0; i--)
+         ans[i] = st.pop();
+         return ans;
+    }
+}

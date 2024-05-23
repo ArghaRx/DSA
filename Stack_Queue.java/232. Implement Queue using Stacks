@@ -1,0 +1,127 @@
+**** BRUTE  ******
+// s1 = input stack
+// s2 = output stack
+
+push() --> 
+1. // s1 -->  s2
+2.  // x --> s1
+3.   // s2 --> s1
+
+pop() , peek() ,empty() --->
+// always s1.pop()
+
+
+// CODE 
+
+class MyQueue {
+    Stack<Integer> input = new Stack<>(); // s1
+    Stack<Integer> output = new Stack<>(); // s2
+
+    public MyQueue() {
+        
+    }
+    
+    public void push(int x) {
+        // s1 -->  s2
+        while(input.empty() == false)
+        {
+            output.push(input.peek());
+            input.pop();
+        }
+
+        // x --> s1
+        System.out.println("The inserted element is: " + x);
+        input.push(x);
+
+        // s2 --> s1
+        while(output.empty() == false)
+        {
+            input.push(output.peek());
+            output.pop();
+        }
+    }
+    
+    public int pop() {
+
+        // always s1.ppop()
+        if(input.empty())
+        System.out.println("Queue is emprty");
+
+        int deleteitem = input.peek();
+        input.pop();
+        return deleteitem;
+    }
+    
+    public int peek() {
+          if(input.empty())
+        System.out.println("Queue is emprty");
+
+        return input.peek();
+    }
+    
+    public boolean empty() {
+        return input.empty();
+    }
+}
+
+
+****  Optimal  *****
+// s1 = input stack
+// s2 = output stack
+
+push()
+1. push all in input;
+
+pop() , peek()
+1. if output is empty then
+      input to output 
+      output.pop()
+
+
+// CODE
+
+class MyQueue {
+    Stack<Integer> input = new Stack<>(); // s1
+    Stack<Integer> output = new Stack<>(); // s2
+
+    public MyQueue() {
+
+    }
+
+    public void push(int x) {
+      // System.out.println(x);
+        input.push(x);
+    }
+
+    public int pop() {
+        // if output is empty
+        // input to output
+       if (output.empty())
+            while (input.empty() == false) {
+                output.push(input.peek());
+                input.pop();
+            }
+
+        // store the delete value
+        int deleteitem = output.peek();
+        output.pop(); // pop()
+        return deleteitem; // return the value
+
+    }
+
+    public int peek() {
+
+        // if output is empty
+        // input to output
+        if (output.empty())
+            while (input.empty() == false) {
+                output.push(input.peek());
+                input.pop();
+            }
+        return output.peek();
+    }
+
+    public boolean empty() {
+        return input.empty() && output.empty();
+    }
+}

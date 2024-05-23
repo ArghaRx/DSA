@@ -1,0 +1,94 @@
+***** BRUTE ****
+
+Take q1 and q2
+
+push() -->
+1. // add x to q2
+2.   // q1 to q2
+3. // swap q1 and q2
+
+pop(), peek(), empty()
+ all operate q1
+
+// CODE
+
+import java.util.LinkedList;
+class MyStack {
+
+    Queue<Integer> q1 = new LinkedList<>();;
+    Queue<Integer> q2 = new LinkedList<>();
+    public MyStack() {
+    }
+    
+    public void push(int x) {
+        // add x to q2
+        q2.offer(x);
+        
+        // q1 to q2
+        while (!q1.isEmpty()) {
+            q2.offer(q1.poll());
+        }
+        
+        // swap q1 and q2
+        Queue<Integer> temp = q1;
+        q1 = q2;
+        q2 = temp;
+    }
+    
+    public int pop() {
+        return q1.poll();
+    }
+    
+    public int top() {
+        return q1.peek();
+    }
+    
+    public boolean empty() {
+         return q1.isEmpty();
+    }
+}
+
+
+
+******** Optimal  ****************
+
+implement by 1 queue
+
+push() -->
+1. p.add(x);
+2.  // take a loop
+       // except the last insert element all are again push from top
+
+
+import java.util.LinkedList;
+class MyStack {
+
+    Queue<Integer> q = new LinkedList<>();;
+  
+    public MyStack() {
+    }
+    
+    public void push(int x) {
+        // as queue is LinkedList type so q.add()
+       q.add(x);
+
+       // take a loop
+       // except the last insert element all are again push from top
+       for(int i = 0; i < q.size() - 1; i++)
+       {
+           q.add(q.poll());
+       }
+    }
+    
+    public int pop() {
+        return q.poll();
+    }
+    
+    public int top() {
+        return q.peek();
+    }
+    
+    public boolean empty() {
+         return q.isEmpty();
+    }
+}
