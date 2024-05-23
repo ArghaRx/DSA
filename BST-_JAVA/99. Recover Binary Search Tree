@@ -1,0 +1,57 @@
+
+https://leetcode.com/problems/recover-binary-search-tree/description/
+
+
+class Solution {
+    TreeNode first;
+    TreeNode middle;
+    TreeNode last;
+    TreeNode prev;
+
+    void inorderFunction(TreeNode root)
+    {
+        if(root == null) return;
+
+        inorderFunction(root.left);
+        if(prev != null && root.val < prev.val) // violation found
+        {
+            if(first == null) // first violation
+            {
+                first = prev;
+                middle = root;
+            }
+            else
+            last = root;
+        }
+        prev = root;
+        inorderFunction(root.right);
+    }
+
+    public void recoverTree(TreeNode root) {
+        // first , middle, last all store null and 
+        // prev store min value
+        first = middle = last = null;
+        prev = new TreeNode(Integer.MIN_VALUE);
+
+        inorderFunction(root);
+
+        // if not adjacent then first last middle all found
+        if(first != null && middle != null && last != null)
+        {
+            //swap will first and last
+            int t = first.val;
+            first.val = last.val;
+            last.val = t;
+        }
+
+        // if adjacent value need to swap to form BT to BST then only first and middle find
+        // last == null
+        else if(first != null && middle != null && last == null )
+        {
+            // swap first and middle
+            int t = first.val;
+            first.val = middle.val;
+            middle.val = t;
+        }
+    }
+}

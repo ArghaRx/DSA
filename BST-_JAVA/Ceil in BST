@@ -1,0 +1,60 @@
+____  GFG   ____
+https://www.geeksforgeeks.org/problems/implementing-ceil-in-bst/1?utm_source=geeksforgeeks&utm_medium=ml_article_practice_tab&utm_campaign=article_practice_tab
+
+
+class Tree {
+    // Function to return the ceil of given number in BST.
+    int findCeil(Node root, int key) {
+        if (root == null) return -1;
+        // Code here
+         int ceil = -1;
+        while(root != null)
+        {
+            if(root.data == key)
+            {
+                ceil = root.data;
+                return ceil;
+            }
+            else if(root.data < key)
+            root = root.right;
+
+            else{
+                ceil = root.data;
+                root = root.left;
+            }
+        }
+        return ceil;
+    }
+}
+
+
+________ CODENINJA  ________
+https://www.codingninjas.com/studio/problems/ceil-from-bst_920464?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+
+public class Solution {
+
+    public  static int findCeil(TreeNode<Integer> node, int x) {
+
+        // Write your code here
+        int ceil = -1;
+        while(node != null)
+        {
+            if(node.data == x)
+            {
+                ceil = node.data;
+                return ceil;
+            }
+            else if(node.data < x)
+            node = node.right;
+
+            else{
+                ceil = node.data;
+                node = node.left;
+            }
+        }
+        return ceil;
+
+    }
+}
+

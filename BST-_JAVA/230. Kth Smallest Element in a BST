@@ -1,0 +1,25 @@
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+
+
+class Solution {
+    int count = 0;
+    int result = Integer.MIN_VALUE;
+    public int kthSmallest(TreeNode root, int k) {
+       inorderTraversal(root, k);
+       return result;
+    }
+    // simplely inorder traversal
+    public void inorderTraversal(TreeNode root, int k)
+    {
+        if(root == null) return;// Base case
+
+       inorderTraversal(root.left, k); // left recuresion
+
+        count++;
+        if(count == k)
+         result = root.val;
+         
+        
+        inorderTraversal(root.right, k);
+    }
+}

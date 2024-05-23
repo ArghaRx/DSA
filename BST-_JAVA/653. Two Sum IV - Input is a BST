@@ -1,0 +1,49 @@
+https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
+
+
+
+class BSTIterator{
+     Stack<TreeNode> stack = new Stack<>(); // Take a stack to push the value
+     boolean reverse = true; // while reverse is true that is before (right -> right ..)
+
+    BSTIterator(TreeNode root, boolean isReverse)
+    {
+        reverse = isReverse;
+        pushAll(root);
+    }
+    void pushAll(TreeNode root)
+    {
+        while(root != null)
+        {
+            stack.push(root);
+            if(reverse == true) root = root.right;
+            else root = root.left;
+        }
+    }
+    int next()
+    {
+        TreeNode temp = stack.pop(); // stack pop() element is temp
+        if(reverse == false) pushAll(temp.right);
+        else pushAll(temp.left);
+
+        return temp.val;
+    }
+
+ }
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        BSTIterator l = new BSTIterator(root, false); // left or next()
+        BSTIterator r = new BSTIterator(root, true); // right or before()
+
+        int i = l.next(); // left
+        int j = r.next(); // right
+
+        while(i < j)
+        {
+            if(i + j == k) return true;
+            else if(i + j < k) i = l.next(); // move the left pointer as it is sorted order because it is BST
+            else j = r.next(); // move thr right pointer
+        }
+        return false;
+    }
+}

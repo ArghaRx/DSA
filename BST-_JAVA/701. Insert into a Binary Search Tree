@@ -1,0 +1,45 @@
+https://leetcode.com/problems/insert-into-a-binary-search-tree/description/
+
+
+
+class Solution {
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null)
+            return new TreeNode(val);
+
+        TreeNode dummy = root;
+
+        while (root != null) {
+
+            // if current node is 4 and insert node is 5 which is larger
+
+            if (root.val < val) 
+              {
+                // we go right but here have a condition
+                // if right node exit it just iterate
+                // else create a new node and break it  ***** (break)
+
+                if (root.right != null)
+                    root = root.right;
+
+                else {
+                    root.right = new TreeNode(val);
+                    break;
+                }
+            }
+
+            // Same condition for else
+
+            else {
+                if (root.left != null)
+                    root = root.left;
+                else {
+                    root.left = new TreeNode(val);
+                    break;
+                }
+            }
+
+        }
+        return dummy;
+    }
+}
