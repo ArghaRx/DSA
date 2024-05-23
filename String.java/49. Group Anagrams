@@ -1,0 +1,45 @@
+https://leetcode.com/problems/group-anagrams/description/
+
+
+IMP
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (int i = 0; i < strs.length; i++) {
+            String s1 = strs[i];
+    // ----------------------------------------------------------------------------------------------
+            //if i direct check the string present in map or not without sorting then map consider each string is unique and it form each different groups
+            //["eat","tea","tan","ate","nat","bat"]
+        // Output
+        // [["tan"],["nat"],["tea"],["ate"],["bat"],["eat"]]
+//    ---------------------------------------------------------------------------------------
+            char[] arr = s1.toCharArray();
+            Arrays.sort(arr);
+            String str = new String(arr);
+            if (map.containsKey(str))
+                map.get(str).add(s1);
+            else {
+                map.put(str, new ArrayList<>());
+                map.get(str).add(s1);
+            }
+        }
+        return new ArrayList<>(map.values());
+    }
+}
+
+
+
+
+
+------------------------------------------------------
+
+Input--> "eat", "ate", "nat", "tan", "bac", "acb", "cba", "cab"
+
+
+IN Map it looks like :::----
+____string , List<String>_____
+"aet" , <"eat", "ate">
+"ant" , <"nat", "tan">
+"abc" , <"bac", "acb", "cba", "cab">

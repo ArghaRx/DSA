@@ -1,0 +1,54 @@
+https://leetcode.com/problems/truncate-sentence/description/
+
+
+class Solution {
+    public String truncateSentence(String s, int k) {
+        String temp = "";
+        String ans = "";
+        int cnt = 0;
+        for(int i = 0; i < s.length(); i++)
+        {
+            if(cnt == k) break;
+            if(s.charAt(i) == ' ' && temp.length() > 0 && cnt < k)
+            {
+            ans += " "+ temp;
+            temp ="";
+            cnt++;
+            }
+            else temp += s.charAt(i);
+        }
+
+         if (temp.length() > 0) {
+            ans += " " + temp;
+        }
+        
+        return ans.substring(1, ans.length());
+    }
+}
+
+
+---------------------------------------------
+class Solution {
+    public String truncateSentence(String s, int k) {
+        String temp = "";
+        String ans = "";
+        int cnt = 0;
+        for(char c : s.toCharArray())
+        {
+            if(k == 0) break;
+            else if(c == ' ') //it already say here doesnot has multiple space so no need more conditions
+            {
+              ans += " "+ temp;
+              temp = "";
+              k -= 1;
+            }
+            else temp += c;
+        }
+        if(temp.length() != 0) //1 <= s.length <= 500 so
+        ans += " "+ temp;
+
+     
+        return ans.substring(1); // always stay leadeing spane for insert the first word in 
+
+    }
+}

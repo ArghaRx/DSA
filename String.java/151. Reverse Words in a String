@@ -1,0 +1,33 @@
+https://leetcode.com/problems/reverse-words-in-a-string/description/
+
+class Solution {
+    public String reverseWords(String s) {
+       Stack<String> st = new Stack<>();
+       String temp = "" ;
+       String ans = "";                        // store the ans
+       for(int i = 0; i < s.length(); i++)
+       {
+           if(s.charAt(i) == ' ')                  // josi space pai
+           {
+               if(temp.length() > 0)             // then check korbe sei somoy temp size 0 er chaya boro kina,bcz 2 to word er maje space ase tokn size 0 hbe na 
+                                                       ekmatro tokn e stack e dukbe ...onno gulo mean multipkle space takbe 
+               {
+                   st.push(temp);                // enter in stack
+               }
+               temp = "";
+           }
+           else
+           temp += s.charAt(i);
+       }
+       ans = ans + temp;                           // jodi last e multiple space take thle sb string e stack e duke jabe but jodi last e kono space na take then 
+                                                     temp e pao last "blue" string ta stack e dukbe na tai ans = ans + temp kora holo {for that spacial case ony}
+       while(!st.isEmpty())
+       ans = ans +" "+ st.pop();
+
+       if(ans.length() !=0 && ans.charAt(0) == ' ')  //trim krle hba na..jodi ans size 0 na hoi and ans er first val ' ' take tkn oi space chara baki subsrting ta 
+                                                         select korbo
+        ans = ans.substring(1, ans.length());
+ 
+       return ans;
+    }
+}

@@ -1,0 +1,31 @@
+https://leetcode.com/problems/string-to-integer-atoi/description/
+
+
+class Solution {
+    public int myAtoi(String s) {
+        if(s == null) return 0;
+
+        s = s.trim();  // important to notice
+
+        if(s.length() == 0) return 0;
+        int ans = 0;
+        int sign = 1;;
+        int max = Integer.MAX_VALUE;
+        int min = Integer.MIN_VALUE;
+
+        if(s.charAt(0) == '-') sign = -1;
+        for(int i = ((s.charAt(0) == '-' || s.charAt(0) == '+')?1 :0); i < s.length(); i++)
+        {
+                if(s.charAt(i) == ' ' || !Character.isDigit(s.charAt(i))) break;
+
+                ans =  ans * 10 + s.charAt(i) - '0'; // important to notice
+        }
+
+        if(-1 * ans < min) return min;
+        if(ans > max) return max;
+
+        if(sign == -1) return ans * sign;
+        return ans;
+        
+    }
+}

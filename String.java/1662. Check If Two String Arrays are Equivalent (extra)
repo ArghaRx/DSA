@@ -1,0 +1,11 @@
+https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/description/
+
+
+class Solution {
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+        return (String.join("", word1).equals(String.join("", word2)));
+    }
+}
+
+// array using an empty string ("") as a separator. This creates a single string
+// by joining the elements of the array.

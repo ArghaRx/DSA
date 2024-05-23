@@ -1,0 +1,29 @@
+https://leetcode.com/problems/replace-all-digits-with-characters/description/
+
+
+
+    class Solution{
+    public String replaceDigits(String s) {
+        char[] res = s.toCharArray(); // take a char array
+        for (int i = 1; i < s.length(); i += 2) {
+            res[i] = (char)(res[i - 1] + res[i] - '0');
+
+            //(char): This is a type cast, converting the result to a char type. 
+            // res[i - 1]: This is the character at the preceding even index (i - 1).
+            // res[i]: This is the digit at the current odd index (i).
+            // - '0': This is used to convert the character representation of the digit to its corresponding integer value
+        }
+        return String.valueOf(res);
+    }
+    }
+
+------------------------ EASY ------------------------------
+ class Solution {
+    public String replaceDigits(String s) {
+        char[] res = s.toCharArray();
+        for (int i = 1; i < s.length(); i += 2) {
+            res[i] = (char)(res[i - 1] + Character.getNumericValue(res[i]));
+        }
+        return new String(res);
+    }
+}

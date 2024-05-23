@@ -1,0 +1,21 @@
+https://leetcode.com/problems/jewels-and-stones/description/
+
+class Solution {
+    public int numJewelsInStones(String jewels, String stones) {
+
+        //The code snippet jewels.indexOf(stones.charAt(i)) != -1 is checking if the character at the i-th position in the string stones is present in the string jewels. Let's break it down:
+
+// stones.charAt(i): This gets the character at the i-th position in the string stones.
+// jewels.indexOf(...): This returns the index of the character in jewels. If the character is not found, it returns -1.
+
+
+// jewels.indexOf(a)
+        int num = 0;
+		for (int i = 0 ; i < stones.length(); i ++) {
+			if(jewels.indexOf(stones.charAt(i)) != -1) {
+				num++;
+			}
+		}
+		return num;
+    }
+}

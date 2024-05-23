@@ -1,0 +1,26 @@
+https://leetcode.com/problems/split-a-string-in-balanced-strings/description/
+
+
+class Solution {
+    public int balancedStringSplit(String s) {
+        int occur_r = 0;
+        int occur_l = 0;
+        int cnt = 0;
+
+        for(int i = 0; i < s.length(); i++)
+        {
+            if(s.charAt(i) == 'L') occur_l += 1;
+            if(s.charAt(i) == 'R') occur_r += 1;
+
+            if(occur_l == occur_r)
+            {
+                cnt++;
+                occur_l = 0;
+                occur_r = 0;
+            }
+            
+
+        }
+        return cnt;
+    }
+}
