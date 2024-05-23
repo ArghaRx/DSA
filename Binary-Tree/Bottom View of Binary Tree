@@ -1,0 +1,46 @@
+class Pair {
+    Node node;
+    int hd;
+
+    public Pair(Node n, int h) {
+        node = n;
+        hd = h;
+    }
+}
+
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        // Code here
+        
+         ArrayList<Integer> ans = new ArrayList<>();
+        Queue<Pair> queue = new LinkedList<>(); 
+        Map <Integer,Integer> map = new TreeMap<>();
+        
+        if(root == null) return ans;
+        queue.add(new Pair(root,0));
+          while(!queue.isEmpty()) {
+            Pair it = queue.remove();
+            int hd = it.hd; 
+            Node temp = it.node; 
+            if(!map.containsKey(hd) || map.containsKey(hd))   /// Only difference btw topview and bottomview
+               map.put(hd, temp.data); 
+
+            if(temp.left != null) {
+                
+                queue.add(new Pair(temp.left, hd - 1)); 
+            }
+            if(temp.right != null) {
+                
+                queue.add(new Pair(temp.right, hd + 1)); 
+            }
+        }
+        for(Map.Entry<Integer,Integer> entry : map.entrySet())
+        {
+            ans.add(entry.getValue());
+        }
+        return ans;
+    }
+}

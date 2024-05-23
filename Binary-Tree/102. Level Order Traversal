@@ -1,0 +1,40 @@
+By using Queue :- 
+
+
+
+import java.util.*;
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();             // take a queue
+        List<List<Integer>> wrapList = new LinkedList<List<Integer>>(); // take a list
+        
+        if(root == null) return wrapList;
+        
+        queue.offer(root);
+        while(!queue.isEmpty()){
+
+            int levelnum = queue.size();                          // set the level num for every level,it helps to iterate the loop
+            List <Integer> sublist = new LinkedList<>();          // Another sublist
+
+            for(int i=0 ; i<levelnum ; i++)                  // for every level 
+            {
+                 if(queue.peek().left != null) 
+                queue.offer(queue.peek().left);             // atfirst left node
+                
+                if(queue.peek().right != null) 
+                queue.offer(queue.peek().right);            // then riht node
+
+                sublist.add(queue.poll().val);             // add in sublist
+            }
+            wrapList.add(sublist);                         // sublist add in wrapList
+        }
+        return wrapList;
+    }
+}
+
+
+
+TC - O(N)
+
+CS - O(N)

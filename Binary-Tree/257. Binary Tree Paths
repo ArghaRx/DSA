@@ -1,0 +1,20 @@
+// https://leetcode.com/problems/binary-tree-paths/description/
+
+
+
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+       List <String > ans = new ArrayList<>();
+       path(root , ans , ""); // call it root, ans list and empty string
+       return ans; 
+    }
+    public void path(TreeNode root ,  List <String > ans , String s )
+    {
+       // Base Case
+        if(root.left == null && root.right == null)
+         ans.add(s+root.val);
+
+         if(root.left != null) path(root.left , ans ,s+root.val+"->");
+         if(root.right != null) path(root.right , ans ,s+root.val+"->");
+    }
+}

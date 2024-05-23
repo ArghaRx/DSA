@@ -1,0 +1,55 @@
+
+//// Need Pair Class***
+class Pair {
+    Node node;
+    int hd;
+
+    public Pair(Node n, int h) {
+        node = n;
+        hd = h;
+    }
+}
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root)
+    {
+        // add your code
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<Pair> queue = new LinkedList<>(); 
+        Map <Integer,Integer> map = new TreeMap<>();
+        
+        if(root == null) return ans;
+        queue.add(new Pair(root,0));
+        
+        while(!queue.isEmpty()) {
+            Pair it = queue.remove();
+            int hd = it.hd; 
+            Node temp = it.node; 
+            if(!map.containsKey(hd)) 
+               map.put(hd, temp.data); 
+
+            if(temp.left != null) {
+                
+                queue.add(new Pair(temp.left, hd - 1)); 
+            }
+            if(temp.right != null) {
+                
+                queue.add(new Pair(temp.right, hd + 1)); 
+            }
+        }
+        for(Map.Entry<Integer,Integer> entry : map.entrySet())
+        {
+            ans.add(entry.getValue());
+        }
+        return ans;
+        
+    }
+}
+
+
+
+Time Complexity: O(N)
+
+Space Complexity: O(N)

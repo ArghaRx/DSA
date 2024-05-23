@@ -1,0 +1,71 @@
+Using Recursion :-
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public void InOrder (TreeNode node , List<Integer> ans)
+    {
+        if(node == null)
+         return ;
+
+        InOrder(node.left , ans);
+        ans.add(node.val);
+        InOrder(node.right , ans); 
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        ArrayList<Integer> ans=new ArrayList<>();
+        if(root == null)
+        return ans;
+
+        InOrder(root,ans);
+        return ans;
+    }
+}
+
+InORDER TRAVERSAL :--
+
+import java.util.*;
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        ArrayList<Integer> inorder = new ArrayList<>();
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode node = root;
+
+        while (true) {
+            if (node != null) {
+                st.push(node);
+                node = node.left;
+            } else {
+                if (st.isEmpty())
+                    break;
+
+                node = st.pop();
+                inorder.add(node.val); // Corrected this line
+                node = node.right;
+            }
+        }
+        return inorder;
+    }
+}
+
+
+Time Complexity: O(N).
+
+Reason: We are traversing N nodes and every node is visited exactly once.
+
+Space Complexity: O(N)
+
+Reason: In the worst case (a tree with just left children), the space complexity will be O(N).

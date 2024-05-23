@@ -1,0 +1,22 @@
+___Gfg_____
+
+
+class Tree
+{
+    //Function to return list containing elements of left view of binary tree.
+    ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      ArrayList<Integer> res = new ArrayList<>();
+      leftView(root,res,0);
+      return res;
+    }
+      void leftView(Node root,ArrayList <Integer> res,int level)
+    {
+        if (root == null) return;
+        if(level == res.size()) 
+          res.add(root.data);
+         leftView(root.left,res,level+1);
+        leftView(root.right,res,level+1);
+    }
+}

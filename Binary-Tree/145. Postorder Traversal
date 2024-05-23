@@ -1,0 +1,136 @@
+ Using Recursion :-
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+import java.util.*;
+class Solution {
+    public void postOrder (TreeNode node , List<Integer> ans)
+    {
+        if (node == null)
+         return ;
+        
+        postOrder(node.left, ans);
+        postOrder(node.right, ans);
+      ans.add(node.val);
+
+    }
+    public List<Integer> postorderTraversal(TreeNode root) {
+        ArrayList < Integer > ans = new ArrayList<>();
+        if ( root == null )
+        return ans;
+
+        postOrder ( root , ans );
+        return ans;
+    }
+}
+
+
+
+
+Traversal Technique :-  _______BY 2 STACK____
+
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        Stack <TreeNode> st1 = new Stack<>();
+        Stack <TreeNode> st2 = new Stack <>();
+        ArrayList<Integer> postorder = new ArrayList<>();
+
+        if(root == null)
+        return postorder;
+
+        st1.push(root);
+
+        while (!st1.isEmpty())
+        {
+            root = st1.pop();
+            st2.add(root);
+            
+            if(root.left != null)
+             st1.push(root.left);
+
+            if(root.right != null)
+             st1.push(root.right); 
+        }
+        while (!st2.isEmpty())
+        {
+            root = st2.pop();
+            postorder.add(root.val);
+        }
+        return postorder;
+    }
+}
+
+
+
+
+
+Traversal Technique :-  _______BY 1 STACK____
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+          ArrayList < Integer > postOrder = new ArrayList < > ();
+        if (root == null) return postOrder;
+
+        Stack < TreeNode > st = new Stack < > ();
+        while (root != null || !st.isEmpty()) {
+
+            if (root != null) {
+                st.push(root);
+                root = root.left;
+            } else {
+                TreeNode temp = st.peek().right;
+                if (temp == null) {
+                    temp = st.peek();
+                    st.pop();
+                    postOrder.add(temp.val);
+                    while (!st.isEmpty() && temp == st.peek().right) {
+                        temp = st.peek();
+                        st.pop();
+                        postOrder.add(temp.val);
+                    }
+                } else root = temp;
+            }
+        }
+        return postOrder;
+    }
+}
+
+
+
+
+
+Time Complexity: O(N).
+
+Reason: We are traversing N nodes and every node is visited exactly once.
+
+Space Complexity: O(N+N)

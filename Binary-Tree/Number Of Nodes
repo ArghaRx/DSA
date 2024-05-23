@@ -1,0 +1,19 @@
+Question :- 
+
+N = 4
+For level 1, we have 1 node.
+For level 2, we have 2 nodes.
+For level 3, we have 4 nodes
+For level 4, we have 8 nodes
+Output = 8, as level 4 has maximum 8 nodes.
+
+
+public class Solution {
+    public static int numberOfNodes(int N){
+        // Write your code here.\\
+
+         return (int)Math.pow(2, N-1);
+// This line calculates and returns the result of 2 raised to the power of (N-1). The Math.pow function is used to calculate the power, and the result is cast to an integer using (int).
+
+    }
+}

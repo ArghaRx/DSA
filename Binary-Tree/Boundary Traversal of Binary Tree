@@ -1,0 +1,171 @@
+_____CODE NINJA____
+
+
+
+/************************************************************
+
+ Following is the Binary Tree node structure:
+
+ class TreeNode {
+     int data;
+     TreeNode left;
+     TreeNode right;
+
+     TreeNode(int data) {
+         this.data = data;
+         this.left = null;
+         this.right = null;
+     }
+ }
+
+ ************************************************************/
+
+import java.util.*;
+
+public class Solution {
+     public static List<Integer> traverseBoundary(TreeNode root){
+        // Write your code here.
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        if (isLeaf(root) == false) ans.add(root.data);
+        addLeftBoundary(root,ans);
+        addLeaves(root,ans);
+        addRightBoundary(root,ans);
+        return ans;
+    }
+
+    static boolean isLeaf(TreeNode node){
+    return (node.left == null && node.right == null);
+    }
+     static void addLeftBoundary(TreeNode root, ArrayList <Integer> res)
+    {
+        TreeNode cur = root.left;
+        while (cur != null)
+        {
+            if(isLeaf(cur) == false)
+            res.add(cur.data);
+
+            if(cur.left != null)
+            cur = cur.left; // (see)
+            else
+            cur = cur.right; //(see)
+        }
+    }
+     static void addRightBoundary(TreeNode root,ArrayList <Integer> res)
+    {
+        TreeNode cur = root.right;  // (see)
+
+         ArrayList<Integer> temp = new ArrayList<>();
+        while(cur != null)
+        {
+            if(isLeaf(cur) == false) temp.add(cur.data);  // (see)
+            
+            if(cur.right != null) 
+              cur= cur.right;  // (see)
+            else
+            cur = cur.left;   // (see)
+        }
+        for(int i = temp.size() - 1 ; i>=0 ; i--)
+        {
+            res.add(temp.get(i));
+        }
+            
+    }
+   static void addLeaves(TreeNode root, ArrayList < Integer > res) {
+        if (isLeaf(root)) {
+            res.add(root.data);
+            return;
+        }
+        if (root.left != null) addLeaves(root.left, res);   // (see)// (see)
+        if (root.right != null) addLeaves(root.right, res);  // (see)// (see)
+    }
+
+}
+
+
+
+
+
+
+
+
+
+____GfG______
+|
+
+
+
+
+//User function Template for Java
+
+// class Node  
+// { 
+//     int data; 
+//     Node left, right; 
+   
+//     public Node(int d)  
+//     { 
+//         data = d; 
+//         left = right = null; 
+//     } 
+// }
+
+class Solution
+{
+	ArrayList <Integer> boundary(Node node)
+	{
+	    ArrayList<Integer> ans = new ArrayList<>();
+	    if(isLeaf(node) == false)
+	    ans.add(node.data);
+	    addLeftBoundary(node,ans);
+	    addLeaves(node,ans);
+	    addRightBoundary(node,ans);
+	    return ans;
+	}
+	
+	  boolean isLeaf(Node node){
+    return (node.left == null && node.right == null);
+    }
+     void addLeftBoundary(Node root, ArrayList <Integer> res)
+    {
+        Node cur = root.left;
+        while (cur != null)
+        {
+            if(isLeaf(cur) == false)
+            res.add(cur.data);
+
+            if(cur.left != null)
+            cur = cur.left;
+            else
+            cur = cur.right; 
+        }
+    }
+      void addRightBoundary(Node root,ArrayList <Integer> res)
+    {
+        Node cur = root.right;
+
+         ArrayList<Integer> temp = new ArrayList<>();
+        while(cur != null)
+        {
+            if(isLeaf(cur) == false) temp.add(cur.data);
+            
+            if(cur.right != null) cur= cur.right;
+            else
+            cur = cur.left;
+        }
+        for(int i = temp.size() - 1 ; i>=0 ; i--)
+        {
+            res.add(temp.get(i));
+        }
+            
+    }
+   void addLeaves(Node root, ArrayList < Integer > res) {
+        if (isLeaf(root) == true ) {
+            res.add(root.data);
+            return;
+        }
+        if (root.left != null) addLeaves(root.left, res);
+        if (root.right != null) addLeaves(root.right, res);
+    }
+
+}
