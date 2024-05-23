@@ -1,0 +1,90 @@
+*******Better***
+//import java.util.List;
+import java.util.*;
+
+public class Solution {
+    public static List< List< Integer > > mergeOverlappingIntervals(int [][]arr){
+        // Write your code here.
+        int n=arr.length;
+        Arrays.sort(arr, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                return a[0] - b[0];
+            }
+        });
+
+        List<List<Integer>> ans=new ArrayList<>();
+        for(int i=0;i<n;i++)
+        {
+            int start=arr[i][0];
+            int end=arr[i][1];
+            if(!ans.isEmpty() && end<=ans.get(ans.size()-1).get(1) )
+            continue;
+            for(int j=i+1;j<n;j++)
+            {
+                if(arr[j][0] <= end)
+                end=Math.max(end,arr[j][1]);
+                else break;
+            }
+            ans.add(Arrays.asList(start,end));
+        }
+        return ans;
+    }
+}
+
+
+Time Complexity:-- O(N*logN) + O(2*N), where N = the size of the given array.
+Reason: Sorting the given array takes  O(N*logN) time complexity. Now, after
+that, we are using 2 loops i and j. But while using loop i, we skip all the
+intervals that are merged with loop j. So, we can conclude that every interval
+is roughly visited twice(roughly, once for checking or skipping and once for merging).
+So, the time complexity will be 2*N instead of N2.
+
+Space Complexity:-- O(N), as we are using an answer list to store the merged intervals. Except for
+the answer array, we are not using any extra space.
+
+
+******OPTIMAL***************
+
+import java.util.List;
+import java.util.*;
+
+public class Solution {
+    public static List< List< Integer > > mergeOverlappingIntervals(int [][]arr){
+        // Write your code here.
+        int n=arr.length;
+        Arrays.sort(arr,new Comparator<int[]>(){
+            public int compare(int a[],int b[]){
+                return a[0]-b[0];
+            }
+        }
+        );
+        List<List<Integer>> ans=new ArrayList<>();
+        for(int i=0;i<arr.length;i++)
+        {
+            if(ans.isEmpty() || arr[i][0] > ans.get(ans.size()-1).get(1))
+            //Checking Overlapping:
+            
+            //ans.isEmpty()----- checks if ans is empty, meaning no intervals 
+            //                                      have been added yet.
+            
+            
+         //arr[i][0] > ans.get(ans.size() - 1).get(1) ------checks if 
+         //                       the start of the current interval is greater 
+         //               than the end of the last interval in ans.
+
+            
+            ans.add(Arrays.asList(arr[i][0],arr[i][1]));
+            else
+             ans.get(ans.size() - 1).set(1,
+                                            Math.max(ans.get(ans.size() - 1).get(1), arr[i][1]));
+
+     //ans.get(ans.size() - 1).set(1, Math.max(ans.get(ans.size() - 1).get(1), arr[i][1])); updates the
+      //end of the last interval in ans to be the maximum of its current end and the end 
+     // of the current interval.This effectively merges the overlapping intervals by extending the end of the last interval in ans to cover the current interval's end if necessary.
+                                            
+        }
+        return ans;
+    }
+}
+
+ Time complexity:-  O(N*logN) + O(N)          space complexity:- O(N)

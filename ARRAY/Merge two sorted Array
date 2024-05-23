@@ -1,0 +1,98 @@
+**********BRUTE************
+
+public class Solution {
+    public static void mergeTwoSortedArraysWithoutExtraSpace(long []arr1, long []arr2){
+        // Write your code here.
+  int n=arr1.length;
+  int m=arr2.length;
+         long[] arr3 = new long[n + m];
+        int left = 0;
+        int right = 0;
+        int index = 0;
+
+        // Insert the elements from the 2 arrays
+        // into the 3rd array using left and right
+        // pointers:
+
+        while (left < n && right < m) {
+            if (arr1[left] <= arr2[right]) {
+                arr3[index] = arr1[left];
+                left++;
+                index++;
+            } else {
+                arr3[index] = arr2[right];
+                right++;
+                index++;
+            }
+        }
+
+        // If right pointer reaches the end:
+        while (left < n) {
+            arr3[index++] = arr1[left++];
+        }
+
+        // If left pointer reaches the end:
+        while (right < m) {
+            arr3[index++] = arr2[right++];
+        }
+
+        // Fill back the elements from arr3[]
+        // to arr1[] and arr2[]:
+        for (int i = 0; i < n + m; i++) {
+            if (i < n) {
+                arr1[i] = arr3[i];
+            } else {
+                arr2[i - n] = arr3[i];
+            }
+        }
+    }
+}
+
+<<<< NOT run in LeetCode>>>>>>>>
+Time Complexity: O(n+m) + O(n+m), where n and m are the sizes of the given arrays.
+Reason: O(n+m) is for copying the elements from arr1[] and arr2[] to arr3[].
+And another O(n+m) is for filling back the two given arrays from arr3[].
+
+Space Complexity: O(n+m) as we use an extra array of size n+m.
+
+
+
+
+***********OPTIMAL***********
+
+import java.util.*;
+public class Solution {
+    public static void mergeTwoSortedArraysWithoutExtraSpace(long []a, long []b){
+        // Write your code here.
+        int n=a.length;
+        int m=b.length;
+        int left=n-1;
+        int right=0;
+        while(left>=0 && right<m)
+        {
+            if(a[left]>=b[right])
+            {
+                long temp=a[left];
+                a[left]=b[right];
+                b[right]=temp;
+                left--;
+                right++;
+            }
+            else break;
+        }
+            Arrays.sort(a);
+            Arrays.sort(b);
+    }
+}
+
+Time Complexity: O(min(n, m)) + O(n*logn) + O(m*logm), where n and m are 
+the sizes of the given arrays.
+Reason: O(min(n, m)) is for swapping the array elements. And O(n*logn) and O(m*logm) are for sorting the two arrays.
+
+Space Complexity: O(1) as we are not using any extra space.
+
+
+
+
+
+

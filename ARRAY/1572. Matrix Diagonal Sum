@@ -1,0 +1,62 @@
+****Brute ******
+
+import java.util.*;
+class Solution {
+    public int diagonalSum(int[][] mat) {
+        int Psum=0;
+        int Ssum=0;
+        int n=mat.length;
+
+        //if there is only element in matrix
+        if(n==1) return mat[0][0];
+        
+        else
+        {
+         for(int i = 0; i< n;i++)
+         {
+            for(int j = 0; j < n ; j++)
+            {
+                if ( i == j )       ///Principal Diagonal
+                   Psum += mat[i][j];
+
+
+                if ( ( i + j ) == ( n - 1 ) ) //Secondary Diogonal
+                 Ssum += mat[i][j];
+            }
+         }
+        }
+
+        if(n%2==0) //if 2*2 or 4*4 or 6*6 ,mean even no then 
+        return Psum+Ssum;
+
+        else     //if 3*3 or 5*5 or 7*7 ,mean odd no then middle element will be reapeat
+        return Psum+Ssum-mat[n/2][n/2];
+    }
+}
+
+
+*********Optimal******
+
+class Solution {
+    public int diagonalSum(int[][] mat) {
+       
+        int sum=0;
+        int j =0;
+         int k = mat.length-1;
+       for(int i = 0 ; i<mat.length ; i++){
+              sum+=mat[i][j];
+            
+            j++;
+           
+       }
+       for(int i =0 ; i<mat.length ; i++){
+           if(i!=k)
+           {
+           sum+=mat[i][k];
+           }
+           k--;
+            }
+        
+        return sum;
+    }
+}

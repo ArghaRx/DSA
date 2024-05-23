@@ -1,0 +1,65 @@
+********BRUTE Force Apporach**********
+
+class Solution {
+    public int arithmeticTriplets(int[] nums, int diff) {
+        int cnt = 0;
+        for (int i = 0; i < nums.length - 2; i++) {
+            for (int j = i + 1; j < nums.length - 1; j++) {
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (nums[j] - nums[i] == diff && nums[k] - nums[j] == diff) {
+                        cnt++;
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+}
+
+Time complexity:- O(N^3)  Space complexity:- O(1)
+
+
+
+*******OPtimal********
+
+class Solution {
+    public int arithmeticTriplets(int[] nums, int diff) {
+     int cnt=0;
+     HashSet<Integer> set=new HashSet<>();
+     for(int i=0;i<nums.length;i++)
+     {
+         set.add(nums[i]);
+     }
+     for(int i=0;i<nums.length;i++)
+     {
+         if(set.contains(nums[i]+diff)  && set.contains(nums[i]+2*diff) )
+         cnt++; 
+     }   
+     return cnt;
+    }
+}
+
+TC-O(2*N)   SC-O(N)
+
+same but using more collections----------
+
+class Solution {
+    public int arithmeticTriplets(int[] nums, int diff) {
+        int cnt = 0;
+        HashSet<Integer> set = new HashSet<>();
+        
+        for (int num : nums) {
+            set.add(num);
+        }
+        
+        for (int x : nums) {
+            if (set.contains(x + diff) && set.contains(x + 2 * diff)) {
+                cnt++;
+            }
+        }
+        
+        return cnt;
+    }
+}
+
+

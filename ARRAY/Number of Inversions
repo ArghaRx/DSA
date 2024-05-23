@@ -1,0 +1,88 @@
+*********BRUTE*******
+
+public class Solution {
+    public static int numberOfInversions(int []a, int n) {
+        // Write your code here.
+        
+        int cnt=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+                if(a[i]>a[j])
+                 cnt++;
+            }
+        }
+        return cnt;
+    }
+}
+
+Time complexity:-(ON^2)       Space coplexity:-O(1)
+
+
+*********OPTIMAl********
+
+import java.util.*;
+public class Solution {
+    public static int merge(int a[],int low,int mid,int high)
+    {
+        int left=low;    // starting index of left half of arr
+        int right=mid+1;  // starting index of right half of arr
+
+            //Modification 1: cnt variable to count the pairs:
+        int cnt=0;
+
+  //storing elements in the temporary array in a sorted manner//
+        ArrayList<Integer> ans=new ArrayList<>();
+        while(left<=mid && right<=high)
+        {
+            if(a[left]<=a[right])
+            {
+                ans.add(a[left]);
+                left++;
+            }
+            else
+            {
+                ans.add(a[right]);
+                cnt+=(mid-left+1);   ///modification 2
+                right++;
+            }
+        }
+            while(left<=mid)
+            {
+                 ans.add(a[left]);
+                left++;
+            }
+            while(right<=high)
+            {
+                ans.add(a[right]);
+                right++;
+            }
+        // transfering all elements from temporary to arr //
+        for(int i=low;i<=high;i++)
+        {
+            a[i]=ans.get(i-low);
+        }
+        return cnt;   // Modification 3
+    }
+    public static int mergesort(int a[],int low,int high)
+    {
+        int mid=(low+high)/2;
+        int cnt=0;
+        if(low>=high) return cnt ;
+        cnt+=mergesort(a,low,mid);
+        cnt+=mergesort(a,mid+1,high);
+        cnt+=merge(a,low,mid,high);
+        return cnt;
+    }
+    public static int numberOfInversions(int []a, int n) {
+        // Write your code here.
+        return mergesort(a,0,n-1);
+        
+    }
+}
+
+
+Time Complexity:-- O(N*logN), where N = size of the given array.   
+
+Space Complexity:-- O(N), as in the merge sort We use a temporary array to store elements in sorted order.

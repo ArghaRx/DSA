@@ -1,0 +1,53 @@
+******* BRUTE *******
+
+import java.util.*;
+public class Solution {
+    public static int getLongestZeroSumSubarrayLength(int []arr){
+        // Write your code here.
+        int maxLen=0;
+        for(int i=0;i<arr.length;i++)
+        {
+            int sum = 0;
+            for(int j = i; j< arr.length ; j++)
+            {
+                sum += arr[j];
+            
+            if(sum == 0)
+            maxLen = Math.max(maxLen,j-i+1);
+            }
+        }
+        return maxLen;
+    }
+}
+
+
+
+********** OPTIMAL *********
+
+import java.util.*;
+public class Solution {
+    public static int getLongestZeroSumSubarrayLength(int []arr){
+        // Write your code here.
+        int maxLen=0;
+        int sum = 0;
+        Map<Integer,Integer> mpp=new HashMap<>();
+        for(int i=0;i<arr.length;i++)
+        {
+            sum += arr[i];
+
+            if(sum == 0)
+            maxLen=Math.max(maxLen,i+1);
+
+            int rem = sum - 0;
+            if(mpp.containsKey(rem))
+            {
+                int len = i - mpp.get(rem);
+                maxLen=Math.max(maxLen,len);
+            }
+
+            if(!mpp.containsKey(sum))
+            mpp.put(sum,i);
+        }
+        return maxLen;
+    }
+}

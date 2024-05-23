@@ -1,0 +1,101 @@
+****BRUTE*****
+
+
+class Solution {
+    public static boolean linearsearch(int nums[],int num)
+    {
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]==num)
+            return true;
+  
+        }
+        return false;
+        
+    }
+    public int longestConsecutive(int[] nums) {
+        int n = nums.length;
+        if ( n == 0 ) 
+          return 0;
+        int maxlength=1;
+        
+        for(int i=0;i<n;i++)
+        {
+            int x=nums[i];
+            int c=1;
+            while(linearsearch(nums,x+1)==true)
+            {
+                c++;
+                x+=1;
+            }
+            maxlength=Math.max(maxlength,c);
+        }
+        return maxlength;
+
+    }
+}
+
+
+
+****BETTER******
+
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        
+        int n=nums.length,maxlength=1,c=0;
+        if (n == 0) return 0;
+        Arrays.sort(nums);
+        int lastsmaller=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]-1==lastsmaller)
+            {
+                 c+=1;
+                lastsmaller=nums[i];
+            }
+            else if(nums[i]!=lastsmaller)
+            {
+                c=1;lastsmaller=nums[i];
+            }
+            maxlength=Math.max(maxlength,c);
+
+        }
+        return maxlength;
+    }
+}
+
+
+
+*****OPTIMAL*****
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        int maxlength=Integer.MIN_VALUE;
+        HashSet<Integer> set=new HashSet<>();
+        if(nums.length==0) return 0;
+        for(int i=0;i<nums.length;i++)
+        {
+            set.add(nums[i]);
+        }
+        for(int it:set)
+        {
+            
+            if(!set.contains(it-1))
+            {
+
+                   int c=1;
+                  int el=it;
+
+                  while(set.contains(el+1))
+                  {
+                   el+=1;
+                    c+=1;
+                  }
+              maxlength=Math.max(maxlength,c);
+
+           } ////end if
+        }  ////end loop
+        return maxlength;
+    }
+}

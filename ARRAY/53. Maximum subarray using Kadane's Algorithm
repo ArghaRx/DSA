@@ -1,0 +1,68 @@
+****BRUTE******* O(N^3)
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+ 
+        int maxlength = Integer.MIN_VALUE; // Fix: Integer.MIN_VALUE instead of Int.MIN_VALUE
+        if (nums.length == 1) return nums[0];
+        for (int i = 0; i < nums.length; i++) {
+            
+            for (int j = i; j < nums.length; j++) {
+                 int sum = 0;
+                for(int k=i;k<=j;k++)
+                {
+                    sum += nums[k];
+                    maxlength = Math.max(maxlength, sum);
+                }
+               
+            }
+        }
+        return maxlength;
+    }
+}
+
+
+        
+  
+
+****BETTER******  O(N^2)
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+ 
+        int maxlength = Integer.MIN_VALUE; // Fix: Integer.MIN_VALUE instead of Int.MIN_VALUE
+        if (nums.length == 1) return nums[0];
+        for (int i = 0; i < nums.length; i++) {
+            int sum = 0;
+            for (int j = i; j < nums.length; j++) {
+                sum += nums[j];
+                maxlength = Math.max(maxlength, sum);
+            }
+        }
+        return maxlength;
+    }
+}
+
+*****OPTIMAL****
+(Kadane's Algo)
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxi=Integer.MIN_VALUE;
+        int sum=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            sum+=nums[i];
+            if(sum>maxi)
+             maxi=sum;
+            if(sum<0)
+             sum=0;
+        }
+        return maxi;
+        
+    }
+}
+
+        
+    
+****

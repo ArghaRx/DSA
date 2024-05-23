@@ -1,0 +1,55 @@
+//BRUTE
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+        ArrayList<Integer> temp=new ArrayList<Integer>();
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]!=0)
+            temp.add(nums[i]);
+        }
+        int index=0;
+        for(int x:temp)
+        {
+            nums[index]=x;
+            index++;
+        }
+        for(int i=temp.size();i<nums.length;i++)
+        nums[i]=0;
+        
+        
+    }
+}
+
+//OPTIMAL
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int j=-1; ////place the pointer j:
+        for(int i=0;i<nums.length;i++)
+        {
+            if(nums[i]==0)
+            {
+                j=i;
+                break;
+            }
+        }
+        if(j==-1) return;   //no non-zero elements:
+
+         //Move the pointers i and j
+        //and swap accordingly:
+        for(int i=j+1;i<nums.length;i++)
+        {
+            if(nums[i]!=0)
+            {
+                nums[i]=nums[i]^nums[j];
+                nums[j]=nums[i]^nums[j];
+                nums[i]=nums[i]^nums[j];
+                j++;
+
+            }
+        }
+        
+        
+    }
+}

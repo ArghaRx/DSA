@@ -1,0 +1,36 @@
+class Solution {
+    public int[] createTargetArray(int[] nums, int[] index) {
+        ArrayList<Integer>arr=new ArrayList<Integer>();
+        int[] ans=new int[nums.length];
+        for(int i=0;i<nums.length;i++)
+        {
+             arr.add(index[i],nums[i]);
+        }
+        
+//let's break down the line arr.add(index[i], nums[i]); step by step:
+
+//index[i]: This part accesses the value in the index array at the current index i. The index array contains positions where you want to insert elements.
+
+//nums[i]: This part accesses the value in the nums array at the current index i. The nums array contains the elements that you want to insert.
+
+/*    Putting it all together:
+
+arr.add(index[i], nums[i]); means that you are inserting the value nums[i] into the ArrayList arr at the position specified by index[i]. In other words, you are inserting the element nums[i] at the index given by index[i] in the ArrayList arr.
+
+For example, let's say index = [1, 2, 2] and nums = [10, 20, 30]. The process would be:
+
+Insert 10 at index 1 in the ArrayList.
+Insert 20 at index 2 in the ArrayList.
+Insert 30 at index 2 in the ArrayList (pushing the previous element at index 2 to index 3).
+
+if (pushing the previous element at index 2 to index 3). Then After these operations, the ArrayList arr would contain [10, 30,20].
+
+*/
+
+       // Convert the ArrayList to an array     
+        for(int i=0;i<arr.size();i++){
+            ans[i]=arr.get(i);
+        }
+        return ans;
+    }
+}

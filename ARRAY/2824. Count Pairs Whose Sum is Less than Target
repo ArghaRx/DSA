@@ -1,0 +1,15 @@
+class Solution {
+    public int countPairs(List<Integer> nums, int target) {
+        int cnt=0;
+        int i=0;
+        while(i<nums.size()){
+        for(int j=i+1;j<nums.size();j++)
+        {
+            
+            if(i<j && (nums.get(i) + nums.get(j) < target)) cnt++;
+        }
+        i++;
+        }
+        return cnt;
+    }
+}

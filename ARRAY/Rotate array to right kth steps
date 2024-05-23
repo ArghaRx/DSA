@@ -1,0 +1,46 @@
+//Optimal (2 pointer approach)
+class Solution {
+    public void reverse(int nums[],int start,int end)
+    {
+       while(start<end)
+       {
+           nums[start]=nums[start]^nums[end];
+           nums[end]=nums[start]^nums[end];
+           nums[start]=nums[start]^nums[end];
+           start++;
+           end--;
+       }
+    }
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+         reverse(nums, 0, n - k-1 );
+        reverse(nums, n - k, n -1);
+       
+        reverse(nums, 0, n -1);
+        
+    }
+}
+
+//BRUTE
+
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int n=nums.length;
+        if(n==0) return;
+        k=k%n;
+         if (k > n)
+           return;
+           
+       int temp[]=new int[k];
+        for(int i=n-k;i<n;i++)
+        temp[i-n+k]=nums[i];
+        
+        for(int i=n-k-1;i>=0;i--) //if i do i--> 0 to n-k this loop,some cases not pass
+        nums[i+k]=nums[i];
+        for(int i=0;i<k;i++)
+        nums[i]=temp[i];
+        
+        
+    }
+}

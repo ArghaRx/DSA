@@ -1,0 +1,94 @@
+*********BRUTE******
+
+public class Solution {
+    public static int[] findMissingRepeatingNumbers(int []a) {
+        // Write your code here
+        int n=a.length;
+        int repeating=-1;
+        int missing=-1;
+        for(int i=1;i<=n;i++)
+        {
+            int cnt=0;
+            for(int j=0;j<n;j++)
+            {
+                if(a[j]==i) cnt++;
+            }
+            if(cnt==2) repeating= i;
+            else if(cnt==0) missing=i;
+           // if(missing==-1 && repeating==-1) break;
+        }
+        int ans[]={repeating,missing};
+        return ans;
+    }
+}
+
+Time complexity:- O(N^2)      space complexity:- O(1)
+
+
+************BETTER*******
+
+
+public class Solution {
+    public static int[] findMissingRepeatingNumbers(int []a) {
+        // Write your code here
+        int n=a.length;
+        int hash[]=new int[n+1];
+        //The range of the number is 1 to N. So,
+        //     we need a hash array of size N+1 (as we want to store the frequency of N as well).
+        int repeating =-1;
+        int missing=-1;
+        for(int i=0;i<n;i++)
+        hash[a[i]]++;
+        //We will iterate all the elements of the given array and 
+        //  update the hash array accordingly i.e. hash[a[i]] = hash[a[i]]+1.
+        
+        for(int i=1;i<=n;i++)
+        {
+            if(hash[i]==2) repeating=i;
+            else if(hash[i]==0) missing=i;
+            
+            //if(repeating=!-1 && missing!=-1) break;
+        }
+        int ans[]={repeating,missing};
+        return ans;
+    }
+}
+
+Time complexity:- O(2*N)      space complexity:- O(N)
+
+
+**********OPTIMAl************
+
+public class Solution {
+    public static int[] findMissingRepeatingNumbers(int []a) {
+        // Write your code here
+        long n=a.length;
+        long sn=(n * (n+1)) /2;
+        long s2n=(n * (n+1)*(2*n +1)) / 6;
+        long s=0;
+        long s2=0;
+        for(int i=0;i<n;i++)
+        {
+             s+= a[i];
+             s2+= (long) a[i] * (long) a[i];
+        } 
+        //X-y=s-sn
+        long val1= s-sn; 
+
+        //X^2-Y^2=s2-s2n;
+        long val2=s2-s2n;
+
+        // X+Y --> store to value 2
+        val2/=val1;
+        
+        long x= (val1+val2)/2;
+        long y=val2-x;
+       ///store in ans array
+        int ans[]={(int) x ,(int) y};
+        return ans;
+    }
+}
+
+
+Time complexity:- O(N)      space complexity:- O(1)
+

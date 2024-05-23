@@ -1,0 +1,32 @@
+Description:-
+There are n kids with candies. You are given an integer array candies, where each candies[i] represents the number of candies the ith kid has, and an integer extraCandies, denoting the number of extra candies that you have.
+
+Return a boolean array result of length n, where result[i] is true if, after giving the ith kid all the extraCandies, they will have the greatest number of candies among all the kids, or false otherwise.
+
+Note that multiple kids can have the greatest number of candies.
+
+ class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        List<Boolean> result=new ArrayList<>();
+        int maxcandies=0;
+        for(int i=0;i<candies.length;i++)
+        {
+            maxcandies=Math.max(maxcandies,candies[i]);
+        }
+        //everytime we have to check maximum candies
+        
+        for(int i=0;i<candies.length;i++)
+        {
+            //if at any particular position`s candies+ extra is greater the maxcandies then true 
+            if(candies[i]+extraCandies >= maxcandies) result.add(true);
+
+            //otherwise false
+            else
+            result.add(false);
+        }
+        return result;
+    }
+}
+
+
+TC -- O(2N)      SC--O(N)

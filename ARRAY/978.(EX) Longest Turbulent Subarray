@@ -1,0 +1,40 @@
+For i <= k < j :-
+arr[k] > arr[k + 1] when k is odd, and
+arr[k] < arr[k + 1] when k is even.
+
+Or, for i <= k < j :-
+arr[k] > arr[k + 1] when k is even, and
+arr[k] < arr[k + 1] when k is odd.
+
+
+We denote here 'in' mean increse and 'de' mean decrese. 
+> When A[i] > A[i - 1]  --> that means increase happend,
+> When A[i] < A[i - 1]  --> that means decrese  happend,
+
+
+____________Code__________
+class Solution {
+    public int maxTurbulenceSize(int[] arr) {
+        int in = 1, de = 1, res = 1;
+        for(int i = 1; i < arr.length; i++)
+        {
+            if(arr[i] > arr[i - 1]) //increse happend
+            {
+                in = de + 1;
+                de = 1;
+            }
+            else if(arr[i] < arr[i - 1]) // decrese happend
+            {
+                de = in + 1;
+                in = 1;
+            }
+            else
+            {
+                in = 1;
+                de = 1;
+            }
+            res = Math.max(res, Math.max(in, de));
+        }
+        return res;
+    }
+}

@@ -1,0 +1,76 @@
+********* BRUTE ********
+
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int cnt = 0;
+        for (int i=0;i<nums.length;i++)
+        {
+            int sum = 0;
+            for(int j=i;j<nums.length;j++)
+            {
+                sum += nums[j];
+                if (sum == k)
+                cnt ++;
+            }
+        }
+        return cnt;
+    }
+}
+
+TC - O(N^^2)   SC- O(1)
+
+
+
+******** OPTIMAL *******
+
+
+
+------- Explanation -----
+
+This code is an implementation of a solution to find the number of contiguous subarrays in an array of integers that add up to a target sum, k.
+The approach used in this solution is to use a HashMap, map, to store the cumulative sum of the elements in the array and the number of times
+that cumulative sum has been seen so far. The cumulative sum of the elements in a subarray can be represented as the difference between the 
+cumulative sum of the elements in the array up to the end of the subarray and the cumulative sum of the elements in the array up to the start of 
+the subarray.The function starts by initializing a variable sum to keep track of the cumulative sum of the elements in the array, and a variable
+ans to keep track of the number of subarrays that add up to k. The function also adds an entry to map with key 0 and value 1, which represents the
+cumulative sum of an empty subarray, which is 0.The function then iterates over each element in the array, adding the current element to the cumulative
+sum, and checking if the cumulative sum minus k is in map. If it is, the function adds the value of that key in map to the count of subarrays that add 
+up to k, as that represents the number of times that cumulative sum has been seen so far, and therefore the number of subarrays that end at the current
+element and add up to k.Finally, the function adds the current cumulative sum to map, with a value of 1 if it is the first time that cumulative sum has
+been seen, or increments the value of that key by 1 if it has been seen before.
+
+__C_O_D_E__
+
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int sum = 0;
+        int ans = 0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        // This is done to handle cases where the subarray
+        // starts from the beginning of the array and has a sum equal to k.
+        map.put(0,1);
+
+        for(int j=0;j<nums.length;j++){
+            sum += nums[j];
+
+ // It checks if map contains the key (sum - k). If it does, it means that     
+//there is a subarray whose sum is k because subtracting k from the current cumulative sum gives 
+// the cumulative sum of the elements from some previous point in the array. 
+//If such a key exists in the map, 
+//it means that there are subarrays that can be summed to k,
+// and it increments the ans variable by the value associated with (sum - k) in the map.
+
+            if(map.containsKey(sum -k)){
+                ans += map.get(sum-k);
+            }
+
+
+            /// Finally, it updates the map by putting the current sum in it (with the count incremented by 1).
+            map.put(sum,map.getOrDefault(sum,0)+1);
+        }
+        return ans;
+    }
+}
+
+TC - O(N)   SC- O(N)

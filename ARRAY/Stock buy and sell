@@ -1,0 +1,34 @@
+***OPTIMAL****
+class Solution {
+    public int maxProfit(int[] prices) {
+        int maxprofit=0,n=prices.length;
+        for(int i=0;i<n-1;i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+                if (prices[j]>prices[i])
+                 maxprofit=Math.max(prices[j]-prices[i],maxprofit);
+            }
+        }
+        return maxprofit;
+        
+    }
+}
+
+**BRUTE**   <<<  NOT pass all testcases,Time limit exceed  >>>
+
+
+  public int maxProfit(int[] prices) {
+        int maxprofit=0,n=prices.length;
+        for(int i=0;i<n-1;i++)
+        {
+            for(int j=i+1;j<n;j++)
+            {
+                if (prices[j]>prices[i])
+                 maxprofit=Math.max(prices[j]-prices[i],maxprofit);
+            }
+        }
+        return maxprofit;
+        
+    }
+} 

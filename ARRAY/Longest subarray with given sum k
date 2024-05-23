@@ -1,0 +1,91 @@
+//Brute force
+
+
+public class Solution {
+    public static int longestSubarrayWithSumK(int []a, long k) {
+        // Write your code here
+        int maxlength=0;
+        for(int i=0;i<a.length;i++)
+        {
+            for(int j=i;j<a.length;j++)
+            {
+                int sum=0;
+                for(int x=i;x<=j;x++){
+
+                  sum+=a[x];
+               }
+
+                     if(sum==k) 
+                  maxlength=Math.max(maxlength,j-i+1);
+            }
+        }
+        return maxlength;
+    }
+}
+
+
+****BETTER***
+
+public class Solution {
+    public static int longestSubarrayWithSumK(int []a, long k) {
+        // Write your code here
+        int maxlength=0;
+        for(int i=0;i<a.length;i++)
+        {
+             int sum=0;
+            for(int j=i;j<a.length;j++)
+            {
+              sum+=a[j];
+               
+                if(sum==k) 
+                  maxlength=Math.max(maxlength,j-i+1);  
+            }          
+        }
+        return maxlength;
+    }
+}
+
+
+*****OPTIMAL*****
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int getLongestSubarray(int []nums, int k) {
+		// Write your code here.
+		Map <Integer,Integer> map=new HashMap<>();
+		int n=nums.length;
+		int maxlen=0;
+		int sum = 0;
+		for(int i=0;i<n;i++)
+		{
+			// calculate sum
+			sum += nums[i];
+			
+			 //if sum is equal to k
+			if( sum == k )
+			maxlen = Math.max(maxlen,i+1);
+
+            // find rem = i - k;
+			int rem = sum - k ;
+			
+			// if rem contains in map
+			if(map.containsKey(rem))
+			{
+				// calculate length
+				int len = i - map.get(rem);
+				// again put in map as Math.max condition
+				maxlen = Math.max(maxlen,len);
+			}
+			//otherwise
+			// chech if the sum is contains in map or not
+			
+			if(!map.containsKey(sum))
+			 map.put(sum,i);
+		}
+		return maxlen;
+	}
+}
+
+Time Complexity: O(N) or O(N*logN) depending on which map data structure we are using, where N = size of the array.
+Space Complexity: O(N) as we are using a map data structure.

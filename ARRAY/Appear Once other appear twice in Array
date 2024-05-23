@@ -1,0 +1,37 @@
+///Brute Force approach
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            int numstore = nums[i];
+            int count = 0;  // Reset the count for each candidate number
+            
+            for (int j = 0; j < nums.length; j++) {
+                if (nums[j] == numstore) {
+                    count++;
+                }
+            }
+            
+            if (count == 1) {
+                return numstore;  // Return the candidate with a count of 1
+            }
+        }
+        
+        return -1;  // Return -1 if no single number is found (not expected in this problem)
+    }
+}
+
+
+
+///OPTIMAL
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        int xor=0;
+        for(int i=0;i<nums.length;i++)
+        {
+            xor=xor^nums[i];
+        }
+        return xor;
+    }
+}

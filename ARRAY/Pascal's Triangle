@@ -1,0 +1,64 @@
+Q. print entire Pascal's Triangle
+
+****Brute****
+
+class Solution {
+    public static int ncr (int n,int r)
+    {
+        ///calculate ncr
+        long ans=1;          //store evry product of ncr
+        for(int i=0;i<r;i++)  //loop 0 to r(row)
+        {
+            ans=ans*(n-i);
+            ans/=(i+1);
+        }
+        return (int) ans;
+    }
+    public List<List<Integer>> generate(int numRows) {
+
+         // Store the entire Pascal's triangle:
+         List<List<Integer>> ans = new ArrayList<>();
+        for(int row=1;row<=numRows;row++)
+        {
+            List<Integer> temp=new ArrayList<>(); // temporary list
+            for(int col=1;col<=row;col++)  // ist row 1 ele,2nd row 2 ele...
+            {
+                temp.add(ncr(row-1,col-1));  //add every line calculating ncr
+            }
+            ans.add(temp);  //store entire part
+        }
+        return ans;
+        
+    }
+}
+
+
+
+****Optimal*****
+
+class Solution {
+    public static List<Integer> generateRow(int row)
+    {
+         long ans = 1;
+        List<Integer> result=new ArrayList<>();
+        result.add(1);  //inserting the 1st element
+        for(int col=1;col<row;col++)
+        {
+            //store the rest of the part
+            ans*=row-col;
+            ans/=col;
+            result.add( (int) ans);
+        }
+        return result;
+    }
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> ansList=new ArrayList<>();
+       
+        //store the entire pascal's triangle:
+        for(int row = 1 ; row <= numRows ; row++)
+        ansList.add(generateRow(row));
+
+        return ansList;
+        
+    }
+}
