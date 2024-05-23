@@ -1,0 +1,86 @@
+https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/description/
+
+
+**************************** BRUTE  *********************************
+
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head == null || head.next == null) return null;
+        int cnt = 0;
+        ListNode temp = head;
+        while(temp != null)
+        {
+            cnt++;
+            temp = temp.next;
+        }
+        
+        int res = (cnt/2);
+        temp = head;
+        while(temp != null)
+        {
+            res--;
+            if(res == 0) break;
+            temp = temp.next;
+        }
+        temp.next = temp.next.next;
+        return head;
+    }
+}
+
+
+
+*****************************  optimal ************************
+
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head == null  || head.next == null) return null;
+
+        ListNode fast = head;
+        ListNode slow = head;
+        //take a prev node for store the delete before node
+        ListNode prev = null;
+        
+        // this is for contains only 2 node
+        if(fast.next.next == null)
+        {
+            fast.next = null;
+            return fast;
+        }
+
+        while(fast != null && fast.next != null)
+        {
+            fast = fast.next.next;
+            prev = slow; // store
+            slow = slow.next;
+        }
+        // operate prev because that stands before the delete node
+        prev.next = prev.next.next;
+        return head;
+    }
+}
+
+
+  *************************  Optimal  ***********************************
+
+ TC -  O(N/2)   SC - O(1)
+
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head == null  || head.next == null) return null;
+
+        ListNode fast = head;
+        ListNode slow = head;
+        fast = fast.next.next;  // ist time fast iterate
+
+        while(fast != null && fast.next != null)
+        {
+            fast = fast.next.next;  // 2ns time fast iterate
+            slow = slow.next;      // ist time slow iterate
+        }
+
+        // basically if slow iterate once then fast iterate twice
+        
+        slow.next = slow.next.next;
+        return head;
+    }
+}

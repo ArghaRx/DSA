@@ -1,0 +1,22 @@
+https://www.codingninjas.com/studio/problems/insert-at-end-of-doubly-linked-list_8160464?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+
+public class Solution
+{
+    public static Node insertAtTail(Node list, int K) {
+        // Write your code here
+        if(list == null) return new Node(K);
+        Node temp = list;
+    
+        while(temp.next != null)
+        {
+            temp = temp.next;
+        }
+        Node newnode = new Node(K);
+        temp.next = newnode; 
+        newnode.prev = temp;
+        newnode.next = null;
+        return list;
+        
+    }
+}

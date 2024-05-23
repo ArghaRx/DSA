@@ -1,0 +1,29 @@
+https://leetcode.com/problems/sort-list/description/
+
+
+
+***********************   Brute    ***************************************
+
+Time Complexity:O(N) + O(N) +  O(n log n)
+Space Complexity: O(n)
+
+class Solution {
+    public ListNode sortList(ListNode head) {
+        List<Integer> ans = new ArrayList<>();
+        ListNode temp = head;
+        while(temp != null)
+        {
+            ans.add(temp.val);
+            temp = temp.next;
+        }
+        Collections.sort(ans);
+        temp = head;
+        int ind = 0;
+        while(temp != null)
+        {
+            temp.val = ans.get(ind++);
+            temp = temp.next;
+        }
+        return head;
+    }
+}

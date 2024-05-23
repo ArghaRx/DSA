@@ -1,0 +1,114 @@
+https://leetcode.com/problems/intersection-of-two-linked-lists/description/
+
+
+
+*************************** Brute force using HashSet  ***************************************************
+
+public class Solution {
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+
+        HashSet<ListNode> st = new HashSet<>();
+
+        //all put in set
+        while (headA != null) {
+            st.add(headA);
+            headA = headA.next;
+        }
+        // check with LL2,thw first equal comes,it return
+        while (headB != null) {
+            if (st.contains(headB))
+                return headB;
+            headB = headB.next;
+        }
+
+        // Otherwise their is no intersection point
+        return null;
+    }
+
+}
+
+
+
+********************************  Optimal 1 *****************************************************
+
+TC - O(N1) + O(N2) + O(N2 -N1) + O(N1) = O(2N2 + N1)
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        //calculate length of LL1
+        int n1 = 0;
+        ListNode temp1 = headA;
+        while(temp1 != null)
+        {
+            n1++;
+            temp1 = temp1.next;
+        }
+
+         //calculate length of LL2
+         ListNode temp2 = headB;
+        int n2 = 0;
+        while(temp2 != null)
+        {
+            n2++;
+            temp2 = temp2.next;
+        }
+
+        // call intercection( smaller, larger, difference of length)
+
+        if(n1 < n2) return intersection(headA, headB, n2 - n1);
+        return intersection(headB, headA, n1 - n2);
+
+    }
+
+                                       //(     smaller  ,     larger      ,   difference of length)
+    public static ListNode intersection ( ListNode headA,  ListNode headB ,   int diff)
+    {
+        // atfirst longest LL head comes ahead for same level
+        while(diff != 0)
+        {
+            diff--;
+            headB = headB.next;
+        }
+        while(headA != headB)
+        {
+             headB = headB.next;
+             headA = headA.next;
+        }
+        return headA;
+    }
+}
+
+
+********************************  Optimal 2  *****************************************************
+
+TC - O(N1 + N2)    SC = O(1)
+
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null)
+            return null;
+        ListNode temp1 = headA;
+        ListNode temp2 = headB;
+
+        while (temp1 != temp2) {
+            temp1 = temp1.next;
+            temp2 = temp2.next;
+
+            if (temp1 == temp2)
+                return temp1;
+            // equalitv 2 bar er jnno,,,jdi ekste kono point indicate kore taholeo hba abr
+            // jdi eksthe null e meet kore(means there is no collision point) thleo kaj
+            // korbe
+
+            if (temp1 == null)
+                temp1 = headB;
+            if (temp2 == null)
+                temp2 = headA;
+
+        }
+        return temp1;
+
+    }
+}

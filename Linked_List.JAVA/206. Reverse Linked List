@@ -1,0 +1,79 @@
+https://leetcode.com/problems/reverse-linked-list/description/
+
+
+
+********************************************  Brute Force  **********************************************
+
+
+// By using stack            SC - O(N)  TC - O(2N)
+
+
+ import java.util.Stack;
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        Stack<Integer> st = new Stack<>();
+        ListNode temp = head;
+
+        while(temp != null)
+        {
+            st.push(temp.val);
+            temp = temp.next;
+        }
+
+        temp = head;
+        while(temp != null)
+        {
+            temp.val = st.peek();
+            st.pop();
+            temp = temp.next;
+        }
+        return head;
+    }
+}
+
+***********************************************   Optimal  **********************************************
+
+SC - O(1)  TC - O(N)
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;  
+        ListNode temp = head;
+    
+        
+        while(temp != null) { 
+            ListNode front = temp.next; 
+            temp.next = prev;
+            prev = temp;
+            temp = front;
+        }
+       return prev; 
+    }
+}
+
+
+
+
+************************** Recursive Approach  ****************************************
+
+Time Complexity: O(N)   
+
+Space Complexity : O(1) No additional space is used explicitly for data structures or allocations during the linked list reversal process. 
+However, it’s important to note that there is an implicit use of stack space due to recursion. This recursive stack space stores function 
+calls and associated variables during the recursive traversal and reversal of the linked list. Despite this, no extra memory beyond the program’s 
+existing execution space is allocated, hence maintaining a space complexity of O(1).
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+
+        if(head == null || head.next == null) return head;
+
+        ListNode newNode = reverseList(head.next); //call for next
+
+        ListNode front = head.next;
+        front.next = head;
+        head.next = null;
+
+        return newNode;
+    }
+}

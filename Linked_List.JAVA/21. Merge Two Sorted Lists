@@ -1,0 +1,72 @@
+https://leetcode.com/problems/merge-two-sorted-lists/description/
+
+
+*********************** Brute  *********************************
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        List<Integer> ans = new ArrayList<>();
+        ListNode temp1 = list1;
+        ListNode temp2 = list2;
+
+        while(temp1 != null){
+        ans.add(temp1.val);
+        temp1 = temp1.next;
+        }
+
+        while(temp2 != null){
+         ans.add(temp2.val);
+         temp2 = temp2.next;
+        }
+
+         Collections.sort(ans);
+         ListNode head = covertToList(ans);
+         return head;
+    }
+    public ListNode covertToList(List<Integer> ans){
+        if(ans.size() == 0) return null; // if ans is zero size
+        ListNode head = new ListNode(ans.get(0));
+        ListNode move = head;
+        for(int i = 1; i < ans.size(); i++)
+        {
+            ListNode t2 = new ListNode(ans.get(i));
+            move.next = t2;
+            move = move.next;
+        }
+        return head;
+    }
+}
+
+
+
+
+********************************  Optimal  *******************************************
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        //if(list1 == null || list2 == null) return
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = dummy;
+        while(list1 != null && list2 != null)
+        {
+            if(list1.val <= list2.val)
+            {
+                temp.next = list1;
+                temp = temp.next;
+                list1 = list1.next;
+            }
+            else
+            {
+                temp.next = list2;
+                temp = temp.next;
+                list2 = list2.next;
+
+            }
+        }
+        if(list1 != null) temp.next = list1;
+        else
+         temp.next = list2;
+
+         return dummy.next;
+    }
+}

@@ -1,0 +1,26 @@
+https://leetcode.com/problems/merge-nodes-in-between-zeros/description/
+
+TC - O(N)   SC - O(1)
+
+
+class Solution {
+    public ListNode mergeNodes(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        ListNode temp = head.next;
+        int val = 0;
+        while (temp != null) {
+            if (temp.val != 0)
+                val += temp.val;
+            else {
+                ListNode newNode = new ListNode(val);
+                cur.next = newNode;
+                cur = newNode;
+                val = 0;
+            }
+
+            temp = temp.next;
+        }
+        return dummy.next;
+    }
+}

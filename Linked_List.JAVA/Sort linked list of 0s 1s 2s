@@ -1,0 +1,110 @@
+https://www.codingninjas.com/studio/problems/sort-linked-list-of-0s-1s-2s_1071937?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+
+********************************************   BRUTE   ***************************************************
+
+public class Solution
+{
+    public static Node sortList(Node head) {
+
+        // Write your code here
+
+        int cnt0 = 0, cnt1 = 0, cnt2 = 0;
+        Node temp = head;
+
+        while(temp != null)
+        {
+            if(temp.data == 0)
+            {
+                cnt0++;
+            }
+            else if(temp.data == 1) cnt1++;
+            else cnt2++;
+
+            temp = temp.next;
+        }
+
+        Node temp2 = head;
+
+        while(temp2 != null)
+        {
+            if(cnt0 != 0)
+            {
+                temp2.data = 0;
+                cnt0--;
+            }
+            else if(cnt1 != 0)
+            {
+                temp2.data = 1;
+                cnt1--;
+            }
+            else{
+                temp2.data = 2;
+                cnt2--;
+            }
+            temp2 = temp2.next;
+        }
+        return head;
+    }
+}
+
+TC - O(2N)  sc - O(1)
+
+
+
+
+
+
+
+**************************************  OPTIMAL   ******************************************************
+
+
+public class Solution
+{
+    public static Node sortList(Node head) {
+        
+        // create 3 dummy node
+
+        Node zeroHead = new Node(-1);
+        Node oneHead = new Node(-1);
+        Node twoHead = new Node(-1);
+         
+         // take another 3 node for iteration
+        Node zero = zeroHead;
+        Node one = oneHead;
+        Node two = twoHead;
+
+        // temp for loop
+        Node temp = head;
+        while(temp != null)
+        {
+            if(temp.data == 0)
+            {
+                zero.next = temp;
+                zero = zero.next;
+            }
+            else if(temp.data == 1)
+            {
+                one.next = temp;
+                one = one.next;
+            }
+            else{
+                two.next = temp;
+                two = two.next;
+            }
+            temp = temp.next;
+        }
+        
+        //connecton create
+        zero.next = (oneHead.next != null) ? oneHead.next : twoHead.next;
+        one.next = twoHead.next;
+        two.next = null;
+
+        Node newnode = zeroHead.next;
+        return newnode;
+    }
+}
+
+TC - O(N)  sc - O(1)
+
+

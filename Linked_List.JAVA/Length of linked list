@@ -1,0 +1,16 @@
+https://www.codingninjas.com/studio/problems/count-nodes-of-linked-list_5884?utm_source=youtube&utm_medium=affiliate&utm_campaign=Codestudio_Linkedlistseries
+
+
+public class Solution {
+    public static int length(Node head){
+        //Your code goes here
+        Node temp = head;
+        int c = 0;
+        while(temp != null)
+        {
+            temp = temp.next;
+            c++;
+        }
+        return c;
+    }
+}

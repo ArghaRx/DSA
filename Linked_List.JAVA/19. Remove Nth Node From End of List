@@ -1,0 +1,77 @@
+https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/
+
+
+
+
+******************************************** Brute  **********************************************
+
+Time Complexity: O(L)+O(L-N), We are calculating the length of the linked list and then iterating up to the (L-N)th node of the linked list, where
+L is the total length of the list.
+
+Space Complexity:  O(1), as we have not used any extra space.
+
+
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        if (head == null) {
+            return null;
+        }
+
+        ListNode temp = head;
+        int cnt = 0;
+        while(temp != null)
+        {
+            cnt++;
+            temp = temp.next;
+        }
+        temp = head;
+        
+       // If N equals the total number of nodes, delete the head
+        if (cnt == n) {
+            return head.next;
+        }
+
+        int res = cnt - n;
+        while(temp != null)
+        {
+            res--;
+            if(res == 0) break;
+            temp = temp.next;
+        }
+
+        temp.next = temp.next.next;
+        return head;
+    }
+}
+
+
+*********************************************  Optimal  ************************************************
+
+
+Time Complexity: O(N)                          Space Complexity: O(1)
+
+
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+       
+        ListNode fast = head;
+        for(int i = 1; i <= n; i++) fast = fast.next;
+
+         // If fastp becomes null, the Nth node from the end is the head
+        if (fast == null) {
+            return head.next;
+        }
+        ListNode slow = head;
+        while(fast.next != null)
+        {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        
+         slow.next = slow.next.next;
+         
+         return head;
+    }
+}
+

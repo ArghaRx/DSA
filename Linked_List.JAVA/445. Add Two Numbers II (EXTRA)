@@ -1,0 +1,46 @@
+https://leetcode.com/problems/add-two-numbers-ii/
+
+
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode temp1 = reverse(l1);
+        ListNode temp2 = reverse(l2);
+
+        int carry = 0, sum = 0;
+        ListNode dummy = new ListNode(-1);
+        ListNode res = dummy;
+        while(temp1 != null || temp2 != null)
+        {
+            sum = carry;
+            if(temp1 != null) sum += temp1.val;
+            if(temp2 != null) sum += temp2.val;
+            ListNode newNode = new ListNode(sum % 10);
+            carry = sum / 10;
+            res.next = newNode;
+            res = res.next;
+            if(temp1 != null) temp1 = temp1.next;
+            if(temp2 != null) temp2 = temp2.next;
+
+        }
+        if(carry != 0)
+        {
+            ListNode newNode = new ListNode(carry);
+            res.next = newNode;
+        }
+       ListNode realHead = reverse(dummy.next);
+        return realHead;
+
+    }
+
+    public ListNode reverse(ListNode head)
+    {
+        if(head == null || head.next == null) return head;
+
+        ListNode newHead = reverse(head.next);
+        ListNode front = head.next;
+        front.next = head;
+        head.next = null;
+        return newHead;
+    }  
+}

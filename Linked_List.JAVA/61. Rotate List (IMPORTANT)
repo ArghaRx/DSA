@@ -1,0 +1,53 @@
+https://leetcode.com/problems/rotate-list/
+
+
+
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        // if head null means no element is present
+        // if k == 0 means no rotation so return head
+        if(head == null || k == 0) return head;
+
+        // otherwise calculate length and find the tail of the list in together
+        int length = 1;
+        ListNode tail = head;
+        while(tail.next != null)
+        {
+            tail = tail.next;
+            length += 1;
+        }
+
+        // after out from loop we get the length
+
+        // find the actual rotation
+        k = k % length;
+        // if length = 5; and rotation is 10 so , 5 % 10 = 0 so no rotation so return head
+        if(k == 0) return head;
+
+        // otherewise,
+        // atfirst tail connect head
+        tail.next = head;
+         // the find the last node after rotate
+
+         ListNode lastNode = findlstNode(head, length - k);
+         head = lastNode.next;
+         lastNode.next = null;
+         return head;
+    }
+
+    public ListNode findlstNode(ListNode temp, int diff) {
+    int cnt = 1;
+
+    while (temp != null) {
+        if (cnt == diff) {
+            return temp;
+        }
+
+        cnt++;
+        temp = temp.next;
+    }
+
+    return temp;
+}
+}

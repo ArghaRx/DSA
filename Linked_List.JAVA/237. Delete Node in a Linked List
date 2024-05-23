@@ -1,0 +1,20 @@
+https://leetcode.com/problems/delete-node-in-a-linked-list/description/
+
+
+
+
+only give a ListNode...and we have to delete  that one only
+
+
+class Solution {
+    public void deleteNode(ListNode node) {
+        if (node == null || node.next == null) {
+            // This approach won't work for the last node in the list
+            return;
+        }
+
+      node.val = node.next.val;
+      node.next = node.next.next;
+
+    }
+}

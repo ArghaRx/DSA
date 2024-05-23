@@ -1,0 +1,87 @@
+https://www.geeksforgeeks.org/problems/flattening-a-linked-list/1?utm_source=geeksforgeeks&utm_medium=article_practice_tab&utm_campaign=article_practice_tab
+
+____________  GFG   ______________________
+
+-------<<  Brute  >------------
+
+class GfG
+{
+    Node flatten(Node root)
+    {
+        //  take a list to store all nodes
+     List<Integer> arr = new ArrayList<>();
+        Node temp = root;
+        while(temp != null)
+        {
+            Node t2 = temp;  // This t2 iterate the child of a node (if present any child)
+            while(t2 != null)
+            {
+                arr.add(t2.data);
+                t2 = t2.bottom;
+            }
+            temp = temp.next;
+        }
+        // out from loop and all nodes comes in arr list 
+        Collections.sort(arr); // sort it
+        root = convertToVerticalList(arr);  // covert to list ** only difference this list create vertical list
+        return root;
+
+    }
+    
+    Node convertToVerticalList(List<Integer> arr)
+    {
+        Node head = new Node(arr.get(0));
+        Node cur = head;
+        for(int i = 1; i < arr.size(); i++)
+        {
+            Node temp = new Node(arr.get(i));
+            cur.bottom = temp;
+            cur = cur.bottom;
+        }
+        return head;
+    }
+}
+
+
+
+------------------------------- << Opimal  >>------------------------------
+
+class GfG
+{
+    Node flatten(Node root)
+    {
+	// Your code here
+	if(root == null || root.next == null) return root;
+	Node mergeHead = flatten(root.next);
+	root = mergerTwoList_vertically(root, mergeHead);
+	return root;
+    }
+    
+    Node  mergerTwoList_vertically(Node head1, Node head2)
+    {
+        Node dummy = new Node(-6);
+        Node cur = dummy;
+        while(head1 != null && head2 != null)
+        {
+            if(head1.data < head2.data) 
+            {
+                cur.bottom = head1;
+                head1 = head1.bottom;
+                cur = cur.bottom;
+            }
+            else
+            {
+                cur.bottom = head2;
+                head2 = head2.bottom;
+                cur = cur.bottom;
+            }
+            cur.next = null;
+        }
+        
+        if(head1 != null) cur.bottom = head1;
+        else cur.bottom = head2;
+       // if(dummy.bottom != null) dummy.bottom.next = null;  this is use in c++; in java garbage collector take place
+        
+        return dummy.bottom;
+    }
+}

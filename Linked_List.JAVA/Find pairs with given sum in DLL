@@ -1,0 +1,73 @@
+https://www.codingninjas.com/studio/problems/find-pairs-with-given-sum-in-doubly-linked-list_1164172?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+https://www.geeksforgeeks.org/problems/find-pairs-with-given-sum-in-doubly-linked-list/1 (--<< Look Down :)>>--)
+
+
+---------------<< CODENINJA >>------------------
+
+_____________________________ Brute _______________________________
+
+public class Solution {
+
+   
+    public static ArrayList<int[]> findPairs(Node head, int k) {
+        ArrayList<int[]> ans = new ArrayList<>();
+        Node temp1 = head;
+
+        while (temp1 != null) {
+            Node temp2 = temp1.next;
+
+            while (temp2 != null) {
+                if (temp1.data + temp2.data == k) {
+                    ans.add(new int[]{temp1.data, temp2.data});
+                }
+                temp2 = temp2.next;
+            }
+            temp1 = temp1.next;
+        }
+        return ans;
+    }
+}
+
+
+________________________ Optimal _________________________________
+
+GFG---------->>>>
+
+class Solution {
+    public static ArrayList<ArrayList<Integer>> findPairsWithGivenSum(int target, Node head) {
+        // code here
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        Node left = head;
+        Node right = findTail(head);
+
+        while (left.data < right.data) {        // condition : 
+            if (left.data + right.data == target) 
+                                  // if sum is equal to target
+            {
+                
+                // add them in list and most important iterate both the pointer
+
+                ans.add(new ArrayList<>(Arrays.asList(left.data, right.data)));
+                left = left.next;
+                right = right.prev;
+                
+            }
+            else if (left.data + right.data > target)  // if sum is greater than the target
+                right = right.prev;                   // right pointer decrese as it sorted list
+            else
+                left = left.next;
+        }
+        return ans;
+    }
+
+    public static Node findTail(Node tail) {
+        while (tail.next != null) {
+            tail = tail.next;
+        }
+        return tail;
+    }
+}
+        
+
+

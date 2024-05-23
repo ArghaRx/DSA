@@ -1,0 +1,53 @@
+https://leetcode.com/problems/linked-list-cycle-ii/
+
+
+*********************************************  Brute  ************************************************************
+
+Time Complexity: O(N)
+                                          Space Complexity: O(N)
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        Map<ListNode , Integer> map = new HashMap<>();
+        ListNode temp = head;
+        while(temp != null)
+        {
+            if(map.containsKey(temp)) return temp;
+
+            map.put(temp, 1);
+            temp = temp.next;
+        }
+        return null;
+    }
+}
+
+
+
+*******************************************   Optimal  *********************************************************
+
+TC - O(N)   sc - O(1)
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(fast == slow)
+            {
+                slow = head;
+                while(fast != slow)
+                {
+                    fast = fast.next;
+                    slow = slow.next;
+                }
+                     return slow;
+            }
+        }
+
+        return null;
+    }
+}

@@ -1,0 +1,29 @@
+https://www.geeksforgeeks.org/problems/remove-duplicates-from-a-sorted-doubly-linked-list/1?utm_source=geeksforgeeks&utm_medium=ml_article_practice_tab&utm_campaign=article_practice_tab
+
+______ GFG _________
+
+
+TC  - O(N)  SC - O(1)
+
+
+class Solution{
+    Node removeDuplicates(Node head){
+
+        // Code Here.
+         Node temp = head;
+        while(temp != null)
+        {
+            Node nextNode = temp.next;
+
+            while(nextNode != null && nextNode.data == temp.data)
+             nextNode = nextNode.next;
+
+            temp.next = nextNode;
+            if(nextNode != null) nextNode.prev = temp;
+
+            temp = nextNode;
+        }
+        return head;
+        
+    }
+}

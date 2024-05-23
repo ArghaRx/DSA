@@ -1,0 +1,66 @@
+https://www.codingninjas.com/studio/problems/find-length-of-loop_8160455?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+*********************************  Brute  **********************************************
+
+TC - O(N * 2logN)           SC - O(N)
+
+
+import java.util.*;
+public class Solution
+{
+    public static int lengthOfLoop(Node head) {
+        // Write your code here
+        Map<Node, Integer> mpp = new HashMap<>();
+        Node temp = head;
+        int time = 0;
+        while(temp != null)
+        {
+            time++;
+            if(mpp.containsKey(temp))
+            {
+                return time - mpp.get(temp);
+            }
+
+            mpp.put(temp, time);
+            temp = temp.next;
+        }
+        return 0;
+    }
+}
+
+
+******************************************  Optimal  *****************************************************
+
+          In the worst case, if there is a loop, the time complexity is O(N + K), where N is the length of the non-loop part, and K is the length of the loop.
+If there is no loop,
+           the time complexity is O(N), where N is the total number of nodes in the linked list.        
+
+Space Complexity:  O(1)
+
+public class Solution
+{
+    public static int lengthOfLoop(Node head) {
+   
+        Node fast = head;
+        Node slow = head;
+
+       while(fast != null && fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(fast == slow)
+            {
+                fast = fast.next;
+                int cnt = 1;
+                while(fast != slow)
+                {
+                    cnt++;
+                    fast = fast.next;
+                }
+                return cnt;
+            }
+        }
+        return 0;
+    }
+}

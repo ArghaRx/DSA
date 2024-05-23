@@ -1,0 +1,25 @@
+https://leetcode.com/problems/convert-binary-number-in-a-linked-list-to-integer/description/
+
+
+
+
+Loop	Character	Operation	  Result
+1	    ‘1’	        1	          1
+2	    ‘0’	        (1x2) + 0	  2
+3	    ‘1’	        (2*2) + 1	  5
+
+
+************************************************************************************************************************************
+
+class Solution {
+    public int getDecimalValue(ListNode head) {
+   int sum = 0;
+        
+        while (head != null){
+            sum *= 2;
+            sum += head.val;
+            head = head.next;
+        }
+        return sum;
+}
+}

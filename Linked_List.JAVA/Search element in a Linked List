@@ -1,0 +1,17 @@
+https://www.codingninjas.com/studio/problems/search-in-a-linked-list_975381?utm_source=youtube&utm_medium=affiliate&utm_campaign=Codestudio_Linkedlistseries
+
+
+public class Solution
+{
+    public static int searchInLinkedList(Node head, int k)
+    {
+        // Write Your Code Here.
+        Node temp = head;
+        while(temp != null)
+        {
+            if(temp.data == k) return 1;
+            temp = temp.next;
+        }
+        return 0;
+    }
+}

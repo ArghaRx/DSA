@@ -1,0 +1,85 @@
+https://leetcode.com/problems/palindrome-linked-list/description/
+
+
+******************************************  Brute  ****************************************************
+(Using stack)
+
+TC - O(2N)   SC - O(N)
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> st = new Stack<>();
+        ListNode temp = head;
+        while(temp != null)
+        {
+            st.push(temp.val);
+            temp = temp.next;
+        }
+        temp = head;
+        while(temp != null)
+        {
+            if(temp.val != st.peek()) return false;
+            st.pop();
+            temp = temp.next;
+        }
+        return true;
+    }
+}
+
+
+
+**************************************************  Optimal  ***************************************************
+
+Time Complexity: 
+    O (2* N) The algorithm traverses the linked list twice, dividing it into halves. During the first traversal, 
+it reverses one-half of the list, and during the second traversal, it compares the elements of both halves. As each traversal covers N/2 elements,
+the time complexity is calculated as O(N/2 + N/2 + N/2 + N/2), which simplifies to O(2N), ultimately representing O(N).   
+
+SC - O(N)
+
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+
+        if (head == null || head.next == null)
+            return true;
+
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode newHead = reverse(slow.next);
+
+        ListNode first = head;
+        ListNode second = newHead;
+
+        while (second != null) {
+            if (first.val != second.val) {
+                reverse(newHead); // Revert the changes
+                return false;
+            }
+            second = second.next;
+            first = first.next;
+        }
+
+        reverse(newHead); // Revert the changes
+        return true;
+    }
+
+    public ListNode reverse(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+
+        ListNode newHead = reverse(head.next);
+        ListNode front = head.next;
+        front.next = head;
+        head.next = null;
+
+        return newHead;
+    }
+}
+
