@@ -1,0 +1,38 @@
+https://leetcode.com/problems/palindrome-partitioning/description/
+
+
+class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> ans = new ArrayList<>();
+        List<String> sub = new ArrayList<>();
+        func(s,ans,sub,0);
+        return ans;
+    }
+    public void func(String s,List<List<String>> ans,List<String> sub,int index)
+    {
+        if(index == s.length())
+        {
+            ans.add(new ArrayList<>(sub));
+            return;
+        }
+        for(int i = index ; i < s.length() ; i++)
+        {
+            if(isPalindrome(s , index , i)){
+              sub.add(s.substring(index , i + 1));
+              func(s, ans,sub, i + 1);
+              sub.remove(sub.size() - 1);
+            //   func(s,ans,sub,i+1); // if i do it then it take all the repeating elements also so do not call again
+        }
+    }
+}
+
+boolean isPalindrome(String s , int start, int end)
+{
+    while(start <= end)
+    {
+        if(s.charAt(start++) != s.charAt(end--))
+        return false;
+    }
+    return true;
+}
+}

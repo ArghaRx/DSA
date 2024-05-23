@@ -1,0 +1,64 @@
+//// https://leetcode.com/problems/count-good-numbers/
+
+
+
+1st Solution::---
+
+class Solution {
+    long MOD = 1_000_000_007;
+    public int countGoodNumbers(long n) {
+        long even = (n + 1 ) / 2;
+        long odd = n/2;
+        long first = pow(5 , even) % MOD;
+        long second = pow(4 , odd) % MOD;
+        return (int)((first * second) % MOD);
+
+    }
+    public long pow(long x , long n){
+      long ans = 1;
+    if(n == 0) return 1;
+    while ( n != 0 )
+    {
+    if (n % 2 == 0)
+    {
+        x = (x * x)%MOD;
+        n = n / 2;
+    }
+    else
+    {
+        ans = (ans * x)%MOD;
+        n = n - 1;
+    }
+    }
+    return ans; 
+    }
+}
+   
+  
+
+
+
+2nd Solution ::-- (// ONLY CHANGE THE POW FUNCTIOIN )
+
+class Solution {
+    long MOD = 1_000_000_007;
+    public int countGoodNumbers(long n) {
+        long even = (n + 1 ) / 2;
+        long odd = n/2;
+        long first = pow(5 , even) % MOD;
+        long second = pow(4 , odd) % MOD;
+        return (int)((first * second) % MOD);
+
+    }
+ public long pow(long x , long n){
+    if(n == 0) return 1;
+
+// ONLY CHANGE THE POW FUNCTIOIN
+
+    long ans = pow (x , n / 2);
+    if (n%2 == 0) return (ans * ans )%MOD;
+    else
+    return (x * ans * ans)%MOD;
+}
+}
+   

@@ -1,0 +1,32 @@
+___CODENINJA___  //https://www.codingninjas.com/studio/problems/subset-sum_3843086?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static ArrayList<Integer> subsetSum(int num[]) {
+        // Write your code here..
+        ArrayList<Integer> ans = new ArrayList<>();
+        func(0,0,num,ans);
+        Collections.sort(ans);
+        return ans;
+
+    }
+    public static void func(int ind,int sum,int arr[],ArrayList<Integer> ans)
+    {
+        if(ind == arr.length) 
+        {
+            ans.add(sum);
+            return;
+        }
+
+        //if i pick then element or don't pick the element ,always i iterate the next index
+        // only different , i add the value with sum if i pick
+
+        // pick the element
+        func(ind + 1 , sum + arr[ind] , arr , ans);
+
+        // do not pick
+        func(ind + 1 , sum , arr , ans);
+    }
+
+}

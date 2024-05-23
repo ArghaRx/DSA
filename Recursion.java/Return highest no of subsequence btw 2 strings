@@ -1,0 +1,37 @@
+https://www.codingninjas.com/studio/problems/more-subsequence_8842355?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+
+
+
+
+
+import java.util.*;
+
+
+public class Solution {
+    public static String moreSubsequence(int n, int m, String a, String b) {
+        // Write your code here
+        Set<List<String>> ans1 = new HashSet<>();
+        Set<List<String>> ans2 = new HashSet<>();
+        
+        countsubsequence(0, a, n, ans1, new ArrayList<>());
+        countsubsequence(0, b, m, ans2, new ArrayList<>());
+        
+        if (ans1.size() >= ans2.size()) return a;
+        else return b;
+    }
+    
+    public static void countsubsequence(int ind, String s, int n,  Set<List<String>> ans, List<String> sub) {
+        if (ind == n) {
+            ans.add(new ArrayList<>(sub));
+            return;
+        }
+
+        // Include the current character
+        sub.add(String.valueOf(s.charAt(ind)));
+        countsubsequence(ind + 1, s, n, ans, sub);
+        sub.remove(sub.size() - 1);
+
+        // Exclude the current character
+        countsubsequence(ind + 1, s, n, ans, sub);
+    }
+}

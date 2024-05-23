@@ -1,0 +1,29 @@
+https://leetcode.com/problems/subsets-ii/description/
+
+
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums); //sort the array for order maintaining
+        findSubSet(0,nums,ans,new ArrayList<>());
+        return ans;
+    }
+    public void findSubSet(int ind , int arr[],List<List<Integer>> ans,List<Integer> sublist)
+    {
+        ans.add(new ArrayList<>(sublist)); // add null value because that is my ist zero size list
+
+        // run a loop , from that ind to last
+        for(int i = ind ; i < arr.length ; i++)
+        {
+            // avoiding same element 
+            // Mean in same size two similar element can't take
+            // so avoid
+        if(i != ind && arr[i] == arr[i-1]) continue;
+
+        sublist.add(arr[i]);                     // add in sublist
+        findSubSet(i + 1 , arr , ans , sublist); // call the functiion ,and after taking that element index always increase
+        sublist.remove(sublist.size() - 1);    // during backtracking remove the last element
+        }
+        
+    }
+}

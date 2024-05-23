@@ -1,0 +1,61 @@
+https://www.geeksforgeeks.org/problems/rat-in-a-maze-problem/1
+
+// m is the given matrix and n is the order of matrix
+
+
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        
+        // Your code here
+        ArrayList <String> ans = new ArrayList<>();
+
+        //Take a vis 2d matrix with null value
+        int vis[][] = new int[n][n];
+        for(int i = 0 ; i < n ; i ++)
+        {
+            for(int j = 0 ; j < n ; j ++)
+            {
+                vis[i][j] = 0;
+            }
+        }
+
+                                                                      --  // di and dj is represt row & col at <<<<< D | L | R  | U >>>>  respectively
+        int di[] = {1,0,0,-1};                                         --   // row
+        int dj[] = {0,-1,1,0};                                          --- // col
+        
+        if(m[0][0] == 1) 
+          func(0, 0, m, n, ans, vis, di, dj, "");                ----- // call(row, col, matrix, size of matrix, ans list, vis 2d arr, di, dj, null string)
+                       
+        return ans;
+    }
+
+
+    
+    public static void func(int i, int j, int arr[][], int n,ArrayList<String> ans, int vis[][], int di[], int dj[], String s)
+    {
+        // Base Condition
+        if(i == n - 1 && j == n - 1)
+        {
+            ans.add(s);
+            return;
+        }
+        
+        String str = "DLRU";                                                         // Take a string D - down , L - left , R - right , U - up
+        for(int ind = 0 ; ind < 4 ; ind++)
+        {
+            int nexti = i + di[ind];
+            int nextj = j + dj[ind];
+            
+                                                                                     // chech the boundary condition and others condiotions are satisfy 
+            if(nexti >= 0 && nextj >= 0 && nexti  < n && nextj < n && vis[nexti][nextj] == 0 && arr[nexti][nextj] == 1)
+            {
+                vis[i][j] = 1;                                                      // vis[][] array mark 1 at that index
+
+                func(nexti, nextj, arr, n, ans, vis, di, dj, s + str.charAt(ind)); // call fun only add the 'str.charAt(ind)' with the null strin 's'
+
+                vis[i][j] = 0;
+            }
+        }
+        
+    }
+}

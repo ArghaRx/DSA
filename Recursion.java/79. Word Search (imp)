@@ -1,0 +1,35 @@
+https://leetcode.com/problems/word-search/description/
+
+
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int m = board.length;
+        int n = board[0].length;
+        int index = 0;
+        for(int i = 0 ; i < m; i++)
+            for(int j = 0 ; j < n ; j++)
+                if(board[i][j] == word.charAt(index))
+                    if (searchNext(board , word , i , j , m, n, index))
+                       return true;
+        
+        
+        return false;
+
+    }
+    public boolean searchNext(char[][] board, String word, int row,int col,int m, int n, int index)
+    {
+        if(index == word.length()) return true;
+        if(row < 0 || col < 0 || row == m || col == n || board[row][col] != word.charAt(index) || board[row][col] == '$') return false;
+
+        char curr = board[row][col];
+        board[row][col] = '$';
+         boolean top = searchNext(board, word,row - 1 ,col,m,n,index + 1 );
+         boolean down = searchNext(board, word,row + 1 ,col,m,n,index + 1 );
+         boolean left = searchNext(board, word,row ,col - 1,m,n,index + 1 );
+         boolean right = searchNext(board, word,row ,col + 1 ,m,n,index + 1 );
+         board[row][col] = curr;
+
+         return top || down || left || right;
+
+    }
+}

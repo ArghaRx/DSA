@@ -1,0 +1,22 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+       List<String> list = new ArrayList<String>();
+       String str = ""; // initialise a string with null so ""
+
+       // call the function with list , n , start parenthesis count , close parentheses count , and a null string to store
+       backtracking(list , n , 0 , 0 , str);
+       return list; 
+    }
+    public void backtracking(List<String> list , int n , int start , int end , String str)
+    {
+        if (start == n && end == n)
+        {
+            list.add(str);
+            return ;
+        }
+        if(start < n)
+        backtracking (list , n , start+1, end , str+"(");
+        if(end < start)
+        backtracking(list , n , start , end+1 , str+")");
+    }
+}
