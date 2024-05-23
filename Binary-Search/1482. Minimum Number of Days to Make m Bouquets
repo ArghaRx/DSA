@@ -1,0 +1,96 @@
+**********  Brute *******
+
+class Solution {
+    public static boolean possible(int arr[],int day,int m,int k)
+    {
+        int noOfBloom = 0 ;
+        int cnt = 0 ;
+        for(int i = 0 ; i < arr.length ;i++)
+        {
+            if(arr[i] <= day)
+             cnt++;
+             else
+             {
+                 //atfirst cnt will calculate 
+                 noOfBloom += (cnt/k);
+                 // then cnt will 0 and start again otherwise we cannot get noOfBloom
+                 cnt=0;
+             }
+        }
+          noOfBloom += (cnt/k);
+          return noOfBloom >= m ;        
+    }
+    public int minDays(int[] bloomDay, int m, int k) {
+        int mini=Integer.MAX_VALUE;
+        int maxi=Integer.MIN_VALUE;
+        long val=(long)m*k;
+        if(val>bloomDay.length) return -1;
+        for(int i=0;i<bloomDay.length;i++)
+        {
+            mini = Math.min(mini,bloomDay[i]);
+            maxi = Math.max(maxi,bloomDay[i]);
+        }
+        for(int i = mini ; i <= maxi ; i++)
+        {
+            boolean requireday = possible ( bloomDay , i , m , k );
+            if(requireday == true)
+            return i;
+        }
+        return -1;
+    }
+}
+Time Complexity: O((max(arr[])-min(arr[])+1) * N),     Space Complexity: O(1) 
+
+
+
+******* Optimal ******
+
+import java.util.*;
+class Solution {
+    public static boolean possible(int arr[],int day,int m,int k)
+    {
+        //day means which day it bloom every iteration it change
+        int noOfBloom = 0;
+        int cnt = 0;
+        int n= arr.length;
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i] <= day)
+            cnt++;
+            else
+            {
+                noOfBloom += cnt/k;
+                cnt = 0;
+            }
+        }
+        noOfBloom += cnt/k;
+        return (noOfBloom >= m);
+    }
+    public int minDays(int[] bloomDay, int m, int k) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        int n=bloomDay.length;
+        long val =(long) m*k; 
+        if ( val > n) return -1;
+        for(int i=0;i<n;i++)
+        {
+          min=Math.min(min,bloomDay[i]);
+          max=Math.max(max,bloomDay[i]);
+        }
+        int low=min;
+        int high=max;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            //here in if condition we pass the method which indicate noOfBloom >= m that means
+            // eliminate right half and found mininmum one
+            if(possible(bloomDay,mid,m,k) )
+            high = mid - 1;
+
+            else low = mid + 1;
+        }
+        return low;
+    }
+}
+
+Time Complexity: O(log(max(arr[])-min(arr[])+1) * N),  SC --O(1)

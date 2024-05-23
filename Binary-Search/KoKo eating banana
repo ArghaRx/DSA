@@ -1,0 +1,71 @@
+********* Brute  *********
+
+class Solution {
+    public static int func(int piles[],int hourly)
+    {
+         int totalH = 0;
+        for(int i=0;i<piles.length;i++)
+        {
+           totalH += Math.ceil((double)(piles[i]) / (double)(hourly));
+        }
+            return totalH;
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int maxi=Integer.MIN_VALUE;
+        for(int i=0;i<piles.length;i++)
+        {
+            maxi=Math.max(maxi,piles[i]);
+        }
+      for(int i=0;i<=maxi;i++)  
+      {
+          int requiTime=func(piles,i);
+          if(requiTime <= h)
+          return i;
+      }
+      return -1;
+    }
+}
+
+
+TC :- O(N * max(arr[])) 
+
+
+
+
+
+
+**********  Optimal *********
+
+class Solution {
+    public static int func(int piles[],int hourly)
+    {
+         int totalH = 0;
+        for(int i=0;i<piles.length;i++)
+        {
+           totalH += Math.ceil((double)(piles[i]) / (double)(hourly));
+        }
+            return totalH;
+    }
+    public int minEatingSpeed(int[] piles, int h) {
+        int maxi=Integer.MIN_VALUE;
+        for(int i=0;i<piles.length;i++)
+        {
+        maxi = Math.max(maxi,piles[i]);
+        }
+
+        int low=0,high=maxi;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            int totalH = func(piles,mid);
+            if( totalH <= h )
+            high = mid-1;
+            else
+            low=mid+1;
+
+        }
+        return low;
+}
+}
+
+TC :- O( N * log(max(arr[])) 

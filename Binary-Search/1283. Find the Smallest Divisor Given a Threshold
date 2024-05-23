@@ -1,0 +1,72 @@
+ ******** Brute *******
+(accept in codeninja both -------not leetcode)
+
+import java.util.*;
+public class Solution {
+    public static int sumByD(int arr[],int divisor)
+    {
+        int n=arr.length;
+        long  sum=0;
+        for (int i=0;i<n;i++)
+        {
+           sum += Math.ceil((double)arr[i]/(double)divisor);
+        }
+        return (int) sum;
+    }
+    public static int smallestDivisor(int arr[], int limit) {
+        // Write your coder here
+        int n=arr.length;
+        int maxi=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++)
+        {
+            maxi=Math.max(maxi,arr[i]);
+        }
+        for(int d=1;d<=maxi;d++)
+        {
+            int value = sumByD(arr,d);
+            if(value <= limit)
+            return d;
+        }
+        return 0;
+    }
+}
+
+Time Complexity: O ( max ( arr[] ) * N ) ;                 Space Complexity: O(1)
+
+
+*********** Optimal ********
+
+public class Solution {
+    public static int sumByD(int arr[],int divisor)
+    {
+        int n=arr.length;
+        int sum=0;
+        for(int i=0;i<n;i++)
+        {
+            sum += Math.ceil((double)arr[i]/(double)divisor);
+        }
+        return sum;
+    }
+    public static int smallestDivisor(int arr[], int limit) {
+        // Write your coder here
+        int n=arr.length;
+        int maxi=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++)
+        {
+            maxi=Math.max(maxi,arr[i]);
+        }
+        int low=1,high=maxi;
+        while(low<=high)
+        {
+            int mid =(low+high)/2;
+            if(sumByD(arr,mid) <= limit)
+            high=mid-1;
+            else
+            low=mid+1;
+            
+        }
+        return low;
+    }
+}
+
+Time Complexity: O ( log ( max ( arr[] ) ) * N )          Space Complexity: O(1)

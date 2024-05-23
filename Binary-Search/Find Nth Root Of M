@@ -1,0 +1,75 @@
+******* Brute *****
+
+
+import java.util.*;
+public class Solution {
+    // Exponential Function
+    public static int func(int b,int exp){
+        int ans=1;
+        long base=b;
+        while(exp!=0)
+        {
+            if(exp%2 == 1)
+            {
+                exp--;
+                ans*=base;
+            }
+            else
+            {
+                exp/=2;
+                base=base*base;
+            }
+        }
+        return ans;
+
+    }
+    public static int NthRoot(int n, int m) {
+        // Write your code here.
+       for(int i=1;i<=m;i++)
+       {
+       long val=func(i,n);
+       if(val == (long) m)
+       return i;
+       else if(val > (long)m)
+       break;
+    }
+    return -1;
+}
+}
+
+TC :-  O(M*log(N))
+
+***** Optimal *****
+
+public class Solution {
+    public static int func(int mid,int n,int m)
+    {
+        long ans=1;
+        for(int i=1;i<=n;i++)
+        {
+            ans*=mid;
+            if(ans > m) return 2;
+        }
+        if(ans == m) return 1;
+        else
+        return 0;
+    }
+    public static int NthRoot(int n, int m) {
+        // Write your code here.
+        int low=1;
+        int high=m;
+        while(low<=high)
+        {
+            int mid = ( low + high ) / 2;
+            int value = func (mid , n ,m );
+            if(value == 1) return mid;
+            else if(value == 0) low=mid+1;
+            else
+            high=mid-1;
+        }
+        return -1;
+    }
+}
+
+
+TC - O(n * log(m)).

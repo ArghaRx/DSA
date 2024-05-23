@@ -1,0 +1,78 @@
+************  BRUTE  *************
+
+import java.util.ArrayList;
+public class Solution
+{
+    public static int maximumOnesRow(ArrayList<ArrayList<Integer>> matrix, int n, int m)
+    {
+        //	  Write your code here.
+        int maxOne=0;
+        int index=0;
+        for(int i=0;i<n;i++)
+        {
+            int cntOne=0;
+            for(int j=0;j<m;j++)
+            {
+                if(matrix.get(i).get(j) == 1)
+                cntOne++;
+            }
+            if(cntOne>maxOne)
+            {
+                index=i;
+                maxOne=cntOne;
+            }
+
+        }
+        return index;
+    }
+}
+
+Time Complexity: O(n X m),                             SC-O(1)
+
+
+
+
+
+
+************ OPTIMAL ***************
+
+import java.util.ArrayList;
+public class Solution
+{
+    public static int lowerBound(ArrayList<Integer> matrix, int m,int x) 
+    {
+        int ans=m;
+        int low=0,high=m-1;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(matrix.get(mid) >= x)
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            
+            else low=mid+1;
+        }
+        return ans;
+    }
+    public static int maximumOnesRow(ArrayList<ArrayList<Integer>> matrix, int n, int m)
+    {
+        //	  Write your code here.
+        int maxOne=0;
+        int index=-1;
+        for(int i=0;i<n;i++)
+        {
+            int cntOne = m - lowerBound(matrix.get(i),m,1);
+            if(cntOne>maxOne)
+            {
+                index=i;
+                maxOne=cntOne;
+            }
+
+        }
+        return index;
+    }
+}
+
+Time Complexity: O(n X log(m)),                             SC-O(1)

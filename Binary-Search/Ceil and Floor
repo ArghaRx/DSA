@@ -1,0 +1,57 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+
+     public static int findFloor(int []arr, int n, int x) {
+        // Write your code here
+
+        int low=0, high= n-1;
+        int floor=-1;
+        while ( low <= high )
+        {
+            int mid = (low + high) / 2;
+            if( arr[mid] <= x)
+            {
+                  // maybe an answer
+                floor=arr[mid];
+                low = mid + 1; //look on the right
+            }
+            else 
+                high = mid-1;  //look for smaller index on the left
+        }
+        return floor;
+        
+    }
+
+ public static int findCeil(int []arr, int n, int x) {
+        // Write your code here
+
+        int low=0, high= n-1;
+        int ceil=-1;
+        while ( low <= high )
+        {
+            int mid = (low + high) / 2;
+            if( arr[mid] >= x)
+            {
+                  // maybe an answer
+                ceil=arr[mid];
+                high = mid-1;  //look for smaller index on the left
+            }
+            else 
+            low = mid + 1; //look on the right
+        }
+        return ceil;
+        
+    }
+    
+    
+    
+    public static int ceilingInSortedArray(int n, int x, int[] arr) {
+   Arrays.sort(arr);
+    int f = findFloor(arr, n, x);
+    int c = findCeil(arr, n, x);
+    System.out.print(f + " ");
+    return c;
+}
+
+}

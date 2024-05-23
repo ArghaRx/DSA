@@ -1,0 +1,80 @@
+ **** Brute *****
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+
+	public static int sqrtN(long N) {
+		/*
+		 * Write your code here
+		 */
+		 int ans = 0;
+		 for(int i=0;i<= N;i++)
+		 {
+			 long val=i*i;
+			 if(val <= N)
+			 ans=i;
+		 }
+		 return ans;
+	}
+}
+
+
+
+******* Binary Search ***
+
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+
+	public static int sqrtN(long N) {
+		/*
+		 * Write your code here
+		 */
+		 int ans =0 ;
+		 long low=1,high=N;
+		 while(low<=high)
+		 {
+			 long mid=(low+high)/2;
+			 long val = (long) mid*mid;
+			 if(val <= (long)N)
+			 {
+			 ans=(int)mid;
+			 low=mid+1;
+			 }
+			 else 
+			 high=mid-1;
+		 }
+		 return ans;
+	}
+}
+
+OR we can also return high------
+
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+
+	public static int sqrtN(long N) {
+		/*
+		 * Write your code here
+		 */
+	//	 int ans =0 ;
+		 long low=1,high=N;
+		 while(low<=high)
+		 {
+			 long mid=(low+high)/2;
+			 long val = (long) mid*mid;
+			 if(val <= (long)N)
+			 {
+			 //ans=(int)mid;
+			 low=(int)mid+1;
+			 }
+			 else 
+			 high=(int)mid-1;
+		 }
+		 return (int)high;
+	}
+}

@@ -1,0 +1,48 @@
+**** BRUTE *****
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int xor=0;
+        for(int i=0;i<nums.length;i++)
+        {
+          xor^=nums[i];
+        }
+        return xor;
+    }
+}
+
+
+
+
+*******  OPTIMAL ******
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int n=nums.length;
+        //single element
+        if(n==1) return nums[0]; 
+        
+        //// Edge cases:
+        if(nums[0] != nums[1]) return nums[0];
+        if(nums[n-1] != nums[n-2]) return nums[n-1];
+
+        int low=1,high=n-2;
+        while(low<=high)
+        {
+          int mid=(low+high)/2;
+
+           // If arr[mid] is the single element:
+          if(nums[mid] != nums[mid-1] && nums[mid] != nums[mid+1])
+          return nums[mid];
+         
+          // We are in the left:
+          if((mid%2 == 1 && nums[mid] == nums[mid-1]) || (mid % 2 == 0 && nums[mid] == nums[mid+1]))
+           low=mid+1; //eliminate left half
+           else
+            // We are in the right:
+           high=mid-1; //eleminate right half
+        }
+        return -1;
+    }
+}
+

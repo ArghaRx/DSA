@@ -1,0 +1,98 @@
+************  BRUTE *******
+
+// Collections.max or Collections.sort only use in arraylist
+// if Array then not work
+//also import Collection or import *(everything)
+import java.util.*;
+public class Solution 
+{
+public static int findpainter(ArrayList<Integer> arr,int maxunit)
+{
+    int cntpainter =1;
+    int lastunit=0;
+    for(int i=0;i<arr.size();i++)
+    {
+        if(arr.get(i) + lastunit > maxunit)
+        {
+            cntpainter++;
+            lastunit = arr.get(i);
+        }
+        else
+        lastunit += arr.get(i);
+    }
+    return cntpainter;
+}
+
+    public static int findLargestMinDistance(ArrayList<Integer> boards, int k)
+    {
+        //    Write your code here.
+        int max=Collections.max(boards);
+        int sum=0;
+        for(int i=0;i<boards.size();i++)
+        {
+            //max=Math.max(max,boards.get(i));
+            sum += boards.get(i);
+        }
+        for(int i=max;i<=sum;i++)
+        {
+        if(findpainter(boards,i) == k)
+        return i;
+        }
+        return max;
+
+    }
+}
+
+Time Complexity: O(N * (sum(arr[])-max(arr[])+1)),     SC O(1)
+
+
+
+
+***********  OPTIMAL *******
+
+// Collections.max or Collections.sort only use in arraylist
+// if Array then not work
+//also import Collection or import *(everything)
+import java.util.*;
+public class Solution 
+{
+public static int findpainter(ArrayList<Integer> arr,int maxunit)
+{
+    int cntpainter =1;
+    int lastunit=0;
+    for(int i=0;i<arr.size();i++)
+    {
+        if(arr.get(i) + lastunit > maxunit)
+        {
+            cntpainter++;
+            lastunit = arr.get(i);
+        }
+        else
+        lastunit += arr.get(i);
+    }
+    return cntpainter;
+}
+
+    public static int findLargestMinDistance(ArrayList<Integer> boards, int k)
+    {
+        //    Write your code here.
+        int low=Collections.max(boards);
+        int high=0;
+        for(int i=0;i<boards.size();i++)
+        {
+            //max=Math.max(max,boards.get(i));
+            high += boards.get(i);
+        }
+       while(low<=high)
+       {
+           int mid =(low+high)/2;
+           if(findpainter(boards,mid) <= k)
+           high=mid-1;
+           else
+           low=mid+1;
+       }
+       return low;
+    }
+}
+
+Time Complexity: O(N * log(sum(arr[])-max(arr[])+1)),     SC O(1)

@@ -1,0 +1,86 @@
+*********** BRUTE *******
+
+----TLE in leetcode but run in codeninja----
+
+
+public class Solution {
+    public static int countK(int nums[],int choice)
+    {
+        int cnt = 1;
+        long load = 0;
+        for(int i = 0 ; i < nums.length ; i++)
+        {
+            if(nums[i] + load > choice)
+            {
+                cnt++;
+                load = nums[i];
+            }
+            else
+            load += nums[i];
+        }
+        return  cnt;
+    }
+    public static int largestSubarraySumMinimized(int []nums, int k) {
+        // Write Your Code Here
+        long max = Integer.MIN_VALUE;
+        long sum = 0;
+        for(int i = 0 ; i < nums.length ; i ++)
+        {
+            sum += nums[i];
+            max= Math.max ( max , nums[i] );
+        }
+        for(int i = (int)max ; i <= (int)sum ; i++)
+        {
+            if(countK(nums,i) == k)
+            return i;
+        }
+        return (int)max;
+    }
+}
+
+Time Complexity: O(N * (sum(arr[])-max(arr[])+1)),                    Space Complexity:  O(1) 
+
+
+
+
+*********** OPTIMAL ***********
+
+import java.util.*;
+class Solution {
+    public static int countK(int nums[],int choice)
+    {
+        int cnt = 1;
+        long load = 0;
+        for(int i = 0 ; i < nums.length ; i++)
+        {
+            if(nums[i] + load > choice)
+            {
+                cnt++;
+                load = nums[i];
+            }
+            else
+            load += nums[i];
+        }
+        return  cnt;
+    }
+    public int splitArray(int[] nums, int k) {
+        int low = Integer.MIN_VALUE;
+        int high = 0;
+        for(int i = 0 ; i < nums.length ; i ++)
+        {
+            high += nums[i];
+            low = Math.max ( low , nums[i] );
+        }
+        while(low<=high)
+        {
+            int mid = (low+high)/2;
+            if(countK(nums,mid) <= k)
+            high=mid-1;
+            else
+            low=mid+1;
+        }
+        return low;
+    }
+}
+
+Time Complexity: O(N * log(sum(arr[])-max(arr[])+1)),                    Space Complexity:  O(1) 

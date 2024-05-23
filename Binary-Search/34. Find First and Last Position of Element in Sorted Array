@@ -1,0 +1,66 @@
+******* BRUTE ****
+
+
+lass Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int first = -1; // Initialize first occurrence to -1.
+        int last = -1;  // Initialize last occurrence to -1.
+        
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == target) {
+                if (first == -1) {
+                    first = i; // Found the first occurrence.
+                }
+                last = i; // Update the last occurrence.
+            }
+        }
+        
+        return new int[]{first, last};
+    }
+}
+
+
+******* Binary Search approach ******
+
+class Solution {
+    public static int firstoccarance(int arr[], int n, int k) {
+        int low = 0, high = n - 1;
+        int ans = n;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] >= k) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public static int lastoccarance(int arr[], int n, int k) {
+        int low = 0, high = n - 1;
+        int ans = n;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (arr[mid] > k) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int first = firstoccarance(nums, nums.length, target);
+        if (first == nums.length || nums[first] != target) {
+            return new int[]{-1, -1};
+        }
+        int last = lastoccarance(nums, nums.length, target);
+        return new int[]{first, last-1};
+    }
+}
+
+

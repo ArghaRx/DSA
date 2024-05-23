@@ -1,0 +1,77 @@
+*********** BRUTE *********
+
+import java.util.*;
+public final class Solution {
+    public static int findMedian(int matrix[][], int m, int n) {
+        // Write your code here
+        int median[]=new int[n*m];
+        int index=0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                median[index++]=matrix[i][j];
+            }
+        }
+        Arrays.sort(median);
+        return median[(n*m)/2];
+    }
+}
+
+
+
+
+
+***************   OPTIMAL  ****************
+
+public final class Solution {
+    public static int upperbound(int arr[],int x,int n)
+    {
+    
+        int low=0,high=n-1;
+        int ans=n;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            if(arr[mid]>x)
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+            low=mid+1;
+        }
+        return ans;
+    }
+    public static int countSmallEqual(int matrix[][],int n,int m,int x)
+    {
+        int cnt=0;
+        for(int i=0;i<n;i++)
+    {
+        cnt +=upperbound(matrix[i],x,m);
+    }
+    return cnt;
+    }
+    public static int findMedian(int matrix[][], int m, int n) {
+        // Write your code here
+        
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
+        for(int i=0;i<m;i++)
+        {
+            low=Math.min(low,matrix[i][0]);
+            high=Math.max(high,matrix[i][n-1]);
+        }
+        int require=(n*m)/2;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            int smalequal=countSmallEqual(matrix,m,n,mid);
+            if(smalequal<=require)
+            low=mid+1;
+            else
+            high=mid-1;
+        }
+        return low;
+    }
+}

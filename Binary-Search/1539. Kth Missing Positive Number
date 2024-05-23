@@ -1,0 +1,45 @@
+**********  Brute ******
+
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int n=arr.length;
+        for(int i=0;i<n;i++)
+        {
+  //Note: The main idea is to shift k by 1 step if the current element is smaller or equal to k.
+ //And whenever we get a number > k, we can conclude that k is the missing number.
+            if(arr[i] <= k)
+            k++;
+            else
+            break;
+        }
+        return k;
+    }
+}
+
+Time Complexity: O(N)    SC-  O(1)
+
+
+********* Optimal *******
+
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int n=arr.length;
+        if(n==1 && arr[0] == 2) return 1;
+       int low=0,high=n-1;
+       while(low<=high)
+       {
+           int mid=(low+high)/2;
+           int missing = arr[mid] - ( mid + 1) ;
+           if (missing < k) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+    }
+       return high + 1 + k;  //OR WE CAN RETURN LOW + K
+}
+}
+
+
+Time Complexity: O(LOG(N))    SC-  O(1)
+
