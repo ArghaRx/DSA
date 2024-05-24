@@ -1,0 +1,185 @@
+// Recursion
+
+import java.util.*;
+class Main{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Eneter the size of array: ");
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        System.out.println("Eneter all ekemenmts array: ");
+        for(int i = 0; i < n; i++)
+        arr[i] = sc.nextInt();
+        
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(i != n - 1) list1.add(arr[i]);
+            if(i != 0) list2.add(arr[i]);
+        }
+        int result1 = houseRobber(list1, list1.size() - 1);
+        int result2 = houseRobber(list2, list2.size() - 1);
+        
+        System.out.print("Maxximum robbed "+ Math.max(result1, result2));
+    }
+    public static int houseRobber(List<Integer> arr, int ind)
+    {
+        if(ind == 0) return arr.get(ind);
+        if(ind < 0) return 0;
+        int pick = arr.get(ind);
+        if(ind > 1)
+        pick += houseRobber(arr, ind - 2);
+        
+        int notpick = 0 + houseRobber(arr, ind - 1);
+        return Math.max(pick, notpick);
+    }
+}
+
+
+2. Memoization
+
+
+import java.util.*;
+class Main{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Eneter the size of array: ");
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        System.out.println("Eneter all ekemenmts array: ");
+        for(int i = 0; i < n; i++)
+        arr[i] = sc.nextInt();
+        
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(i != n - 1) list1.add(arr[i]);
+            if(i != 0) list2.add(arr[i]);
+        }
+        int dp1[] = new int[list1.size()];
+        int dp2[] = new int[list2.size()];
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+        int result1 = houseRobber(list1, list1.size() - 1, dp1);
+        int result2 = houseRobber(list2, list2.size() - 1, dp2);
+        
+        System.out.print("Maxximum robbed "+ Math.max(result1, result2));
+    }
+    public static int houseRobber(List<Integer> arr, int ind, int dp[])
+    {
+        if(ind == 0) return arr.get(ind);
+        if(ind < 0) return 0;
+        if(dp[ind] != -1) return dp[ind];
+        int pick = arr.get(ind);
+        if(ind > 1)
+        pick += houseRobber(arr, ind - 2, dp);
+        
+        int notpick = 0 + houseRobber(arr, ind - 1, dp);
+        return dp[ind] = Math.max(pick, notpick);
+    }
+}
+
+
+3.Tabulation
+
+
+import java.util.*;
+class Main{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Eneter the size of array: ");
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        System.out.println("Eneter all ekemenmts array: ");
+        for(int i = 0; i < n; i++)
+        arr[i] = sc.nextInt();
+        
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(i != n - 1) list1.add(arr[i]);
+            if(i != 0) list2.add(arr[i]);
+        }
+        int dp1[] = new int[list1.size()];
+        int dp2[] = new int[list2.size()];
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+        int result1 = houseRobber(list1, dp1);
+        int result2 = houseRobber(list2, dp2);
+        
+        System.out.print("Maxximum robbed "+ Math.max(result1, result2));
+    }
+    public static int houseRobber(List<Integer> arr, int dp[])
+    {
+       dp[0] = arr.get(0);
+       
+       for(int ind = 1; ind < arr.size(); ind++)
+       {
+        int pick = arr.get(ind);
+        if(ind > 1)
+        pick += dp[ind - 2];
+        
+        int notpick = 0 + dp[ind - 1];
+        dp[ind] = Math.max(pick, notpick);
+       }
+       return dp[arr.size() - 1];
+    }
+}
+
+
+
+
+
+4. Space Optimization
+
+import java.util.*;
+class Main{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Eneter the size of array: ");
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        System.out.println("Eneter all ekemenmts array: ");
+        for(int i = 0; i < n; i++)
+        arr[i] = sc.nextInt();
+        
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        for(int i = 0; i < n; i++)
+        {
+            if(i != n - 1) list1.add(arr[i]);
+            if(i != 0) list2.add(arr[i]);
+        }
+        
+        int result1 = houseRobber(list1);
+        int result2 = houseRobber(list2);
+        
+        System.out.print("Maxximum robbed "+ Math.max(result1, result2));
+    }
+    public static int houseRobber(List<Integer> arr)
+    {
+       int prev = arr.get(0);
+       int prev2 = 0;
+       
+       for(int ind = 1; ind < arr.size(); ind++)
+       {
+        int pick = arr.get(ind);
+        if(ind > 1)
+        pick += prev2;
+        
+        int notpick = 0 + prev;
+        int cur = Math.max(pick, notpick);
+        
+        prev2 = prev;
+        prev = cur;
+       }
+       return prev;
+    }
+}

@@ -1,0 +1,219 @@
+1. recursion
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		// Write your code here.
+	return helper(0, 0, c - 1, r, c, grid);
+	}
+	public static int helper(int i, int j1, int j2, int r, int c, int arr[][])
+	{
+		// Edge case
+		if(j1 < 0 || j1 >= c || j2 < 0 || j2 >= c) return Integer.MIN_VALUE;;
+
+		// Base case
+		if(i == r - 1)
+		{
+			if(j1 == j2) return arr[i][j1];
+			else return arr[i][j1] + arr[i][j2];
+		}
+
+		int maxi = Integer.MIN_VALUE;
+
+		for(int d1 = -1; d1 <= 1; d1++)
+		{
+			for(int d2 = -1; d2 <= 1; d2++)
+			{
+				int ans = 0;
+				if(j1 == j2) 
+					ans = arr[i][j1] + helper(i + 1, j1 + d1, j2 + d2, r, c, arr);
+
+				else  
+					ans = arr[i][j1] + arr[i][j2] + helper(i + 1, j1 + d1, j2 + d2, r, c, arr);
+
+				maxi = Math.max(maxi, ans);
+			}
+		}
+		return maxi;
+	}
+}
+
+
+
+2. Memoization
+
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		// Write your code here.
+		int dp[][][] = new int[r][c][c];
+
+		for (int row1[][] : dp) {
+      for (int row2[] : row1) {
+        Arrays.fill(row2, -1);
+      }
+    }
+	return helper(0, 0, c - 1, r, c, grid, dp);
+	}
+	public static int helper(int i, int j1, int j2, int r, int c, int arr[][], int dp[][][])
+	{
+		// Edge case
+		if(j1 < 0 || j1 >= c || j2 < 0 || j2 >= c) return Integer.MIN_VALUE;;
+
+		// Base case
+		if(i == r - 1)
+		{
+			if(j1 == j2) return arr[i][j1];
+			else return arr[i][j1] + arr[i][j2];
+		}
+
+        if(dp[i][j1][j2] != -1) return dp[i][j1][j2];
+	   
+		int maxi = Integer.MIN_VALUE;
+
+		for(int d1 = -1; d1 <= 1; d1++)
+		{
+			for(int d2 = -1; d2 <= 1; d2++)
+			{
+				int ans = 0;
+				if(j1 == j2) ans = arr[i][j1] + helper(i + 1, j1 + d1, j2 + d2, r, c, arr, dp);
+				else  ans = arr[i][j1] + arr[i][j2] + helper(i + 1, j1 + d1, j2 + d2, r, c, arr, dp);
+
+				maxi = Math.max(maxi, ans);
+			}
+		}
+		return dp[i][j1][j2] = maxi;
+	}
+}
+
+
+
+
+
+3. Tabulation
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+public static int maximumChocolates(int n, int c, int[][] grid) {
+// Write your code here.
+int dp[][][] = new int[n][c][c];
+
+// Base case
+for(int j1 = 0; j1 < c; j1++){
+for(int j2 = 0; j2 < c; j2++){
+if(j1 == j2) 
+dp[n - 1][j1][j2] = grid[n - 1][j1];
+else 
+ dp[n - 1][j1][j2] = grid[n - 1][j1] + grid[n - 1][j2];
+}
+}
+		
+for(int i = n - 2; i >=0; i--){
+    for(int j1 = 0; j1 < c; j1++){
+	for(int j2 = 0; j2 < c; j2++){
+	   int maxi = Integer.MIN_VALUE;
+
+	    for(int d1 = -1; d1 <= 1; d1++){
+	       for(int d2 = -1; d2 <= 1; d2++){
+					
+			int ans = 0;
+		        if(j1 == j2) 
+			ans = grid[i][j1];
+			else 
+			ans = grid[i][j1] + grid[i][j2] ;
+
+			if(j1 + d1 < 0 || j1 + d1 >= c ||  j2 + d2 < 0 ||  j2 + d2 >= c)
+			ans += -1e9;
+			else 
+			ans+= dp[i + 1][j1 + d1][ j2 + d2];
+
+
+			maxi = Math.max(maxi, ans);
+		  }
+		}
+
+	dp[i][j1][j2] = maxi;
+     }
+   }
+}
+
+return dp[0][0][c - 1];
+}
+}
+
+
+
+
+
+
+
+
+
+4. Space Optimization
+
+
+
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static int maximumChocolates(int n, int c, int[][] grid) {
+        int front[][] = new int[c][c];
+        int cur[][] = new int[c][c];
+
+        // Base case
+        for (int j1 = 0; j1 < c; j1++) {
+            for (int j2 = 0; j2 < c; j2++) {
+                if (j1 == j2)
+                    front[j1][j2] = grid[n - 1][j1];
+                else
+                    front[j1][j2] = grid[n - 1][j1] + grid[n - 1][j2];
+            }
+        }
+
+        // DP
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j1 = 0; j1 < c; j1++) {
+                for (int j2 = 0; j2 < c; j2++) {
+                    int maxi = Integer.MIN_VALUE;
+
+                    for (int d1 = -1; d1 <= 1; d1++) {
+                        for (int d2 = -1; d2 <= 1; d2++) {
+
+                            int ans = 0;
+                            if (j1 == j2)
+                                ans = grid[i][j1];
+                            else
+                                ans = grid[i][j1] + grid[i][j2];
+
+                            if (j1 + d1 < 0 || j1 + d1 >= c || j2 + d2 < 0 || j2 + d2 >= c)
+                                ans += -1e9;
+                            else
+                                ans += front[j1 + d1][j2 + d2];
+
+                            maxi = Math.max(maxi, ans);
+                        }
+                    }
+                    cur[j1][j2] = maxi;
+                }
+            }
+            // Update front
+           // Update the front array with the values from the cur array for the next row
+for (int a = 0; a < c; a++) {
+    // Iterate over each index in the arrays
+    // Copy the values from the cur array to the front array
+    front[a] = new int[c]; // Ensure that front[a] has enough space
+    for (int b = 0; b < c; b++) {
+        front[a][b] = cur[a][b];
+    }
+}
+
+        }
+
+        return front[0][c - 1];
+    }
+}

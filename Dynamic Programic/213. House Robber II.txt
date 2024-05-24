@@ -1,0 +1,164 @@
+
+
+
+
+
+
+
+// Recursive 
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        List<Integer> ans1 = new ArrayList<>();
+        List<Integer> ans2 = new ArrayList<>();
+
+        for(int i = 0; i < n; i ++)
+        {
+            if(i != 0) ans1.add(nums[i]);
+            if(i != n - 1) ans2.add(nums[i]);
+        }
+                            // we always pass n - 1
+        int result1 = helper(ans1, ans1.size() - 1);
+        int result2 = helper(ans2, ans2.size() - 1);
+        return Math.max(result1, result2);
+    }
+
+   public int helper(List<Integer> nums, int ind) {
+        if (ind == 0) return nums.get(0);
+        if (ind < 1) return 0;
+        int pick = nums.get(ind) + helper(nums, ind - 2);
+        int nonpick = helper(nums, ind - 1);
+        return Math.max(pick, nonpick);
+    }
+}
+
+// Memoization
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        List<Integer> ans1 = new ArrayList<>();
+        List<Integer> ans2 = new ArrayList<>();
+
+        for(int i = 0; i < n; i ++)
+        {
+            if(i != 0) ans1.add(nums[i]);
+            if(i != n - 1) ans2.add(nums[i]);
+        }
+        int dp1[] = new int[n];
+        int dp2[] = new int[n];
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+                              // we always pass n - 1
+        int result1 = helper(ans1, ans1.size() - 1, dp1);
+        int result2 = helper(ans2, ans2.size() - 1, dp2);
+        return Math.max(result1, result2);
+    }
+
+   public int helper(List<Integer> nums, int ind, int dp[]) {
+        if (ind == 0) return nums.get(0);
+        if (ind < 1) return 0;
+        if(dp[ind] != -1) return dp[ind];
+        int pick = nums.get(ind) + helper(nums, ind - 2, dp);
+        int nonpick = helper(nums, ind - 1, dp);
+        return dp[ind] = Math.max(pick, nonpick);
+    }
+}
+
+
+// Tabulation
+ TC - SC - O(N)
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        List<Integer> ans1 = new ArrayList<>();
+        List<Integer> ans2 = new ArrayList<>();
+
+        for(int i = 0; i < n; i ++)
+        {
+            if(i != 0) ans1.add(nums[i]);
+            if(i != n - 1) ans2.add(nums[i]);
+        }
+        int dp1[] = new int[n- 1];
+        int dp2[] = new int[n- 1];
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+                              // we always pass n - 1
+        int result1 = helper(ans1, ans1.size() - 1, dp1);
+        int result2 = helper(ans2, ans2.size() - 1, dp2);
+        return Math.max(result1, result2);
+    }
+    
+
+   public int helper(List<Integer> nums, int ind, int dp[]) {
+        dp[0] = nums.get(0);
+
+        for(int i = 1; i < nums.size(); i++)
+        {
+            int pick = nums.get(i);
+            if(i > 1)
+            pick += dp[i - 2];
+
+            int nonpick = dp[i - 1];
+
+            dp[i] = Math.max(pick, nonpick);
+        }
+        return dp[nums.size() - 1];
+   }  
+} 
+
+
+
+// Space Optimization
+
+
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+
+	// FOR SOME TEST CASES
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return nums[0];
+        }
+
+        List<Integer> ans1 = new ArrayList<>();
+        List<Integer> ans2 = new ArrayList<>();
+
+        for(int i = 0; i < n; i ++)
+        {
+            if(i != 0) ans1.add(nums[i]);
+            if(i != n - 1) ans2.add(nums[i]);
+        }
+        
+                              // we always pass n - 1
+        int result1 = helper(ans1);
+        int result2 = helper(ans2);
+        return Math.max(result1, result2);
+    }
+
+
+   public int helper(List<Integer> nums) {
+
+        int prev = nums.get(0);
+        int prev2 = 0;
+
+        for(int i = 1; i < nums.size(); i++)
+        {
+            int pick = nums.get(i);
+            if(i > 1)
+            pick += prev2;
+
+            int nonpick = prev;
+
+            int curr = Math.max(pick, nonpick);
+            prev2 = prev;
+            prev = curr;
+        }
+        return prev;
+   }  
+}

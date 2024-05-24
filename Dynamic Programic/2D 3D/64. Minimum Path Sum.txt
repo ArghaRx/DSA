@@ -1,0 +1,192 @@
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
+
+Note: You can only move either down or right at any point in time.
+
+
+Input: grid = [[1,3,1],[1,5,1],[4,2,1]]
+Output: 7
+Explanation: Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.
+Example 2:
+
+Input: grid = [[1,2,3],[4,5,6]]
+Output: 12
+
+
+1. Recursion
+
+
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        return helper(m - 1, n - 1, grid);
+    }
+
+    public int helper(int i, int j, int arr[][])
+    {
+        if(i == 0 && j == 0) return arr[0][0]; // Base case
+        
+        // when it goes out of boundary
+        // Return 1 todipower 9 which is larger so when Math.min comes it deleted
+        if(i < 0 || j < 0) return (int)Math.pow(10, 9); 
+
+        int up = arr[i][j] + helper(i - 1, j, arr);
+        int left = arr[i][j] + helper(i, j - 1, arr);
+
+        return Math.min(left, up);
+    }
+}
+
+
+
+
+
+
+
+2.Memoization
+
+
+Time Complexity: O(N*M)
+
+Reason: At max, there will be N*M calls of recursion.
+
+Space Complexity: O(N*M)              +                  O((M-1)+(N-1)) 
+                 // recursive stack space         // length of path
+
+
+
+
+
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        int dp[][] = new int [m][n];
+        for(int row[] : dp)
+         Arrays.fill(row, -1);
+
+        return helper(m - 1, n - 1, grid, dp);
+    }
+
+    public int helper(int i, int j, int arr[][], int dp[][])
+    {
+        if(i == 0 && j == 0) return arr[0][0]; // Base case
+
+        // when it goes out of boundary
+        // Return 1 todipower 9 which is larger so when Math.min comes it deleted
+        if(i < 0 || j < 0) return (int)Math.pow(10, 9); 
+
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int up = arr[i][j] + helper(i - 1, j, arr, dp);
+        int left = arr[i][j] + helper(i, j - 1, arr, dp);
+
+        return dp[i][j] = Math.min(left, up);
+    }
+}
+
+
+
+
+
+
+
+3. Tabulation
+
+
+
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        int dp[][] = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                // if(i == 0 && j == 0) return arr[0][0]; // Base case
+                if (i == 0 && j == 0)
+                    dp[i][j] = grid[0][0];
+
+                else {
+
+                    int up = 0;
+                    if (i > 0)
+                        up = grid[i][j] + dp[i - 1][j];
+                    else
+                        up = (int) Math.pow(10, 9);
+
+                    int left = 0;
+                    if (j > 0)
+                        left = grid[i][j] + dp[i][j - 1];
+                    else
+                        left = (int) Math.pow(10, 9);
+
+                    dp[i][j] = Math.min(left, up);
+                }
+
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+}
+
+
+
+
+
+4. Space Optimization
+
+
+Time Complexity: O(M*N)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N)
+
+Reason: We are using an external array of size ‘N’ to store only one row.
+
+
+
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+         // Initialize an array to store the previous row values
+        int prev[] = new int[n];
+
+        for (int i = 0; i < m; i++) {
+            // Create a temporary array to store the current row values
+            int temp[] = new int[n];
+            for (int j = 0; j < n; j++) {
+
+                // if(i == 0 && j == 0) return arr[0][0]; // Base case
+                if (i == 0 && j == 0)
+                    temp[j] = grid[0][0];  // If we're at the top-left cell, the minimum sum is its value
+
+                else {
+
+                    int up = 0;
+                    if (i > 0)
+                        up = grid[i][j] + prev[j]; // Add the value from above if it's not out of bounds
+                    else
+                        up = (int) Math.pow(10, 9);
+
+                    int left = 0;
+                    if (j > 0)
+                        left = grid[i][j] + temp[j - 1]; // Add the value from the left if it's not out of bounds
+                    else
+                        left = (int) Math.pow(10, 9);
+
+                    temp[j] = Math.min(left, up);
+                }
+
+            }
+            prev = temp;
+        }
+        return  prev[n - 1];
+    }
+}

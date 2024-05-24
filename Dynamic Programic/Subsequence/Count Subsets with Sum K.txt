@@ -1,0 +1,254 @@
+From codeninja
+
+Sample Input 1 :
+4 5
+1 4 4 5
+
+Sample Output 1 :
+ 3
+
+Explanation For Sample Output 1:
+The possible ways are:
+[1, 4]
+[1, 4]
+[5]
+Hence the output will be 3. Please note that both 1 present in 'arr' are treated differently.
+
+
+
+
+
+
+1. Recursion
+
+------< ninja >--------
+
+Tc - O(2^N) SC -O(N)
+
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        // Write your code here.
+        return helper(num.length - 1, tar, num);
+    }
+    public static int helper(int ind, int target, int arr[])
+    {
+        if(target == 0) return 1;
+        if(ind == 0)
+        {
+            if(target == 0 && arr[0] == 0) return 2;
+            if(target == 0 || arr[0] == target) return 1;
+            return 0;
+        }
+        int notPick = helper(ind - 1, target, arr);
+        int pick = 0;
+        if(arr[ind] <= target)
+        pick = helper(ind - 1, target - arr[ind], arr);
+
+        return pick + notPick;
+    }
+}
+
+
+
+
+2. Memoization
+
+
+
+------------------------------< GFG >---------------------------------
+
+Tc - O(n * target) 
+SC -O(N) + O(n * target)
+
+
+class Solution {
+    static final int mod=(int)1e9+7;
+    public int perfectSum(int arr[], int n, int sum) {
+        int dp[][] = new int[n][sum + 1];
+        for (int[] row : dp) Arrays.fill(row, -1);
+        return rec(n - 1, arr, dp, sum);
+    }
+
+    public int rec(int ind, int arr[], int dp[][], int target) {
+
+        // base case
+        if (ind == 0) {
+            if (target == 0 && arr[0] == 0) return 2;
+            if (target == 0 || arr[0] == target) return 1;
+            return 0;
+        }
+
+        if(dp[ind][target]!=-1)return dp[ind][target];
+
+        // rest of the part
+        int notpick = rec(ind - 1, arr, dp, target)%mod;
+        int pick = 0;
+        if (arr[ind] <= target) {
+            pick = rec(ind - 1, arr, dp, target - arr[ind])%mod;
+        }
+        return dp[ind][target] = (pick + notpick)%mod;
+    }
+}
+
+---------------------------< code ninja >---------------------------------------------
+
+import java.util.*;
+
+public class Solution {
+        static  final int mod = (int)1e9+7;
+    public static int findWays(int arr[], int target) {
+
+        int[][] dp = new int[arr.length][target + 1];
+        for(int[] row : dp)
+            Arrays.fill(row, -1);
+            return helper(arr.length - 1,arr,  dp, target);
+    }
+     
+        public static int helper(int ind, int arr[], int dp[][], int target) {
+
+        // base case
+        if (ind == 0) {
+            if (target == 0 && arr[0] == 0) return 2;
+            if (target == 0 || arr[0] == target) return 1;
+            return 0;
+        }
+
+        if(dp[ind][target]!=-1)return dp[ind][target];
+
+        // rest of the part
+        int notpick = helper(ind - 1, arr, dp, target)%mod;
+        int pick = 0;
+        if (arr[ind] <= target) {
+            pick = helper(ind - 1, arr, dp, target - arr[ind])%mod;
+        }
+        return dp[ind][target] = (pick + notpick)%mod;
+    }
+
+    
+}
+
+
+
+
+
+3.Tabulation
+
+--------------------------< code ninja > -------------------------------
+
+import java.util.*;
+
+public class Solution {
+    
+    public static int findWays(int arr[], int target) {
+        int n = arr.length; 
+        int[][] dp = new int[arr.length][target + 1];
+      if(arr[0]==0)
+        {
+         dp[0][0]=2;
+        }
+        else{        
+        dp[0][0]=1;        
+        if(target >= arr[0]){
+          dp[0][arr[0]]=1;
+         }
+        }
+      for(int i = 1; i < n;i++){
+              for(int t=0;t<=target;t++){
+                  int notTaken =dp[i-1][t];
+                  int taken = 0;
+                    if(arr[i]<=t)
+                        taken = dp[i-1][t-arr[i]];
+                  dp[i][t]= (notTaken + taken)%(int)(Math.pow(10,9)+7);
+              }
+          }
+       return dp[n-1][target];
+
+    }
+
+    
+}
+
+
+
+
+
+4. Space optimization
+
+-----< GFG > --------
+
+
+class Solution {
+
+    public int perfectSum(int arr[], int n, int target) {
+        
+        int prev[]=new int[target + 1];
+        
+        if(arr[0] == 0)
+        {
+         prev[0] = 2;
+        }
+        else
+        {
+        prev[0]=1;
+        if(target >= arr[0])
+        {
+          prev[arr[0]] = 1;
+        }
+        }
+        
+         for(int i = 1; i < n; i++){
+              int cur[] = new int[target + 1];
+              for(int tar = 0; tar <= target; tar++){
+                  int notTaken = prev[tar];
+                  int taken = 0;
+                    if(arr[i] <= tar)
+                        taken = prev[tar - arr[i]];
+                  cur[tar] = ( notTaken + taken ) % (int)(Math.pow(10,9)+7);
+              }
+              prev = cur;
+          }
+       return prev[target];
+}
+
+---------------------< code ninja > /-------------------
+
+import java.util.*;
+
+public class Solution {
+    
+    public static int findWays(int arr[], int target) {
+        int n = arr.length; 
+        int[] prev = new int[target + 1];
+      if(arr[0]==0)
+        {
+         prev[0]=2;
+        }
+        else{        
+        prev[0]=1;        
+        if(target >= arr[0]){
+          prev[arr[0]]=1;
+         }
+        }
+      for(int i = 1; i < n; i++){
+          int cur[] = new int[target + 1];
+              for(int t = 0; t <= target; t++){
+                  int notTaken =prev[t];
+                  int taken = 0;
+                    if(arr[i]<=t)
+                        taken = prev[t-arr[i]];
+                  cur[t]= (notTaken + taken)%(int)(Math.pow(10,9)+7);
+              }
+              prev = cur;
+          }
+       return prev[target];
+
+    }
+
+    
+}
+
+
+}

@@ -1,0 +1,110 @@
+
+
+
+
+
+
+1. Recursion
+
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        return helper(0, 0, n, triangle);
+    }
+    public int helper(int i, int j, int n, List<List<Integer>> triangle)
+    {
+        // Base case
+        // Reach last row means n - 1 but col will at the col
+        if(i == n - 1) return triangle.get(n - 1).get(j);
+        
+        int down = triangle.get(i).get(j) + helper(i + 1, j, n, triangle);
+        int diagonal = triangle.get(i).get(j) + helper(i + 1, j + 1, n, triangle);
+        return Math.min(down, diagonal);
+    }
+}
+
+
+
+2. Memoization
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int dp[][] = new int[n][n];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+        return helper(0, 0, n, triangle, dp);
+    }
+    public int helper(int i, int j, int n, List<List<Integer>> triangle, int dp[][])
+    {
+        // Base case
+        // Reach last row means n - 1 but col will at the col
+
+        if(i == n - 1) return triangle.get(n - 1).get(j);
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        int down = triangle.get(i).get(j) + helper(i + 1, j, n, triangle, dp);
+        int diagonal = triangle.get(i).get(j) + helper(i + 1, j + 1, n, triangle, dp);
+        return dp[i][j] = Math.min(down, diagonal);
+    }
+}
+
+
+
+
+3. Tabulation
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int dp[][] = new int[n][n];
+
+        for (int j = 0; j < n; j++)
+            dp[n - 1][j] = triangle.get(n - 1).get(j);
+
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = i; j >= 0; j--) {
+                int down = triangle.get(i).get(j) + dp[i + 1][j];;
+                int diagonal = triangle.get(i).get(j) + dp[i + 1][j + 1];;
+                dp[i][j] = Math.min(down, diagonal);
+            }
+        }
+
+        return dp[0][0];
+
+    }
+}
+
+
+3.Space Optimization
+
+
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        // Create two arrays to store intermediate results: front and cur
+        int[] front = new int[n]; // Stores the results for the current row
+
+        for (int j = 0; j < n; j++)
+            front[j] = triangle.get(n - 1).get(j);
+
+        for (int i = n - 2; i >= 0; i--) {
+        int[] cur = new int[n]; // Stores the results for the next row
+            for (int j = i; j >= 0; j--) {
+
+                int down = triangle.get(i).get(j) + front[j];
+                
+                int diagonal = triangle.get(i).get(j) + front[j + 1];
+                
+                cur[j] = Math.min(down, diagonal);
+            }
+            front = cur;
+        }
+
+        return front[0];
+
+    }
+}

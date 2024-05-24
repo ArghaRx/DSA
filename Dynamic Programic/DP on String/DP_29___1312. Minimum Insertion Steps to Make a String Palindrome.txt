@@ -1,0 +1,138 @@
+
+
+
+
+1. Recursion
+
+class Solution {
+    public int minInsertions(String s) {
+        String str = new StringBuilder(s).reverse().toString();
+        int val =  helper(s, str, s.length() - 1, str.length() - 1);
+        return s.length() - val;
+    }
+    public int helper(String s1, String s2, int ind1, int ind2)
+    {
+        if(ind1 < 0 || ind2 < 0) return 0;
+
+        if(s1.charAt(ind1) == s2.charAt(ind2))
+        return 1 + helper(s1, s2, ind1 - 1, ind2 - 1);
+
+        return Math.max(helper(s1, s2, ind1 - 1, ind2), helper(s1, s2, ind1, ind2 - 1));
+    }
+
+}
+
+
+
+
+2. Memoization
+
+class Solution {
+    public int minInsertions(String s) {
+        int n = s.length();
+        String str = new StringBuilder(s).reverse().toString();
+        int dp[][] = new int[n][n];
+        for(int row[] : dp) Arrays.fill(row, -1);
+        int val =  helper(n - 1, n - 1, s, str, dp);
+        return n - val;
+    }
+    public int helper(int ind1, int ind2, String str1, String str2, int dp[][])
+    {
+        // Base case
+        if(ind1 < 0 || ind2 < 0) return 0;
+
+        if(dp[ind1][ind2] != -1) return dp[ind1][ind2];
+
+        // Match
+        if(str1.charAt(ind1) == str2.charAt(ind2))
+         return dp[ind1][ind2] = 1 + helper(ind1 - 1, ind2 - 1, str1, str2, dp);
+
+        // Not Match
+        return dp[ind1][ind2] = Math.max(helper(ind1 - 1, ind2, str1, str2, dp), helper(ind1, ind2 - 1, str1, str2, dp)); 
+
+    }
+
+
+}
+
+
+
+
+
+
+
+3. Tabulation
+-------------------------------------------------------------------------------------
+Time Complexity: O(N*N)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*N)
+
+Reason: We are using an external array of size (N*N). Stack Space is eliminated.
+------------------------------------------------------------------------------------------
+
+class Solution {
+    public int minInsertions(String s) {
+      int n = s.length();
+        String str2 = new StringBuilder(s).reverse().toString();
+        int dp[][] = new int[n + 1][n + 1];
+
+
+        for (int ind1 = 1; ind1 <= n; ind1++) {
+            for (int ind2 = 1; ind2 <= n; ind2++) {
+
+                // Match
+                if (s.charAt(ind1 - 1) == str2.charAt(ind2 - 1))
+                    dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1];
+
+                // Not Match
+                else
+                    dp[ind1][ind2] = Math.max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
+            }
+        }
+        return n - dp[n][n];
+    }
+
+
+}
+
+
+
+
+
+4. Space Optimization
+-----------------------------------------------------------------------------------------
+Time Complexity: O(N*N)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N)
+
+Reason: We are using an external array of size (N)
+-----------------------------------------------------------------------------------
+
+class Solution {
+    public int minInsertions(String s) {
+        int n = s.length();
+        String str2 = new StringBuilder(s).reverse().toString();
+        int prev[] = new int[n + 1];
+
+        for (int ind1 = 1; ind1 <= n; ind1++) {
+            int cur[] = new int[n + 1];
+            for (int ind2 = 1; ind2 <= n; ind2++) {
+
+                // Match
+                if (s.charAt(ind1 - 1) == str2.charAt(ind2 - 1))
+                    cur[ind2] = 1 + prev[ind2 - 1];
+
+                // Not Match
+                else
+                    cur[ind2] = Math.max(prev[ind2], cur[ind2 - 1]);
+            }
+            prev = cur;
+        }
+        return n - prev[n];
+    }
+
+}

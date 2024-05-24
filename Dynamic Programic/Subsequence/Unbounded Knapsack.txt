@@ -1,0 +1,163 @@
+1. Recursion
+
+
+
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+  
+        return helper(n - 1, w, profit, weight );
+    }
+    public static int helper(int ind, int w, int profit[], int weight[])
+    {
+        if(ind == 0)
+         return (w / weight[0]) * profit[0];
+        
+       
+        int notPick = helper(ind - 1, w, profit, weight);
+        int pick = Integer.MIN_VALUE;
+        if(weight[ind] <= w)
+        pick = profit[ind] +  helper(ind, w - weight[ind], profit, weight);
+
+        return Math.max(pick, notPick);
+    }
+}
+
+
+
+
+2. Memoization
+
+
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        int dp[][] = new int[n][w + 1];
+        for(int row[] : dp) 
+        Arrays.fill(row, -1);
+        return helper(n - 1, w, profit, weight, dp);
+    }
+    public static int helper(int ind, int w, int profit[], int weight[], int dp[][])
+    {
+        if(ind == 0)
+         return (w / weight[0]) * profit[0];
+        
+        if(dp[ind][w] != -1) return dp[ind][w];
+
+        int notPick = helper(ind - 1, w, profit, weight, dp);
+        int pick = Integer.MIN_VALUE;
+        if(weight[ind] <= w)
+        pick = profit[ind] +  helper(ind, w - weight[ind], profit, weight, dp);
+
+        return dp[ind][w] = Math.max(pick, notPick);
+    }
+}
+
+
+3.Tabulation
+
+
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        
+        int dp[][] = new int[n][w + 1];
+   
+      // Base condition: Initialize the dp array for the first item
+        for (int i = weight[0]; i <= w; i++) {
+            dp[0][i] = ((int) i / weight[0]) * profit[0];
+        }
+
+   for(int ind = 1; ind < n; ind++)
+   {
+       for(int j = 0; j <= w; j++)
+       {
+
+        int notPick = dp[ind - 1][j];
+        int pick = Integer.MIN_VALUE;
+        if(weight[ind] <= j)
+        pick = profit[ind] +  dp[ind][ j - weight[ind]];
+
+        dp[ind][j] = Math.max(pick, notPick);
+       }
+   }
+   return dp[n - 1][w];
+    }
+}
+
+
+
+
+
+4. Space optimization
+
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        
+        int prev[] = new int[w + 1];
+   
+      // Base condition: Initialize the dp array for the first item
+        for (int i = weight[0]; i <= w; i++) {
+            prev[i] = ((int) i / weight[0]) * profit[0];
+        }
+
+   for(int ind = 1; ind < n; ind++)
+   {
+       int cur[] = new int[w+1];
+       for(int j = 0; j <= w; j++)
+       {
+
+        int notPick = prev[j];
+        int pick = Integer.MIN_VALUE;
+        if(weight[ind] <= j)
+        pick = profit[ind] +  cur[ j - weight[ind]];
+
+        cur[j] = Math.max(pick, notPick);
+       }
+       prev = cur;
+   }
+   return prev[w];
+    }
+}
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
+
+import java.util.*;
+public class Solution {
+    public static int unboundedKnapsack(int n, int w, int[] profit, int[] weight) {
+        // Write your code here.
+        
+        int prev[] = new int[w + 1];
+   
+      // Base condition: Initialize the dp array for the first item
+        for (int i = weight[0]; i <= w; i++) {
+            prev[i] = ((int) i / weight[0]) * profit[0];
+        }
+
+   for(int ind = 1; ind < n; ind++)
+   {
+    //    int cur[] = new int[w+1];
+       for(int j = 0; j <= w; j++)
+       {
+
+        int notPick = prev[j];
+        int pick = Integer.MIN_VALUE;
+        if(weight[ind] <= j)
+        pick = profit[ind] +  prev[ j - weight[ind]];
+
+        prev[j] = Math.max(pick, notPick);
+       }
+    //    prev = cur;
+   }
+   return prev[w];
+    }
+}
+---------------------------------------------------------------------------------------------

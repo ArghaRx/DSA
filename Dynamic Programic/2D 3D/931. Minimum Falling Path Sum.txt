@@ -1,0 +1,193 @@
+1. Recursion
+
+
+
+
+TC - O(3 ^ (n*n)) for every index we have to check 3 side
+SC - O(n) for recursive stack space
+
+
+
+
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+
+        int mini = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) { / for col but i always send the last row
+            int ans = helper(matrix, n - 1, i, n);
+            mini = Math.min(mini, ans);
+        }
+        return mini;
+    }
+
+    public int helper(int arr[][], int i, int j, int n) {
+        if (j < 0 || j >= n) return (int) Math.pow(10, 9); // Updated condition
+        if (i == 0) return arr[0][j];
+
+        int up = arr[i][j] + helper(arr, i - 1, j, n);
+        int leftDiagonal = arr[i][j] + helper(arr, i - 1, j - 1, n);
+        int rightDiagonal = arr[i][j] + helper(arr, i - 1, j + 1, n);
+
+        return Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+2.Memoization
+
+
+
+TC - O(N * N)
+SC - O(N) + O(N * N)   as O(N) for recursive stack space and O(N * N) for all elements store in dp[][]
+
+
+Time Complexity: O(N*N)
+
+Reason: At max, there will be M*N calls of recursion to solve a new problem,
+
+Space Complexity: O(N) + O(N*n)
+
+Reason: We are using a recursion stack space: O(N), where N is the path length and an external DP Array of size ‘N*M’.
+
+
+
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int dp[][] = new int[n][n];
+
+        for(int row[] : dp) Arrays.fill(row, -1);
+        int mini = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            int ans = helper(matrix, n - 1, i, n, dp);
+            mini = Math.min(mini, ans);
+        }
+        return mini;
+    }
+
+    public int helper(int arr[][], int i, int j, int n, int dp[][]) {
+        if (j < 0 || j >= n) return (int) Math.pow(10, 9); // Updated condition
+        if (i == 0) return arr[0][j];
+        
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int up = arr[i][j] + helper(arr, i - 1, j, n, dp);
+        int leftDiagonal = arr[i][j] + helper(arr, i - 1, j - 1, n, dp);
+        int rightDiagonal = arr[i][j] + helper(arr, i - 1, j + 1, n, dp);
+
+        return dp[i][j] =  Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+    }
+}
+
+
+
+
+
+
+3. Tabulation
+
+
+TC - O(N * N)
+SC - O(N * N) for dp , NO reursive stack space
+
+
+
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int dp[][] = new int[n][n];
+
+        for (int j = 0; j < n; j++)
+            dp[0][j] = matrix[0][j];
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int up = matrix[i][j] + dp[i - 1][j];
+
+                int leftDiagonal = matrix[i][j];
+                if (j - 1 >= 0)
+                    leftDiagonal += dp[i - 1][j - 1];
+                else {
+                    leftDiagonal += 1e9;
+                }
+
+                int rightDiagonal = matrix[i][j];
+                if (j + 1 < n)
+                    rightDiagonal += dp[i - 1][j + 1];
+                else {
+                    rightDiagonal += 1e9;
+                }
+
+              dp[i][j] = Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+            }
+        }
+        int mini = Integer.MAX_VALUE;
+        for (int j = 0; j < n; j++)
+            mini = Math.min(mini, dp[n - 1][j]);
+
+        return mini;
+    }
+}
+
+
+
+
+
+
+
+4. Space Optimization
+
+TC - O(N * N)
+SC - O(N) 
+
+
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int prev[] = new int[n];
+
+        for (int j = 0; j < n; j++)
+            prev[j] = matrix[0][j];
+
+        for (int i = 1; i < n; i++) {
+            int cur[] = new int[n];
+            for (int j = 0; j < n; j++) {
+                int up = matrix[i][j] + prev[j];
+
+                int leftDiagonal = matrix[i][j];
+                if (j - 1 >= 0)
+                    leftDiagonal += prev[j - 1];
+                else {
+                    leftDiagonal += 1e9;
+                }
+
+                int rightDiagonal = matrix[i][j];
+                if (j + 1 < n)
+                    rightDiagonal += prev[j + 1];
+                else {
+                    rightDiagonal += 1e9;
+                }
+
+              cur[j] = Math.min(up, Math.min(leftDiagonal, rightDiagonal));
+            }
+            prev = cur;
+        }
+        int mini = Integer.MAX_VALUE;
+        for (int j = 0; j < n; j++)
+            mini = Math.min(mini, prev[j]);
+
+        return mini;
+    }
+}
+

@@ -1,0 +1,140 @@
+// it actually we have to insert and delete both the operation to form word2 in word1
+
+
+Approach:-
+
+1. Find the longest common subsequence
+2. find the extra in word1 so need to delete operation ------> length(word1) - common part
+3. find the extra in word2 which has to insert in word1 ------> length(wor2) - common part
+4. At last return the total operation means (delete + insert)
+
+
+
+1. recursion
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n1 = word1.length();
+        int n2 = word2.length();
+        int common = helper(n1 - 1, n2 - 1, word1, word2);
+        int delete = n1 - common;
+        int insert = n2 - common;
+        return delete + insert;
+    }
+    public int helper(int ind1, int ind2, String str1, String str2)
+    {
+        if(ind1 < 0 || ind2 < 0) return 0;
+        if(str1.charAt(ind1) == str2.charAt(ind2))
+        return 1 + helper(ind1 - 1, ind2 - 1, str1, str2);
+        return Math.max(helper(ind1 - 1, ind2, str1, str2), helper(ind1, ind2 - 1, str1, str2));
+    }
+}
+
+
+
+
+2. Memoization
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n1 = word1.length();
+        int n2 = word2.length();
+        int dp[][] = new int[n1][n2];
+        for(int row[] : dp) Arrays.fill(row, -1);
+        int common = helper(n1 - 1, n2 - 1, word1, word2, dp);
+        // int delete = n1 - common;
+        // int insert = n2 - common;
+        // return delete + insert;
+        return n1 + n2 - 2 * common;
+    }
+    public int helper(int ind1, int ind2, String str1, String str2, int dp[][])
+    {
+        if(ind1 < 0 || ind2 < 0) return 0;
+        if(dp[ind1][ind2] != -1) return dp[ind1][ind2];
+        if(str1.charAt(ind1) == str2.charAt(ind2))
+        return dp[ind1][ind2] = 1 + helper(ind1 - 1, ind2 - 1, str1, str2, dp);
+        return dp[ind1][ind2] = Math.max(helper(ind1 - 1, ind2, str1, str2, dp), helper(ind1, ind2 - 1, str1, str2, dp));
+    }
+}
+
+
+
+
+
+3. Tabulation
+------------------------------------------------------------------
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*M)
+
+Reason: We are using an external array of size (N*M). Stack Space is eliminated.
+----------------------------------------------------------------------------------
+
+
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n1 = word1.length();
+        int n2 = word2.length();
+        int dp[][] = new int[n1 + 1][n2 + 1];
+
+        for (int ind1 = 1; ind1 <= n1; ind1++) {
+            for (int ind2 = 1; ind2 <= n2; ind2++) {
+
+                if (word1.charAt(ind1 - 1) == word2.charAt(ind2 - 1))
+                    dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1];
+                else
+                    dp[ind1][ind2] = Math.max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
+
+            }
+        }
+        // dp[n1][n2] means in the last index stroe the longest common subsequence
+        // delete = word1 len - common
+        // insert = word2 len - common
+        return n1 + n2 - 2 * dp[n1][n2];
+    }
+}
+
+
+
+
+
+4.Space Optimization
+---------------------------------------------------------------------------------
+Complexity Analysis
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops.
+
+Space Complexity: O(M)
+
+Reason: We are using an external array of size ‘M+1’ to store only two rows.
+----------------------------------------------------------------------------------
+
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n1 = word1.length();
+        int n2 = word2.length();
+        int prev[] = new int[n2 + 1];
+
+        for (int ind1 = 1; ind1 <= n1; ind1++) {
+            int cur[] = new int[n2 + 1];
+            for (int ind2 = 1; ind2 <= n2; ind2++) {
+
+                if (word1.charAt(ind1 - 1) == word2.charAt(ind2 - 1))
+                    cur[ind2] = 1 + prev[ind2 - 1];
+                else
+                    cur[ind2] = Math.max(prev[ind2], cur[ind2 - 1]);
+
+            }
+            prev = cur;
+        }
+        // dp[n1][n2] means in the last index stroe the longest common subsequence
+        // delete = word1 len - common
+        // insert = word2 len - common
+        return n1 + n2 - 2 * prev[n2];
+    }
+}

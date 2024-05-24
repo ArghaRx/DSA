@@ -1,0 +1,58 @@
+1.Memozation
+
+
+not run....
+
+java.lang.ArrayIndexOutOfBoundsException: Index -1 out of bounds for length 4
+  at line 21, Solution.helper
+  at line 3, Solution.minimumDifference
+  at line 56, __DriverSolution__.__helper__
+  at line 86, __Driver__.main
+
+
+
+
+class Solution {
+    public int minimumDifference(int[] nums) {
+        return helper(nums, nums.length);
+    }
+    
+    public int helper(int arr[], int n) {
+        int totalsum = 0;
+        for(int i = 0; i < n; i++)
+            totalsum += Math.abs(arr[i]); // Use absolute value
+
+        boolean dp[][] = new boolean[n][totalsum + 1];
+        for(int i = 0; i <= totalsum; i++)
+            dp[0][i] = (i == arr[0]);
+
+        for(int ind = 1; ind < n; ind++) {
+            for(int target = 0; target <= totalsum; target++) {
+                boolean nottake = dp[ind - 1][target];
+                boolean take = false;
+                if(arr[ind] <= target)
+                    take = dp[ind - 1][target - arr[ind]];
+
+                // Update the DP table for the current element and target sum
+                dp[ind][target] = nottake || take;
+            }
+        }
+
+        // Find the minimum absolute difference between two subsets
+        int mini = Integer.MAX_VALUE;
+        for(int i = 0; i <= totalsum; i++) {
+            if(dp[n - 1][i] == true) {
+                int sum1 = i;
+                int sum2 = totalsum - sum1;
+                int diffe = Math.abs(sum1 - sum2);
+                mini = Math.min(mini, diffe);
+            }
+        }
+
+        return mini;
+    }
+}
+
+
+
+

@@ -1,0 +1,270 @@
+
+
+For example, if n = 160 and x = 3, one way to express n is n = 2 ^ 3 + 3 ^ 3 + 5 ^ 3.
+
+ 
+
+Example 1:
+
+Input: n = 10, x = 2
+Output: 1
+Explanation: We can express n as the following: n = 3 ^ 2 + 1 ^ 2 = 10.
+It can be shown that it is the only way to express 10 as the sum of the 2nd power of unique integers.
+Example 2:
+
+Input: n = 4, x = 1
+Output: 2
+
+Explanation: We can express n in the following ways:
+- n = 4 ^ 1 = 4.
+- n = 3 ^ 1 + 1 ^ 1 = 4.
+
+
+here also have 2 option in each elemenet either take or nottake.
+if at any time ind = 3 and given x = 2 then
+        if pow(3, 2) <= Target then only pick is possible
+
+// Base case
+----------------------------------------------------
+if(target == 0) return 1;
+
+
+if(ind == 1)
+{
+// have two option
+    if(target == pow(1, x)) return 1;
+
+otherwise return 0;
+
+}
+
+
+
+
+
+
+1. Recursion
+
+class Solution {
+
+     final int mod = (int)Math.pow(10, 9) + 7;
+
+    public int numberOfWays(int n, int x) {
+        return helper(n , n, x, n);
+    }
+
+    public int helper(int ind, int target, int x, int n)
+    {
+        if(target == 0) return 1;
+
+        if(ind == 1)
+        {
+            if(target == Math.pow(1, x)) return 1;
+            else return 0;
+        }
+
+        int notPick = helper(ind - 1, target, x, n) % mod;
+        int pick = 0;
+        int val = (int)Math.pow(ind, x);
+        if(val <= target)
+        pick = helper(ind - 1, target - val, x, n) % mod;
+
+        return (pick + notPick) % mod;
+
+    }
+}
+
+
+
+
+
+
+2. Memoization
+
+
+class Solution {
+     final int mod = (int)Math.pow(10, 9) + 7;
+    public int numberOfWays(int n, int x) {
+        int dp[][] = new int[n + 1][n + 1];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+
+        return helper(n , n, x, n, dp);
+    }
+    public int helper(int ind, int target, int x, int n, int dp[][])
+    {
+        if(target == 0) return 1;
+
+        if(ind == 1)
+        {
+            if(target == Math.pow(1, x)) return 1;
+            else return 0;
+        }
+
+        if(dp[ind][target] != -1) return dp[ind][target];
+
+        int notPick = helper(ind - 1, target, x, n, dp) % mod;
+        int pick = 0;
+        int val = (int)Math.pow(ind, x);
+        if(val <= target)
+        pick = helper(ind - 1, target - val, x, n, dp) % mod;
+
+        return dp[ind][target] = (pick + notPick) % mod;
+
+    }
+}
+
+
+
+
+
+
+3. Tabulation
+
+class Solution {
+     final int mod = (int)Math.pow(10, 9) + 7;
+    public int numberOfWays(int n, int x) {
+
+        int dp[][] = new int[n + 1][n + 1];
+    
+
+        // if(target == 0) return 1;
+        for(int ind = 1; ind <= n; ind++)
+        dp[ind][0] = 1;
+
+
+        // if(ind == 1)
+        // {
+        //     if(target == Math.pow(1, x)) return 1;
+        //     else return 0;
+        // }
+        for(int target = 1; target <= n; target++)
+        {
+            if(target == Math.pow(1, x))
+            dp[1][target] = 1;
+
+            else dp[1][target] = 0;
+        }
+
+        for(int ind = 2; ind <= n; ind++)
+        {
+            for(int target = 0; target <= n; target++)
+            {
+
+                  int notPick = dp[ind - 1][target];
+                  int pick = 0;
+                  int val = (int)Math.pow(ind, x);
+                  if(val <= target)
+                  pick = dp[ind - 1][target - val];
+
+                  dp[ind][target] = (pick + notPick) % mod;
+            }
+        }
+        return dp[n][n];
+
+    }
+}
+
+
+
+
+
+
+
+
+4. Space optimization
+
+
+class Solution {
+     final int mod = (int)Math.pow(10, 9) + 7;
+    public int numberOfWays(int n, int x) {
+        int prev[] = new int[n + 1];
+    
+
+        // if(target == 0) return 1;
+        for(int ind = 1; ind <= n; ind++)
+        prev[0] = 1;
+
+
+        // if(ind == 1)
+        // {
+        //     if(target == Math.pow(1, x)) return 1;
+        //     else return 0;
+        // }
+        for(int target = 1; target <= n; target++)
+        {
+            if(target == Math.pow(1, x))
+            prev[target] = 1;
+
+            else prev[target] = 0;
+        }
+
+        for(int ind = 2; ind <= n; ind++)
+        {
+            int cur[] = new int[n + 1];
+            for(int target = 0; target <= n; target++)
+            {
+
+                  int notPick = prev[target];
+                  int pick = 0;
+                  int val = (int)Math.pow(ind, x);
+                  if(val <= target)
+                  pick = prev[target - val];
+
+                  cur[target] = (pick + notPick) % mod;
+            }
+            prev = cur;
+        }
+        return prev[n];
+
+    }
+}
+
+
+
+again in one row solution --------------------
+
+class Solution {
+     final int mod = (int)Math.pow(10, 9) + 7;
+    public int numberOfWays(int n, int x) {
+        int prev[] = new int[n + 1];
+    
+
+        // if(target == 0) return 1;
+        for(int ind = 1; ind <= n; ind++)
+        prev[0] = 1;
+
+
+        // if(ind == 1)
+        // {
+        //     if(target == Math.pow(1, x)) return 1;
+        //     else return 0;
+        // }
+        for(int target = 1; target <= n; target++)
+        {
+            if(target == Math.pow(1, x))
+            prev[target] = 1;
+
+            else prev[target] = 0;
+        }
+
+        for(int ind = 2; ind <= n; ind++)
+        {
+
+            for(int target = n; target >= 0; target--)
+            {
+
+                  int notPick = prev[target];
+                  int pick = 0;
+                  int val = (int)Math.pow(ind, x);
+                  if(val <= target)
+                  pick = prev[target - val];
+
+                  prev[target] = (pick + notPick) % mod;
+            }
+          
+        }
+        return prev[n];
+
+    }
+}

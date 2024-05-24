@@ -1,0 +1,162 @@
+1 Recursion
+
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1 = text1.length();
+        int n2 = text2.length();
+
+        return helper(n1 - 1, n2 - 1, text1, text2);
+    }
+
+    public int helper(int ind1, int ind2, String str1, String str2)
+    {
+        // Base case
+        if(ind1 < 0 || ind2 < 0) return 0;
+
+        // Match
+        if(str1.charAt(ind1) == str2.charAt(ind2))
+         return 1 + helper(ind1 - 1, ind2 - 1, str1, str2);
+
+        // Not Match
+        return Math.max(helper(ind1 - 1, ind2, str1, str2), helper(ind1, ind2 - 1, str1, str2)); 
+    }
+}
+
+
+
+
+2. Memoization
+TC - O(N1 * N2)
+SC = O(N1 * N2) + O(N1 + N2)for recursive stack space 
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1 = text1.length();
+        int n2 = text2.length();
+        int dp[][] = new int[n1][n2];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+
+        return helper(n1 - 1, n2 - 1, text1, text2, dp);
+    }
+
+    public int helper(int ind1, int ind2, String str1, String str2, int dp[][])
+    {
+        // Base case
+        if(ind1 < 0 || ind2 < 0) return 0;
+
+        if(dp[ind1][ind2] != -1) return dp[ind1][ind2];
+
+        // Match
+        if(str1.charAt(ind1) == str2.charAt(ind2))
+         return dp[ind1][ind2] = 1 + helper(ind1 - 1, ind2 - 1, str1, str2, dp);
+
+        // Not Match
+        return dp[ind1][ind2] = Math.max(helper(ind1 - 1, ind2, str1, str2, dp), helper(ind1, ind2 - 1, str1, str2, dp)); 
+    }
+}
+
+
+
+
+
+
+3. Tabulation
+
+
+Time Complexity: O(N*M)
+Space Complexity: O(N*M)
+
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1 = text1.length();
+        int n2 = text2.length();
+        int dp[][] = new int[n1 + 1][n2 + 1];
+     
+        // // Base case
+        // if(ind1 < 0 || ind2 < 0) return 0;
+        for(int i = 0; i <= n1; i++)
+        {
+            dp[i][0] = 0;
+        }
+
+        for(int j = 0; j <= n2; j++)
+        {
+             dp[0][j] = 0;
+        }
+
+        // Other
+        for(int ind1 = 1; ind1 <= n1; ind1++)
+        {
+            for(int ind2 = 1; ind2 <= n2; ind2++)
+            {
+                 // Match
+                 // If the characters at the current indices are the same, increment the LCS length
+                 if(text1.charAt(ind1 - 1) == text2.charAt(ind2 - 1))
+                  dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1];
+
+                 // Not Match
+                 // If the characters are different, choose the maximum LCS length by either
+                // excluding a character in s1 or excluding a character in s2
+                else
+                  dp[ind1][ind2] = Math.max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
+    
+            }
+        }
+        return dp[n1][n2];
+
+
+       }
+
+}
+
+
+
+
+4. Space Optimization
+
+Time Complexity: O(N*M)
+sc - O(M)
+
+
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1 = text1.length();
+        int n2 = text2.length();
+        int prev[] = new int[n2 + 1];
+     
+
+// no need to base to fill 0 in first row because intially when we create a array all fill 0...
+       
+        // Other
+        for(int ind1 = 1; ind1 <= n1; ind1++)
+        {
+            int cur[] = new int[n2 + 1];
+            for(int ind2 = 1; ind2 <= n2; ind2++)
+            {
+                 // Match
+                 // If the characters at the current indices are the same, increment the LCS length
+
+                 if(text1.charAt(ind1 - 1) == text2.charAt(ind2 - 1))
+                  cur[ind2] = 1 + prev[ind2 - 1];
+
+                 // Not Match
+                 // If the characters are different, choose the maximum LCS length by either
+                // excluding a character in s1 or excluding a character in s2
+
+                else
+                  cur[ind2] = Math.max(prev[ind2], cur[ind2 - 1]);
+    
+            }
+            prev = cur;
+        }
+        return prev[n2];
+
+
+       }
+
+}
+

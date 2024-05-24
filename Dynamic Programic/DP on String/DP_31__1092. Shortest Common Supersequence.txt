@@ -1,0 +1,81 @@
+Tabulation
+--------------------------------------------------------------------------------
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*M)
+
+Reason: We are using an external array of size (N*M).
+-----------------------------------------------------------------------------------
+
+class Solution {
+    public String shortestCommonSupersequence(String str1, String str2) {
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int dp[][] = new int[n1 + 1][n2 + 1];
+    
+        // Create dp for finding lcs length
+        for(int i = 1; i <= n1; i++)
+        {
+            for(int j = 1; j <= n2; j++)
+            {
+                if(str1.charAt(i - 1) == str2.charAt(j - 1))
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+
+                else
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        
+        // Now dp[n1][n2] store the Longest common subsequence length
+
+        int len = dp[n1][n2];
+        int i = n1, j = n2;
+        int ind = len - 1;
+        String ans = "";
+        while(i > 0 && j > 0)
+        {
+            // if match 2 char, take one of them into ans and  i and j both  deterate
+            if(str1.charAt(i - 1) == str2.charAt(j - 1))
+            {
+                ans += str2.charAt(j - 1);
+                i--;
+                j--;
+            }
+            //otherwise not match
+            // it either go left or up according the maximum value
+            else if(dp[i - 1][j] > dp[i][j - 1])
+            {
+                //go left
+                //store the up char
+                ans += str1.charAt(i - 1);
+                i--;
+            }
+            else
+            {
+                //go up
+                //store left char
+                ans += str2.charAt(j - 1);
+                j--;
+            }
+        }
+
+        // if one string is end but another still remains ,,simply add it
+
+        while(i > 0)
+        {
+            ans += str1.charAt(i - 1);
+            i--;
+        }
+        while(j > 0)
+        {
+            ans += str2.charAt(j - 1);
+            j--;
+        }
+        // Reverse it*****
+        String ans2 = new StringBuilder(ans).reverse().toString();
+        
+        return ans2;
+    }
+}

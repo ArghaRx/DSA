@@ -1,0 +1,140 @@
+1.Recursion
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        return helper(n - 1, coins, amount);
+    }
+    public int helper(int ind, int arr[], int amount)
+    {
+      
+        if(ind == 0)
+        {
+            if(amount % arr[0] == 0) return 1;
+            else return 0;
+        }
+
+        int nottake = helper(ind - 1, arr, amount);
+
+        int take = 0;
+        if(arr[ind] <= amount)
+         take = helper(ind, arr, amount - arr[ind]);
+
+        return take + nottake; 
+    }
+}
+
+
+
+
+2. Memoization
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int dp[][] = new int[n][amount + 1];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+        return helper(n - 1, coins, amount, dp);
+    }
+    public int helper(int ind, int arr[], int amount, int[][] dp)
+    {
+      
+        if(ind == 0)
+        {
+            if(amount % arr[0] == 0) return 1;
+            else return 0;
+        }
+
+        if(dp[ind][amount] != -1) return dp[ind][amount];
+
+        int nottake = helper(ind - 1, arr, amount, dp);
+
+        int take = 0;
+        if(arr[ind] <= amount)
+         take = helper(ind, arr, amount - arr[ind], dp);
+
+        return dp[ind][amount] = take + nottake; 
+    }
+}
+
+
+
+3. Tabulation
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int dp[][] = new int[n][amount + 1];
+      
+      for(int i = 0; i <= amount; i++)
+      {
+            if(i % coins[0] == 0)
+             dp[0][i] = 1;
+            else
+             dp[0][i] = 0;
+
+      }
+
+      for(int ind = 1; ind < n; ind++)
+      {
+        for(int i = 0; i <= amount; i++)
+        {
+
+
+         int nottake = dp[ind - 1][i];
+
+         int take = 0;
+         if(coins[ind] <= i)
+         take = dp[ind][i - coins[ind]];
+
+         dp[ind][i] = take + nottake; 
+        }
+      }
+
+      return dp[n - 1][amount];
+    }
+}
+
+
+
+
+
+
+4. Space optimization
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int prev[] = new int[amount + 1];
+      
+      for(int i = 0; i <= amount; i++)
+      {
+            if(i % coins[0] == 0)
+             prev[i] = 1;
+            else
+             prev[i] = 0;
+
+      }
+
+      for(int ind = 1; ind < n; ind++)
+      {
+        int cur[] = new int[amount + 1];
+        for(int i = 0; i <= amount; i++)
+        {
+
+
+         int nottake = prev[i];
+
+         int take = 0;
+         if(coins[ind] <= i)
+         take = cur[i - coins[ind]];
+
+         cur[i] = take + nottake; 
+        }
+        prev = cur;
+      }
+
+      return prev[amount];
+    }
+}

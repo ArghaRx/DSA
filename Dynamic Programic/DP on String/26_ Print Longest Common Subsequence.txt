@@ -1,0 +1,116 @@
+public class Solution {
+    public static String findLCS(int n, int m, String s1, String s2){
+        // Write your code here.
+        //Initially dp
+        int dp[][] = new int[n + 1][m + 1];
+
+        // No need to store 0 , because initially all index are stored 0
+
+        // Create the dp first
+        for(int ind1 = 1; ind1 <= n;ind1++){
+            for(int ind2 = 1; ind2 <= m; ind2++){
+                if(s1.charAt(ind1 - 1) == s2.charAt(ind2 - 1))
+                dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1];
+
+                else
+                dp[ind1][ind2] = Math.max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
+            }
+        }
+
+        
+
+
+        // Take stringbuilder for ans 
+        
+        StringBuilder ans = new StringBuilder();
+
+        // Now analyese the dp to find out the ans LCS
+
+	    // now the last index mean dp[n][m] is the longest common subsequence length
+
+              int index = dp[n][m];
+              int i=n;
+      	      int j=m;
+
+            while(i > 0 && j > 0){
+                if(s1.charAt(i - 1) == s2.charAt(j - 1)){
+                ans.setCharAt(index, s1.charAt(i - 1));
+                index--;
+                i--;
+                j--;
+                }
+                else if(s1.charAt(i - 1) > s2.charAt(j - 1))
+                i--;
+                else 
+                j--;
+            }
+            
+        return ans.toString();
+    }
+}
+
+
+
+
+
+
+
+Space complexity
+
+class Solution {
+    public String shortestCommonSupersequence(String str1, String str2) {
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int prev[] = new int[n2 + 1];
+        int cur[] = new int[n2 + 1];
+
+        // Create dp
+        for (int i = 1; i <= n1; i++) {
+            for (int j = 1; j <= n2; j++) {
+                if (str1.charAt(i - 1) == str2.charAt(j - 1))
+                    cur[j] = 1 + prev[j - 1];
+                else
+                    cur[j] = Math.max(prev[j], cur[j - 1]);
+            }
+            // Copy current row to previous row
+            System.arraycopy(cur, 0, prev, 0, n2 + 1);
+        }
+
+        // Now dp[n1][n2] store the Longest common subsequence length
+
+        int len = cur[n2];
+        int i = n1, j = n2;
+        int ind = len - 1;
+        StringBuilder ans = new StringBuilder();
+        while (i > 0 && j > 0) {
+            // if match 2 char, take one of them into ans and  i and j both deteriorate
+            if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                ans.append(str1.charAt(i - 1));
+                i--;
+                j--;
+            } else if (prev[j] > prev[j - 1]) {
+                // go up
+                // store left char
+                ans.append(str1.charAt(i - 1));
+                i--;
+            } else {
+                // go left
+                // store the up char
+                ans.append(str2.charAt(j - 1));
+                j--;
+            }
+        }
+
+        // if one string is end but another still remains, simply add it
+        while (i > 0) {
+            ans.append(str1.charAt(i - 1));
+            i--;
+        }
+        while (j > 0) {
+            ans.append(str2.charAt(j - 1));
+            j--;
+        }
+        // Reverse it
+        return ans.reverse().toString();
+    }
+}

@@ -1,0 +1,87 @@
+// Recursive 
+
+
+public class Solution {
+    public static int minimizeCost(int n, int k, int []heights){
+        // Write your code here.
+        return helper(n - 1, k, heights);
+    }
+    public static int helper(int ind, int k, int []heights)
+    {
+        if(ind == 0) return 0;
+        int minsteps = Integer.MAX_VALUE;
+        for(int j = 1; j <= k; j++)
+        {
+            if((ind - j) >= 0){
+
+            int steps = helper(ind - j, k, heights) + Math.abs(heights[ind] - heights[ind - j]);
+
+            minsteps = Math.min(minsteps, steps);
+            }
+        }
+        return minsteps;
+    }
+}
+
+
+
+// Memoization
+Tc - O(N * K) for each element run k loop
+SC - O(N + N)
+
+public class Solution {
+    public static int minimizeCost(int n, int k, int []heights){
+        // Write your code here.
+        int dp[] = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return helper(n - 1, k, heights, dp);
+    }
+    public static int helper(int ind, int k, int []heights, int dp[])
+    {
+        if(ind == 0) return 0;
+        if(dp[ind] != -1) return dp[ind];
+        int minsteps = Integer.MAX_VALUE;
+        for(int j = 1; j <= k; j++)
+        {
+            if((ind - j) >= 0){
+
+            int steps = helper(ind - j, k, heights, dp) + Math.abs(heights[ind] - heights[ind - j]);
+
+            minsteps = Math.min(minsteps, steps);
+            }
+        }
+        return dp[ind] = minsteps;
+    }
+}
+
+
+
+// Tabulation
+
+
+import java.util.Arrays;
+public class Solution {
+    public static int minimizeCost(int n, int k, int []heights){
+        // Write your code here.
+        int dp[] = new int[n];
+        Arrays.fill(dp, -1);
+
+        dp[0] = 0;
+// REST OF THE PART WE TAKE A LOOP
+       for(int i = 1; i < n; i++)
+       {
+        int minsteps = Integer.MAX_VALUE;
+         for(int j = 1; j <= k; j++)
+        {
+            if((i - j) >= 0){
+
+            int steps = dp[i - j] + Math.abs(heights[i] - heights[i - j]);
+
+            minsteps = Math.min(minsteps, steps);
+            }
+        }
+            dp[i] = minsteps;
+       }
+        return dp[n - 1];
+    }
+}

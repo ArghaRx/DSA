@@ -1,0 +1,156 @@
+1. Recursion
+
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        return helper(n - 1, m - 1, word1, word2);
+    }
+
+    public int helper(int i, int j, String s1, String s2)
+    {
+        // Here i repersent s1 string -- large str
+        // j reperesent s2 string -- small str
+
+        // Base case
+        if(i < 0) return j + 1; // Basically insert all s2 char to s1 for equlity
+        if(j < 0) return i + 1; // here s2 is all find in s1. So delete the extra s2 char
+
+        // Match ... if match the we donot do any operation just shrink the string]
+        if(s1.charAt(i) == s2.charAt(j)) return helper(i - 1, j - 1, s1, s2);
+
+        // Not Match
+        else
+        {                            // insert                    // Delete                // Replace
+            return 1 + Math.min(Math.min(helper(i, j - 1, s1, s2), helper(i - 1, j, s1, s2)), helper(i - 1, j - 1, s1, s2));
+        }
+    }
+}
+
+
+
+
+
+
+
+2. Memoization
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        int dp[][] = new int[n][m];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+        return helper(n - 1, m - 1, word1, word2, dp);
+    }
+
+    public int helper(int i, int j, String s1, String s2, int dp[][])
+    {
+        // Here i repersent s1 string -- large str
+        // j reperesent s2 string -- small str
+
+        // Base case
+        if(i < 0) return j + 1; // Basically insert all s2 char to s1 for equlity
+        if(j < 0) return i + 1; // here s2 is all find in s1. So delete the extra s2 char
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        // Match ... if match the we donot do any operation just shrink the string]
+        if(s1.charAt(i) == s2.charAt(j)) return dp[i][j] = helper(i - 1, j - 1, s1, s2, dp);
+
+        // Not Match
+        else
+        {                            // insert                    // Delete                // Replace
+            return dp[i][j] = 1 + Math.min(Math.min(helper(i, j - 1, s1, s2, dp), helper(i - 1, j, s1, s2, dp)), helper(i - 1, j - 1, s1, s2, dp));
+        }
+    }
+}
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------
+To convert Tabulation we increment <<<< index + 1 >>>>> for avoiding -ve index operation
+
+code--->
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        int dp[][] = new int[n + 1][m + 1];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+        return helper(n, m, word1, word2, dp);
+    }
+
+    public int helper(int i, int j, String s1, String s2, int dp[][])
+    {
+        // Here i repersent s1 string -- large str
+        // j reperesent s2 string -- small str
+
+        // Base case
+        if(i == 0) return j; // Basically insert all s2 char to s1 for equlity
+        if(j == 0) return i; // here s2 is all find in s1. So delete the extra s2 char
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        // Match ... if match the we donot do any operation just shrink the string]
+        if(s1.charAt(i - 1) == s2.charAt(j - 1)) return dp[i][j] = helper(i - 1, j - 1, s1, s2, dp);
+
+        // Not Match
+        else
+        {                            // insert                    // Delete                // Replace
+            return dp[i][j] = 1 + Math.min(Math.min(helper(i, j - 1, s1, s2, dp), helper(i - 1, j, s1, s2, dp)), helper(i - 1, j - 1, s1, s2, dp));
+        }
+    }
+}
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+3. Tabulation
+
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        int dp[][] = new int[n + 1][m + 1];
+
+        for (int j = 0; j <= m; j++)
+            dp[0][j] = j; // Basically insert all s2 char to s1 for equlity
+
+        for (int i = 0; i <= n; i++)
+            dp[i][0] = i;
+
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+
+                // Match ... if match the we donot do any operation just shrink the string]
+                if (word1.charAt(i - 1) == word2.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1];
+
+                // Not Match
+                else
+                    // insert // Delete // Replace
+                    dp[i][j] = 1 + Math.min(Math.min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]);
+
+            }
+        }
+        return dp[n][m];
+    }
+}
+
+
+
+
+
+4. Space Optimization
+
+

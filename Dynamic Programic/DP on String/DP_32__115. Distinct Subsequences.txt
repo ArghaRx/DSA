@@ -1,0 +1,151 @@
+1. Recursion
+
+TC and SC is exponential
+
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+
+        return helper(n - 1, m - 1, s, t);
+    }
+    public int helper(int i, int j, String s1, String s2)
+    {
+        // i work s1 and j works s2
+        // s1 = rabbbit (large string) where we find
+         // s2 = rabbit (small string) to whom we find in s1
+        
+        if(j < 0) return 1; // j -ve means all the s2 string find in s1 , that means we find one of the occurance
+        if(i < 0) return 0; // i -ve means s1 string ends but the testing string s2 still remains so return 0
+
+        //match
+        if(s1.charAt(i) == s2.charAt(j))
+        return helper(i - 1, j - 1, s1, s2) + helper(i - 1, j, s1, s2);
+
+        //Not match
+        else return helper(i - 1, j, s1, s2);
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+2. Memoization
+
+-----------------------------------------------------------------------------------------
+Complexity Analysis
+Time Complexity: O(N*M)
+
+Reason: There are N*M states therefore at max ‘N*M’ new problems will be solved.
+
+Space Complexity: O(N*M) + O(N+M)
+
+Reason: We are using a recursion stack space(O(N+M)) and a 2D array ( O(N*M)).
+-----------------------------------------------------------------------------------------
+
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+        int dp[][] = new int[n][m];
+        for(int r[] : dp) Arrays.fill(r, -1);
+
+        return helper(n - 1, m - 1, s, t, dp);
+    }
+    public int helper(int i, int j, String s1, String s2, int dp[][])
+    {
+        // i work s1 and j works s2
+        // s1 = rabbbit (large string) where we find
+         // s2 = rabbit (small string) to whom we find in s1
+        
+        if(j < 0) return 1; // j -ve means all the s2 string find in s1 , that means we find one of the occurance
+        if(i < 0) return 0; // i -ve means s1 string ends but the testing string s2 still remains so return 0
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        //match
+        if(s1.charAt(i) == s2.charAt(j))
+        return dp[i][j] = helper(i - 1, j - 1, s1, s2, dp) + helper(i - 1, j, s1, s2, dp);
+
+        //Not match
+        else return dp[i][j] = helper(i - 1, j, s1, s2, dp);
+
+    }
+}
+
+
+
+
+
+
+
+3. Tabulation
+
+-----------------------------------------------------------------------------------
+Complexity Analysis
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*M)
+
+Reason: We are using an external array of size ‘N*M’. Stack Space is eliminated.
+-----------------------------------------------------------------------------------
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+        int dp[][] = new int[n + 1][m + 1];
+
+        // i work s1 and j works s2
+        // s1 = rabbbit (large string) where we find
+        // s2 = rabbit (small string) to whom we find in s1
+
+        // j -ve means all the s2 string find in s1 , that means we find one of the
+        // occurance
+        for (int i = 0; i <= n; i++)
+            dp[i][0] = 1;
+
+        // i -ve means s1 string ends but the testing string s2 still remains so return 0
+        
+       // ****** Important **********
+       // 0th col is  already fill  by 1 so next loop <for 0th row> start fron ist col,,,not from 0,0
+        for (int j = 1; j <= m; j++)
+            dp[0][j] = 0;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+
+                // match
+                if (s.charAt(i - 1) == t.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+
+                // Not match
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        return dp[n][m];
+
+    }
+}
+
+
+
+
+
+
+4.Space Optimization
+
+

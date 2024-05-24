@@ -1,0 +1,116 @@
+https://leetcode.com/problems/house-robber/description/
+
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+
+// Recursive
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        return helper(n - 1, nums);
+    }
+
+    public int helper(int ind, int nums[])
+    {
+        if(ind == 0) return nums[ind];
+        if(ind < 1) return 0;
+
+        int pick = nums[ind] + helper(ind - 2, nums);
+        int notpick = 0 + helper(ind - 1, nums);
+
+        return Math.max(pick, notpick);
+    }
+}
+
+
+
+// Memoization
+
+Time Complexity: O(N)  SC- O(N + N)
+
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int dp[] = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return helper(n - 1, nums, dp);
+    }
+
+    public int helper(int ind, int nums[], int dp[])
+    {
+        if(ind == 0) return nums[ind];
+        if(ind < 1) return 0;
+        if(dp[ind] != -1) return dp[ind];
+        int pick = nums[ind] + helper(ind - 2, nums, dp);
+        int notpick = 0 + helper(ind - 1, nums, dp);
+
+        return dp[ind] = Math.max(pick, notpick);
+    }
+}
+
+
+
+// Tabulation
+TC- O(N)    SC - O(N)
+
+class Solution {
+    public int rob(int[] nums) {
+
+        int n = nums.length;
+        int dp[] = new int[n];
+        dp[0] = nums[0];
+        
+
+        for (int i = 1; i < n; i++) {
+            // Calculate the maximum sum by either picking the current element or not
+            // picking it.
+            int pick = nums[i];
+
+            // If there are at least two elements before the current element, add the value
+            // from dp[i-2].
+            if (i > 1)
+                pick += dp[i - 2];
+
+            int notpick = 0 + dp[i - 1];
+
+            // Store the maximum of the two options in the dp array for the current index.
+            dp[i] = Math.max(pick, notpick);    
+        }
+      return dp[ n - 1];
+    }
+}
+
+
+// Space Optimization
+TC - O(N)  SC - O(1)
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int prev = nums[0];
+        int prev2 = 0;
+
+        for (int i = 1; i < n; i++) {
+            // Calculate the maximum sum by either picking the current element or not
+            // picking it.
+            int pick = nums[i];
+
+            // If there are at least two elements before the current element, add the value
+            // from prev2.
+            if (i > 1)
+                pick += prev2;
+            // The non-pick option is to use the maximum sum from the previous position.
+            int notpick = prev;
+
+            int cur = Math.max(pick, notpick);
+            prev2 = prev;
+            prev = cur;
+        }
+        return prev;
+    }
+}

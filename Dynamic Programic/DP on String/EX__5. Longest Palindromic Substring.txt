@@ -1,0 +1,56 @@
+5. Longest Palindromic Substring
+
+Example 1:
+
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
+Example 2:
+
+Input: s = "cbbd"
+Output: "bb"
+
+
+
+class Solution {
+    public String longestPalindrome(String s) {
+        String str = new StringBuilder(s).reverse().toString();
+        int n = s.length();
+        int dp[][] = new int[n + 1][n + 1];
+
+        int ans = 0, ind1 = -1, ind2 = -1;
+
+        // find the LCS length
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s.charAt(i - 1) == str.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                    if (dp[i][j] > ans) {
+                        ans = dp[i][j];
+                        ind1 = i;
+                        ind2 = j;
+
+                    }
+                }
+
+                else
+                    dp[i][j] = 0;
+            }
+        }
+
+        int i = ind1, j = ind2;
+        String res = "";
+        while (i > 0 && j > 0) {
+            if (s.charAt(i - 1) == str.charAt(j - 1)) {
+                res += s.charAt(i - 1);
+                i--;
+                j--;
+            } else
+                break;
+        }
+
+        // String ans2 = new StringBuilder(res).reverse().toString();
+        // return ans2;
+        return res;
+    }
+}

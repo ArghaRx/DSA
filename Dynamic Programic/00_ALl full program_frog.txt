@@ -1,0 +1,176 @@
+// Recursion
+
+import java.util.Scanner;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       System.out.println("Enter the size of array: ");
+       int n = sc.nextInt();
+       int arr[] = new int[n];
+       System.out.println("Enter elements: ");
+       for(int i = 0; i < n; i++)
+           arr[i] = sc.nextInt();
+       
+       System.out.println("Enter the value of k: ");
+       int k = sc.nextInt();
+       
+       int result = frogjump(arr, k);
+       System.out.println("Minimum cost to reach the last element: " + result);
+    }
+    
+    public static int frogjump(int arr[], int k)
+    {
+        int n = arr.length;
+        return helper(n - 1, arr, k);
+    }
+    
+    public static int helper(int ind, int arr[], int k)
+    {
+        if(ind == 0) return 0;
+        int oneStep = helper(ind - 1, arr, k) + Math.abs(arr[ind] - arr[ind - 1]);
+        int twoStep = Integer.MAX_VALUE;
+        if(ind > 1)
+            twoStep = helper(ind - 2, arr, k) + Math.abs(arr[ind] - arr[ind - 2]);
+        
+        return Math.min(oneStep, twoStep);
+    }
+}
+
+
+
+// Memoization
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class HelloWorld {
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       System.out.println("enter the size of array: ");
+       int n = sc.nextInt();
+       int arr[] = new int[n];
+       System.out.println("enter elements ");
+       for(int i = 0; i < n; i++)
+       arr[i] = sc.nextInt();
+       
+       System.out.println("enter the value of k ");
+       int k = sc.nextInt();
+       
+       int result = frogjump(arr, k);
+        System.out.println("Minimum cost to reach the last element: " + result);
+    }
+    
+    public static int frogjump(int arr[], int k)
+    {
+        int dp[] = new int[arr.length];
+        Arrays.fill(dp, 0);
+        int n = arr.length;
+        return helper(n - 1, arr, k, dp);
+    }
+    
+    public static int helper(int ind, int arr[], int k, int dp[])
+    {
+        if(ind == 0) return 0;
+        if(dp[ind] != 0) return dp[ind];
+        
+        int oneStep = helper(ind - 1, arr, k, dp) + Math.abs(arr[ind] - arr[ind - 1]);
+        int twoStep = Integer.MAX_VALUE;
+        if(ind > 1)
+        twoStep = helper(ind - 2, arr, k, dp) + Math.abs(arr[ind] - arr[ind - 2]);
+        
+        return dp[ind] = Math.min(oneStep, twoStep);
+    }
+}
+
+
+
+// Tabulation
+
+
+import java.util.*;
+class HelloWorld {
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       System.out.println("enter the size of array: ");
+       int n = sc.nextInt();
+       int arr[] = new int[n];
+       System.out.println("enter elements ");
+       for(int i = 0; i < n; i++)
+       arr[i] = sc.nextInt();
+       
+       System.out.println("enter the value of k ");
+       int k = sc.nextInt();
+       
+       int result = frogjump(arr, k);
+        System.out.println("Minimum cost to reach the last element: " + result);
+    }
+    
+    public static int frogjump(int arr[], int k)
+    {
+        int dp[] = new int[arr.length];
+       
+        int n = arr.length;
+    
+        dp[0] = 0;
+       
+        for(int ind = 1; ind < n; ind++)
+        {
+        int oneStep = dp[ind - 1] + Math.abs(arr[ind] - arr[ind - 1]);
+        int twoStep = Integer.MAX_VALUE;
+        if(ind > 1)
+        twoStep = dp[ind - 2] + Math.abs(arr[ind] - arr[ind - 2]);
+        
+         dp[ind] = Math.min(oneStep, twoStep);
+        }
+        return dp[n - 1];
+    }
+}
+
+
+
+
+// Space optimization
+
+
+
+import java.util.*;
+class HelloWorld {
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       System.out.println("enter the size of array: ");
+       int n = sc.nextInt();
+       int arr[] = new int[n];
+       System.out.println("enter elements ");
+       for(int i = 0; i < n; i++)
+       arr[i] = sc.nextInt();
+       
+       System.out.println("enter the value of k ");
+       int k = sc.nextInt();
+       
+       int result = frogjump(arr, k);
+        System.out.println("Minimum cost to reach the last element: " + result);
+    }
+    
+    public static int frogjump(int arr[], int k)
+    {
+        int prev = 0;
+        int prev2 = 0;
+       
+        int n = arr.length;
+
+       
+        for(int ind = 1; ind < n; ind++)
+        {
+        int oneStep = prev + Math.abs(arr[ind] - arr[ind - 1]);
+        int twoStep = Integer.MAX_VALUE;
+        if(ind > 1)
+        twoStep = prev2 + Math.abs(arr[ind] - arr[ind - 2]);
+        
+         int cur = Math.min(oneStep, twoStep);
+         prev2 = prev;
+         prev = cur;
+        }
+        return prev;
+    }
+}

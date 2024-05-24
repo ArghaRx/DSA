@@ -1,0 +1,133 @@
+1. recursion
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here
+		int N = price.length;
+		return helper(price,  N - 1, n);
+	}
+
+	public static int helper(int price[], int ind, int n)
+	{
+		if(ind == 0)
+		 return n * price[0];
+
+		 int nottake = helper(price, ind - 1, n);
+		 int take = Integer.MIN_VALUE;
+		 int rodLen = ind + 1;
+		 if(rodLen <= n)
+		 take = price[ind] + helper(price, ind, n - rodLen);
+
+		 return Math.max(take, nottake);
+	}
+}
+
+
+
+
+
+2. Memoization
+
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here
+		int N = price.length;
+		int dp[][] = new int[N][n + 1];
+		for(int row[] : dp)
+		Arrays.fill(row, -1);
+		return helper(price,  N - 1, n, dp);
+	}
+	public static int helper(int price[], int ind, int n, int dp[][])
+	{
+		if(ind == 0)
+		 return n * price[0];
+
+		if(dp[ind][n] != -1) return dp[ind][n];
+
+		 int nottake = helper(price, ind - 1, n, dp);
+		 int take = Integer.MIN_VALUE;
+		 int rodLen = ind + 1;
+		 if(rodLen <= n)
+		 take = price[ind] + helper(price, ind, n - rodLen, dp);
+
+		 return dp[ind][n] = Math.max(take, nottake);
+	}
+}
+
+
+
+
+3. Tabulation
+
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here
+		int N = price.length;
+		int dp[][] = new int[N][n + 1];
+
+		for(int i = 0; i <= n; i++)
+		dp[0][i] = i * price[0];
+
+		// if(ind == 0)
+		//  return n * price[0];
+
+		// if(dp[ind][n] != -1) return dp[ind][n];
+
+		for(int ind = 1; ind < N; ind++)
+		{
+			for(int i = 0; i <= n; i++)
+			{
+
+
+			 int nottake = dp[ind - 1][i];
+		 	int take = Integer.MIN_VALUE;
+		 	int rodLen = ind + 1;
+		 	if(rodLen <= i)
+		 	take = price[ind] + dp[ind][i - rodLen];
+
+		 	dp[ind][i] = Math.max(take, nottake);
+			}
+		}
+		return dp[N - 1][n];
+	}
+}
+
+
+4. Space Optimization
+
+import java.util.*;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here
+		int N = price.length;
+		int prev[] = new int[n + 1];
+
+		for(int i = 0; i <= n; i++)
+		prev[i] = i * price[0];
+
+		// if(ind == 0)
+		//  return n * price[0];
+
+		// if(dp[ind][n] != -1) return dp[ind][n];
+
+		for(int ind = 1; ind < N; ind++)
+		{
+			int cur[] = new int[n + 1];
+			for(int i = 0; i <= n; i++)
+			{
+
+			 int nottake = prev[i];
+		 	int take = Integer.MIN_VALUE;
+		 	int rodLen = ind + 1;
+		 	if(rodLen <= i)
+		 	take = price[ind] + cur[i - rodLen];
+
+		 	cur[i] = Math.max(take, nottake);
+			}
+			prev = cur;
+		}
+		return prev[n];
+	}
+}

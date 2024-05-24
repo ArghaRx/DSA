@@ -1,0 +1,366 @@
+
+
+
+
+
+
+1. Recursion
+
+< Code studio >
+--------------------------------------------------------------------------------
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int minimumElements(int num[], int x) {
+        // Write your code here..
+        int ans = helper(num, num.length - 1, x);
+        if(ans >= (int) Math.pow(10, 9)) return -1;
+        return ans;
+    }
+
+    public static int helper(int arr[], int ind, int amount)
+    {
+        if(ind == 0)
+        {
+            if(amount % arr[0] == 0) return amount / arr[0];
+            else return (int) Math.pow(10, 9);
+        }
+
+        int notTake = helper(arr, ind - 1, amount);
+        int take = (int) Math.pow(10, 9);
+        if(arr[ind] <= amount)
+        take = 1 + helper(arr, ind, amount - arr[ind]);
+
+        return Math.min(take, notTake);
+    }
+
+}
+
+
+
+Leetcode
+---------------------------------------------------------------------
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int ans = helper(coins, n - 1, amount);
+        if(ans >= (int) Math.pow(10, 9)) return -1;
+        return ans;
+    }
+    public int helper(int arr[], int ind, int amount)
+    {
+        if(ind == 0)
+        {
+            if(amount % arr[0] == 0) return amount / arr[0];
+            else return (int) Math.pow(10, 9);
+        }
+
+        int notTake = helper(arr, ind - 1, amount);
+        int take = (int) Math.pow(10, 9);
+        if(arr[ind] <= amount)
+        take = 1 + helper(arr, ind, amount - arr[ind]);
+
+        return Math.min(take, notTake);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+2.Memoization
+
+
+ninja
+---------------------------------------------------------------------------
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int minimumElements(int num[], int x) {
+        // Write your code here..
+        int dp[][] = new int[num.length][x + 1];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+        int ans = helper(num, num.length - 1, x, dp);
+        if(ans >= (int) Math.pow(10, 9)) return -1;
+        return ans;
+    }
+
+    public static int helper(int arr[], int ind, int amount, int dp[][])
+    {
+        if(ind == 0)
+        {
+            if(amount % arr[0] == 0) return amount / arr[0];
+            else return (int) Math.pow(10, 9);
+        }
+        
+        if(dp[ind][amount] != -1) return dp[ind][amount];
+
+        int notTake = helper(arr, ind - 1, amount, dp);
+        int take = (int) Math.pow(10, 9);
+        if(arr[ind] <= amount)
+        take = 1 + helper(arr, ind, amount - arr[ind], dp);
+
+        return dp[ind][amount] = Math.min(take, notTake);
+    }
+
+}
+
+
+Leetcode
+--------------------------------------------------------------------------------
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int dp[][] = new int[n][amount + 1];
+        for(int row[] : dp)
+        Arrays.fill(row, -1);
+        int ans = helper(coins, n - 1, amount, dp);
+        if(ans >= (int) Math.pow(10, 9)) return -1;
+        return ans;
+    }
+     public int helper(int arr[], int ind, int amount, int dp[][])
+    {
+        if(ind == 0)
+        {
+            if(amount % arr[0] == 0) return amount / arr[0];
+            else return (int) Math.pow(10, 9);
+        }
+        
+        if(dp[ind][amount] != -1) return dp[ind][amount];
+
+        int notTake = helper(arr, ind - 1, amount, dp);
+        int take = (int) Math.pow(10, 9);
+        if(arr[ind] <= amount)
+        take = 1 + helper(arr, ind, amount - arr[ind], dp);
+
+        return dp[ind][amount] = Math.min(take, notTake);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. Tabulation
+
+
+leetcode
+-----------------------------------------------------------------------------
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int minimumElements(int arr[], int x) {
+        // Write your code here..
+        int dp[][] = new int[arr.length][x + 1];
+
+     // Base case
+        for(int i = 0; i <= x; i++)
+        {
+            if(i % arr[0] == 0) 
+            dp[0][i] = i / arr[0];
+
+            else
+            dp[0][i] = (int) Math.pow(10, 9);
+        }
+
+        // Other
+        for(int ind = 1; ind < arr.length; ind++)
+        {
+            for(int amount = 0; amount <= x; amount++)
+            {
+
+              int notTake = dp[ind - 1][amount];
+              int take = (int) Math.pow(10, 9);
+              if(arr[ind] <= amount)
+              take = 1 + dp[ind][amount - arr[ind]];
+
+              dp[ind][amount] = Math.min(take, notTake);
+            }
+        }
+
+        
+       // Get the minimum number of elements needed for the target sum
+        int ans = dp[arr.length - 1][x];
+
+        // If it's not possible to achieve the target sum, return -1
+        if (ans >= (int) Math.pow(10, 9))
+            return -1;
+        return ans;
+    }
+
+}
+
+
+Letcode
+--------------------------------------------------------------------------------
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+
+        int n = coins.length;
+        int dp[][] = new int[n][amount + 1];
+        
+        //Base case
+         for(int i = 0; i <= amount; i++)
+         {
+          if(i % coins[0] == 0) 
+           dp[0][i] = i / coins[0];
+
+          else 
+             dp[0][i] = (int) Math.pow(10, 9);
+        }
+
+     for(int ind = 1; ind < n; ind++)
+     {
+        for(int T = 0; T <= amount; T++)
+        {
+        int notTake = dp[ind - 1][T];
+
+        int take = (int) Math.pow(10, 9);
+        if(coins[ind] <= T)
+        take = 1 + dp[ind][T - coins[ind]];
+
+        dp[ind][T] = Math.min(take, notTake);
+        }
+     }
+
+        int ans = dp[n - 1][amount];
+        if(ans >= (int) Math.pow(10, 9)) return -1;
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Space Optimization
+
+
+ninja 
+-------------------------------------------------------------------------
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int minimumElements(int arr[], int x) {
+        // Write your code here..
+        int prev[] = new int[x + 1];
+
+     // Base case
+        for(int i = 0; i <= x; i++)
+        {
+            if(i % arr[0] == 0) 
+            prev[i] = i / arr[0];
+
+            else
+            prev[i] = (int) Math.pow(10, 9);
+        }
+
+        // Other
+        for(int ind = 1; ind < arr.length; ind++)
+        {
+            int cur[] = new int[x + 1];
+            for(int amount = 0; amount <= x; amount++)
+            {
+
+              int notTake = prev[amount];
+              int take = (int) Math.pow(10, 9);
+              if(arr[ind] <= amount)
+              take = 1 + cur[amount - arr[ind]];
+
+             cur[amount] = Math.min(take, notTake);
+            }
+            prev = cur;
+        }
+
+
+       // Get the minimum number of elements needed for the target sum
+        int ans = prev[x];
+
+        // If it's not possible to achieve the target sum, return -1
+        if (ans >= (int) Math.pow(10, 9))
+            return -1;
+        return ans;
+    }
+
+}
+
+
+Leetcode
+--------------------------------------------------------------------------------
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+
+        int n = coins.length;
+        int prev[] = new int[amount + 1];
+        
+        //Base case
+         for(int i = 0; i <= amount; i++)
+         {
+          if(i % coins[0] == 0) 
+           prev[i] = i / coins[0];
+
+          else 
+             prev[i] = (int) Math.pow(10, 9);
+        }
+
+     for(int ind = 1; ind < n; ind++)
+     {
+        int cur[] = new int[amount + 1];
+        for(int T = 0; T <= amount; T++)
+        {
+        int notTake = prev[T];
+
+        int take = (int) Math.pow(10, 9);
+        if(coins[ind] <= T)
+        take = 1 + cur[T - coins[ind]];
+
+        cur[T] = Math.min(take, notTake);
+        }
+        prev = cur;
+     }
+
+        int ans = prev[amount];
+        if(ans >= (int) Math.pow(10, 9)) return -1;
+        return ans;
+    }
+}

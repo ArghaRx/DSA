@@ -1,0 +1,70 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+
+
+import java.util.*;
+class HelloWorld {
+
+//--------------------------------length of palindromic subsequence-----------------------------------------
+
+    public static int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        String reversed = new StringBuilder(s).reverse().toString();
+        return helper(s, reversed, n - 1, n - 1);
+    }
+    public static int helper(String s1, String s2, int ind1, int ind2)
+    {
+        if(ind1 < 0 || ind2 < 0) return 0;
+
+        if(s1.charAt(ind1) == s2.charAt(ind2))
+        return 1 + helper(s1, s2, ind1 - 1, ind2 - 1);
+
+        return Math.max(helper(s1, s2, ind1 - 1, ind2), helper(s1, s2, ind1, ind2 - 1));
+    }
+//---------------------------------------------------------------------------------------------
+
+//----------------------------------print the string-------------------------------------------
+public static String stringIs(String s1) {
+        int n = s1.length();
+        if (n == 0) return ""; // handle empty string
+
+        String s2 = new StringBuilder(s1).reverse().toString();
+        int dp[][] = new int[n + 1][n + 1];
+
+        for (int ind1 = 1; ind1 <= n; ind1++) {
+            for (int ind2 = 1; ind2 <= n; ind2++) {
+                if (s1.charAt(ind1 - 1) == s2.charAt(ind2 - 1))
+                    dp[ind1][ind2] = 1 + dp[ind1 - 1][ind2 - 1];
+                else
+                    dp[ind1][ind2] = Math.max(dp[ind1 - 1][ind2], dp[ind1][ind2 - 1]);
+            }
+        }
+
+        int index = dp[n][n];
+        int i = n;
+        int j = n;
+        StringBuilder ans = new StringBuilder();
+        ans.setLength(index);
+        while (i > 0 && j > 0) {
+            if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                ans.setCharAt(index - 1, s1.charAt(i - 1));
+                index--;
+                i--;
+                j--;
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+        return ans.toString();
+    }
+//----------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------main--------------------------------    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        System.out.println("length of longest palindromic subsequnce is "+ longestPalindromeSubseq(str)+" and the strind is "+ stringIs(str));
+    }
+}

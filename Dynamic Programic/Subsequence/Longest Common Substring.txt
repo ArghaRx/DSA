@@ -1,0 +1,86 @@
+Tabulation
+-----------------------------------------------------------------------
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*M)
+
+Reason: We are using an external array of size ‘N*M)’. Stack Space is eliminated.
+-----------------------------------------------------------------------------------------------
+
+
+public class Solution {
+    public static int lcs(String str1, String str2){
+        // Write your code here.
+        int n = str1.length();
+        int m = str2.length();
+
+        int dp[][] = new int[n + 1][m + 1];
+        int ans = 0;
+
+     
+
+        for(int i = 1; i <= n; i++)
+        {
+            for(int j = 1; j <= m; j++)
+            {
+                if(str1.charAt(i - 1) == str2.charAt(j - 1)){
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+                ans = Math.max(ans, dp[i][j]);
+                }
+               else
+                dp[i][j] = 0;
+            }
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+Space Optimization
+---------------------------------------------------------------------------------------------------
+Complexity Analysis
+Time Complexity: O(N*M)
+
+Reason: There are two nested loops.
+
+Space Complexity: O(M)
+
+Reason: We are using an external array of size ‘M+1’ to store only two rows.
+----------------------------------------------------------------------------------------------
+
+
+
+public class Solution {
+    public static int lcs(String str1, String str2){
+        // Write your code here.
+        int n = str1.length();
+        int m = str2.length();
+
+        int prev[] = new int[m + 1];
+        int ans = 0;
+
+     
+
+        for(int i = 1; i <= n; i++)
+        {
+            int cur[] = new int[m + 1];
+            for(int j = 1; j <= m; j++)
+            {
+                if(str1.charAt(i - 1) == str2.charAt(j - 1)){
+                cur[j] = 1 + prev[j - 1];
+                ans = Math.max(ans, cur[j]);
+                }
+               else
+                cur[j] = 0;
+            }
+            prev = cur;
+        }
+        return ans;
+    }
+}
