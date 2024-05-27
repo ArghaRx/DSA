@@ -1,4 +1,4 @@
-*****BRUTE****
+********************    BRUTE    ******************
 
 class Solution {
     public void markRow(int matrix[][],int m,int n,int i)
@@ -42,7 +42,7 @@ class Solution {
 
 
 
-*****BETTER****
+***********************   BETTER    *******************************************
 
 //By use a row array and a col array
 
@@ -79,7 +79,7 @@ class Solution {
 
 
 
-********OPTIMALL*******
+***************************************  OPTIMALL   ***********************************************************
 
 class Solution {
     public void setZeroes(int[][] matrix) {
