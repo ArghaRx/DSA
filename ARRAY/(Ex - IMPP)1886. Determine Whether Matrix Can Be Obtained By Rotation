@@ -1,0 +1,57 @@
+              1886. Determine Whether Matrix Can Be Obtained By Rotation
+
+Approach:- rotate 90 that doesnot mean only one time rotation 90 degree.. it can be 90 rotate again 90 rotate means
+total 180 degree rotation. it also mean 270 degree rotation that means 90 90 90 (3 times).
+
+if matrix is identical means same it also a rotation of 360 degree that is 90 90 90 90 (4 times)
+
+
+
+
+class Solution {
+    public boolean findRotation(int[][] mat, int[][] target) {
+        int n = mat.length;
+        
+        // 360 rotation mean identical or same. It also a rotation of 360 degree
+        if(matrixIsEqual(mat, target)) return true;
+
+        // 90 degree rotation
+        if(matrixIsEqual(rotate90(mat), target)) return true;
+
+        // 180 degree rotation
+        if(matrixIsEqual(rotate180(mat),target)) return true;
+
+        // 270 degeree rotation
+        if(matrixIsEqual(rotate270(mat),target)) return true;
+
+        return false;
+    }
+
+    public boolean matrixIsEqual(int mat1[][], int mat2[][])
+    {
+        int n = mat1.length;
+        for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+        if(mat1[i][j] != mat2[i][j]) return false;
+
+        return true;
+    }
+    public int[][] rotate90(int mat[][])
+    {
+        int n = mat.length;
+        int rotate[][] = new int[n][n];
+        for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+        rotate[j][n - i - 1] = mat[i][j];
+
+        return rotate;
+    }
+    public int[][] rotate180(int mat[][])
+    {
+        return rotate90(rotate90(mat));      // if i call rotate90() 2 times it will work for 180
+    }
+    public int[][] rotate270(int mat[][])
+    {
+        return rotate90(rotate180(mat));    // here i call rotate90(rotate 180)  that is same 270
+    }
+}
