@@ -1,6 +1,8 @@
+Variation 2:- Given the row number n. Print the (full or entire) n-th row of Pascal’s triangle.
+
 Q. print entire Pascal's Triangle
 
-****Brute****
+****  Brute  ****
 
 class Solution {
     public static int ncr (int n,int r)
