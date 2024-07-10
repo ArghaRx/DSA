@@ -5,26 +5,34 @@ class Solution {
         for (String operation : operations) {
             int size = recorded.size();
             
-            switch (operation) {
+            switch (operation) { // operation is nothing but an expression 
+            // in switch which case will be executed that define in 'switch(Expression)'
                 case "+":
                     if (size > 1) {
                         recorded.add(recorded.get(size - 1) + recorded.get(size - 2));
+                        // here record e jegulo add kor6i segulo record tekei as6e..jegulo already int
+                        // so don't need to comvertion
                     }
                     break;
                     
                 case "D":
                     if (size > 0) {
+                        // here record e jegulo add kor6i segulo record tekei as6e..jegulo already int
+                        // so don't need to comvertion
                         recorded.add(2 * recorded.get(size - 1));
                     }
                     break;
                     
                 case "C":
                     if (size > 0) {
+                        // here record e jegulo add kor6i segulo record tekei as6e..jegulo already int
+                        // so don't need to comvertion
                         recorded.remove(size - 1);
                     }
                     break;
                     
                 default:
+                // but here notun ele duk6e tai int e convert kore dokabo
                     recorded.add(Integer.parseInt(operation));
                     break;
             }
