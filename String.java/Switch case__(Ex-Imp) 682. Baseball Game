@@ -1,0 +1,40 @@
+class Solution {
+    public int calPoints(String[] operations) {
+        List<Integer> recorded = new ArrayList<>();
+        
+        for (String operation : operations) {
+            int size = recorded.size();
+            
+            switch (operation) {
+                case "+":
+                    if (size > 1) {
+                        recorded.add(recorded.get(size - 1) + recorded.get(size - 2));
+                    }
+                    break;
+                    
+                case "D":
+                    if (size > 0) {
+                        recorded.add(2 * recorded.get(size - 1));
+                    }
+                    break;
+                    
+                case "C":
+                    if (size > 0) {
+                        recorded.remove(size - 1);
+                    }
+                    break;
+                    
+                default:
+                    recorded.add(Integer.parseInt(operation));
+                    break;
+            }
+        }
+        
+        int sum = 0;
+        for (int points : recorded) {
+            sum += points;
+        }
+
+        return sum;
+    }
+}
