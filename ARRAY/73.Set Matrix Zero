@@ -1,4 +1,7 @@
-*****BRUTE****
+//// last e full code a6a brute force//////
+
+
+********************    BRUTE    ******************
 
 class Solution {
     public void markRow(int matrix[][],int m,int n,int i)
@@ -42,7 +45,7 @@ class Solution {
 
 
 
-*****BETTER****
+***********************   BETTER    *******************************************
 
 //By use a row array and a col array
 
@@ -79,7 +82,7 @@ class Solution {
 
 
 
-********OPTIMALL*******
+***************************************  OPTIMALL   ***********************************************************
 
 class Solution {
     public void setZeroes(int[][] matrix) {
@@ -128,5 +131,74 @@ class Solution {
             }
         }
         
+    }
+}
+
+
+----------------------------------------------------------------------------------------------------------
+full code->>
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter no of row : ");
+        int row = sc.nextInt();
+        System.out.println("Enter no of col : ");
+        int col = sc.nextInt();
+        int mat[][] = new int[row][col];
+        System.out.println("Enter values: ");
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                mat[i][j] = sc.nextInt();
+            }
+        }
+        System.out.println("Matrix is: ");
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                System.out.print(mat[i][j] + " ");
+            }
+            System.out.println();
+        }
+        
+        mat = setMatrixZero(mat, row, col);
+        System.out.println("After the operation: ");
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                System.out.print(mat[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static int[][] setMatrixZero(int mat[][], int m, int n) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 0) {
+                    markRow(mat, m, n, i);
+                    markCol(mat, m, n, j);
+                }
+            }
+        }
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == -999) mat[i][j] = 0;
+            }
+        }
+        return mat;
+    }
+
+    public static void markRow(int matrix[][], int m, int n, int i) {
+        for (int j = 0; j < n; j++) {
+            if (matrix[i][j] != 0) matrix[i][j] = -999;
+        }
+    }
+
+    public static void markCol(int matrix[][], int m, int n, int j) {
+        for (int i = 0; i < m; i++) {
+            if (matrix[i][j] != 0) matrix[i][j] = -999;
+        }
     }
 }

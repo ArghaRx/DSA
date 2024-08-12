@@ -1,0 +1,93 @@
+
+class Solution {
+    public int numMagicSquaresInside(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        int count = 0;
+
+        for (int i = 0; i < rows - 2; i++) {
+            for (int j = 0; j < cols - 2; j++) {
+                if (isMagicSquare(grid, i, j))
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isMagicSquare(int grid[][], int r, int c) {
+        int rowsum = findRowSum(grid, r, c);
+        if (rowsum == -1)
+            return false;
+
+        int colsum = findColSum(grid, r, c);
+        if (colsum == -1)
+            return false;
+
+        int diagonalsum = findDiagonalSum(grid, r, c);
+        if (diagonalsum == -1)
+            return false;
+
+        if (rowsum == colsum && colsum == diagonalsum)
+            return true;
+
+        return false;
+    }
+
+    public int findRowSum(int grid[][], int r, int c) {
+        boolean visited[] = new boolean[10];
+        int sum = 0;
+
+        for (int i = 0; i < 3; i++) {
+            int currentRowSum = 0;
+            for (int j = 0; j < 3; j++) {
+                int val = grid[r + i][c + j];
+
+                if (val == 0 || val >= 10 || visited[val]) {
+                    return -1;
+                }
+
+                visited[val] = true;
+                currentRowSum += val;
+            }
+
+            if (i == 0)
+                sum = currentRowSum;
+            else {
+                if (currentRowSum != sum)
+                    return -1;
+            }
+
+        }
+        return sum;
+    }
+
+    public int findColSum(int grid[][], int r, int c) {
+        int sum = 0;
+
+        for (int j = 0; j < 3; j++) {   // Loop start j first 
+            int currentColSum = 0;
+            for (int i = 0; i < 3; i++) {
+                int val = grid[r + i][c + j];
+                currentColSum += val;
+            }
+
+            if (j == 0)
+                sum = currentColSum;
+            else {
+                if (currentColSum != sum)
+                    return -1;
+            }
+
+        }
+        return sum;
+    }
+
+    public int findDiagonalSum(int grid[][], int r, int c) {
+        int sum1 = grid[r][c] + grid[r + 1][c + 1] + grid[r + 2][c + 2]; // Principal Diagonal
+        int sum2 = grid[r][c + 2] + grid[r + 1][c + 1] + grid[r + 2][c]; // Counter Diagonal
+
+        if (sum1 == sum2)
+            return sum1;
+        return -1;
+    }
+}

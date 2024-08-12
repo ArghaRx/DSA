@@ -1,0 +1,72 @@
+ Using hashMap:-
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int i : nums)
+        map.put(i, map.getOrDefault(i, 0) + 1);
+
+        int freq = nums.length / 3;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet())
+        if(entry.getValue() > freq)
+        ans.add(entry.getKey());
+
+        return ans;
+    }
+}
+
+Time - O(n + n)                     space- O(n)
+
+
+-----------------------------------------------------------------------------------------------------
+
+                                  optimal:- 
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        // Almost similar to Moore Voting
+        // But only changes here exact 2 elements present, appear more than n/3
+        // let's assume n = 11 11/3 = 3...more than 3 assume minimum 4..
+        // 4 + 4 + (no more appear n/3) ----> only 2 elements can present
+
+        List<Integer> list = new ArrayList<>();
+        // element can be 0 so we can't initialise elemrnt1 or ele2 as 0
+        int ele1 = Integer.MIN_VALUE, ele2 = Integer.MIN_VALUE, cnt1 = 0, cnt2 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            // only changes that if ele1 already hold a value it can't hold ele2 and vice
+            // versa
+            if (cnt1 == 0 && nums[i] != ele2) {
+                ele1 = nums[i];
+                cnt1++;
+            } else if (cnt2 == 0 && nums[i] != ele1) {
+                ele2 = nums[i];
+                cnt2++;
+            } else if (nums[i] == ele1)
+                cnt1++;
+            else if (nums[i] == ele2)
+                cnt2++;
+            else {
+                cnt1--;
+                cnt2--;
+            }
+        }
+
+        // similarly check that is those 2 are appear n/3 or not
+        cnt1 = 0;
+        cnt2 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (ele1 == nums[i])
+                cnt1++;
+            if (ele2 == nums[i])
+                cnt2++;
+        }
+        if (cnt1 > nums.length / 3)
+            list.add(ele1);
+        if (cnt2 > nums.length / 3)
+            list.add(ele2);
+
+        return list;
+    }
+}

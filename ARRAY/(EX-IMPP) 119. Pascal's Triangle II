@@ -1,0 +1,30 @@
+//The reason you need to initialize Integer[] arr instead of int[] arr
+// when using Arrays.asList(arr) is due to the way Java handles primitive types
+// versus object types.
+
+// Explanation:
+// Primitive Types vs. Object Types:
+
+//*** */ int is a primitive type.
+// *** Integer is an object type (a wrapper class for int).
+---------------------------------------------------------------------------------------------
+
+
+class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        Integer[] arr = new Integer[rowIndex + 1];
+        Arrays.fill(arr, 0);
+        arr[0] = 1;
+
+        for(int i = 1; i <= rowIndex; i++)
+        {
+            for(int j = i; j > 0; j--)
+            {
+                arr[j] = arr[j] + arr[j - 1];
+            }
+        }
+        return Arrays.asList(arr); //when we need to return Arrays.asList(arr)
+                            // Then the arr should be initialise by Intger[] arr = new Integer[];
+                            // Instaed of int[] arr = new int[]
+    }
+}

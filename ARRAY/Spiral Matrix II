@@ -1,0 +1,39 @@
+https://leetcode.com/problems/spiral-matrix-ii/description/
+
+
+
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] mat = new int[n][n];
+        int left = 0, top = 0, right = n - 1, bottom = n - 1;
+        int count = 1;
+
+        while (count <= n * n) {
+            // left to right
+            for (int i = left; i <= right; i++) {
+                mat[top][i] = count++;
+            }
+            top++;
+
+            // top to bottom
+            for (int i = top; i <= bottom; i++) {
+                mat[i][right] = count++;
+            }
+            right--;
+
+            // right to left
+            for (int i = right; i >= left; i--) {
+                mat[bottom][i] = count++;
+            }
+            bottom--;
+
+            // bottom to top
+            for (int i = bottom; i >= top; i--) {
+                mat[i][left] = count++;
+            }
+            left++;
+        }
+
+        return mat;
+    }
+}

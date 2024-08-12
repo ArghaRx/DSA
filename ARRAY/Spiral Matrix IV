@@ -1,0 +1,58 @@
+https://leetcode.com/problems/spiral-matrix-iv/description/
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int mat[][] = new int[m][n];
+        for (int row[] : mat) Arrays.fill(row, -1);
+
+        int left = 0, top = 0, right = n - 1, bottom = m - 1;
+
+        while (left <= right && top <= bottom) {
+            // left to right
+            for (int i = left; i <= right; i++) {
+                if (head == null) break;
+                mat[top][i] = head.val;
+                head = head.next;
+            }
+            top++;
+
+            // top to bottom
+            for (int i = top; i <= bottom; i++) {
+                if (head == null) break;
+                mat[i][right] = head.val;
+                head = head.next;
+            }
+            right--;
+
+            // right to left
+            for (int i = right; i >= left; i--) {
+                if (head == null) break;
+                mat[bottom][i] = head.val;
+                head = head.next;
+            }
+            bottom--;
+
+            // bottom to top
+            for (int i = bottom; i >= top; i--) {
+                if (head == null) break;
+                mat[i][left] = head.val;
+                head = head.next;
+            }
+            left++;
+        }
+
+        return mat;
+    }
+}
