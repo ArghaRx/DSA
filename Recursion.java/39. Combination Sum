@@ -1,6 +1,48 @@
 https://leetcode.com/problems/combination-sum/
 
+gfg sol --> https://ide.geeksforgeeks.org/online-java-compiler/e21973c4-a790-4fbb-b968-084bd05af522
 
+
+
+import java.util.*;
+class A{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        for(int i = 0; i < n; i++)
+        {
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        int target = sc.nextInt();
+        List<List<Integer>> ans = new ArrayList<>();
+        findcombination(0, ans, new ArrayList<>(), arr, target);
+        System.out.println(ans);
+    }
+    public static void findcombination(int ind, List<List<Integer>> ans, List<Integer> sub, int arr[], int target)
+    {
+        if(target == 0)
+        {
+            ans.add(new ArrayList<>(sub));
+            return;
+        }
+        
+        for(int i = ind; i < arr.length; i++)
+        {
+            if(i > ind && arr[i] == arr[i - 1]) continue;
+            if(arr[i] > target) break;
+            
+            sub.add(arr[i]);
+            findcombination(i, ans, sub, arr, target - arr[i]);
+            sub.remove(sub.size() - 1);
+        }
+    }
+}
+
+
+------------------------------ LeetCode  ----------------------------------------------------
 import java.util.*;
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
