@@ -74,7 +74,7 @@ class Main{
        
         if(temp.prev == null) // if the delete node is Head
         {
-           return deleteHeadofDLL(temp);
+           return deleteHeadofDLL(head);
             
         }
         
