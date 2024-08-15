@@ -49,3 +49,70 @@ public class Solution
         return head;
     }
 }
+
+
+
+
+
+------------  Full code in gfg compiler  ---------------------------------------------------------------
+https://ide.geeksforgeeks.org/online-java-compiler/37b8e657-ca28-4062-96d6-1c80a22d67e8
+
+
+////////*********************************
+
+convert a Array to Doubly Linked List
+
+*****************************////////////
+
+import java.util.*;
+class Node{
+    public int data;
+    public Node next;
+    public Node prev;
+    
+    Node(int data)
+    {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+    Node(int data, Node next, Node prev)
+    {
+        this.data = data;
+        this.next = next;
+        this.prev = prev;
+    }
+}
+class A{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        int arr[] = new int[n];
+        for(int i = 0 ;i < n; i++)
+        arr[i] = sc.nextInt();
+        
+        Node head = convertArrayToDoubleLL(arr);
+        printDoublyLinkedList(head);
+    }
+    public static Node convertArrayToDoubleLL(int arr[]){
+        if (arr.length == 0) return null; // Handle empty array case
+        Node head = new Node(arr[0]);
+        Node prev = head;
+        
+        for(int i = 1; i < arr.length; i++)
+        {
+            Node temp = new Node(arr[i], null, prev);
+            prev.next = temp;
+            prev = temp;
+        }
+        return head;
+    }
+     public static void printDoublyLinkedList(Node head) {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " ");
+            curr = curr.next;
+        }
+    }
+}
