@@ -1,6 +1,48 @@
 https://leetcode.com/problems/combination-sum/
 
+gfg sol --> https://ide.geeksforgeeks.org/online-java-compiler/e21973c4-a790-4fbb-b968-084bd05af522
 
+
+
+import java.util.*;
+class A{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        for(int i = 0; i < n; i++)
+        {
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        int target = sc.nextInt();
+        List<List<Integer>> ans = new ArrayList<>();
+        findcombination(0, ans, new ArrayList<>(), arr, target);
+        System.out.println(ans);
+    }
+    public static void findcombination(int ind, List<List<Integer>> ans, List<Integer> sub, int arr[], int target)
+    {
+        if(target == 0)
+        {
+            ans.add(new ArrayList<>(sub));
+            return;
+        }
+        
+        for(int i = ind; i < arr.length; i++)
+        {
+            if(i > ind && arr[i] == arr[i - 1]) continue;
+            if(arr[i] > target) break;
+            
+            sub.add(arr[i]);
+            findcombination(i, ans, sub, arr, target - arr[i]);
+            sub.remove(sub.size() - 1);
+        }
+    }
+}
+
+
+------------------------------ LeetCode  ----------------------------------------------------
 import java.util.*;
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
@@ -10,6 +52,7 @@ class Solution {
     }
     void findCombination( int ind , int arr[] , int target , List<List<Integer>> ans,List<Integer> ds )
     {
+    //* base case e if(ind == n && target == 0) eksthe korle runtime error hba bcz target == 0 onno jaigai a6a
         //base case
         if (ind == arr.length)
         {
@@ -32,6 +75,12 @@ class Solution {
             // during backtarcking remove the arr[ind] element which is the insert element
              ds.remove(ds.size() - 1);
         }
+/*
+-- ds.remove() ta if condition er mddei korte hba because as below-->
+ -- jodi (2,2,3,6) take & target = 7
+ -- 3 bar 2 2 2 nebar por target = 1 takbe , dekbo je ind+1 teke n- 1 porjonto kono 1 a6a ki tai if() er baire remove krle 
+      seta check hba n, tokn 2 2 and bakir mdde hba, but ater take 2 2 2 it may be present 1 and form target == 0 as well as ind == n
+*/
 
         // not pick elemennt ,only ind increase rest will same at it is
         findCombination(ind + 1 , arr,target,ans,ds);

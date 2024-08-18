@@ -1,3 +1,51 @@
+https://leetcode.com/problems/combination-sum-ii/
+
+gfg compiler--> https://ide.geeksforgeeks.org/online-java-compiler/131df1a1-7d39-42fc-9c67-aae85c8f6942
+
+TC - O(2 ^ n × n) (in the worst case)
+SC - 
+
+
+import java.util.*;
+class A{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int arr[] = new int[n];
+        for(int i = 0; i < n; i++)
+        {
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        int target = sc.nextInt();
+        List<List<Integer>> ans = new ArrayList<>();
+        findcombination(0, ans, new ArrayList<>(), arr, target);
+        System.out.println(ans);
+    }
+    public static void findcombination(int ind, List<List<Integer>> ans, List<Integer> sub, int arr[], int target)
+    {
+        if(target == 0)
+        {
+            ans.add(new ArrayList<>(sub));
+            return;
+        }
+        
+        for(int i = ind; i < arr.length; i++)
+        {
+            if(i > ind && arr[i] == arr[i - 1]) continue;
+            if(arr[i] > target) break;
+            
+            sub.add(arr[i]);
+            findcombination(i + 1, ans, sub, arr, target - arr[i]);
+            sub.remove(sub.size() - 1);
+        }
+    }
+}
+
+
+-----------------------------------------  Leetcode  -----------------------------------------------------------
+
 import java.util.*;
 class Solution {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
@@ -8,22 +56,16 @@ class Solution {
     }
     public static void  findCombination(int ind, int arr[], int target,List<List<Integer>> ans , List<Integer> ds)
     {
-        // BASE CONDITION
         if(target == 0)
         {
             ans.add(new ArrayList<>(ds));
             return;
         }
-
-        // loop from index to last 
         for(int i = ind ; i < arr.length ; i++)
         {
-             // Every time i check i > ind && previous element is same same now
-             // arr[i] == arr[i-1]
             if(i > ind && arr[i] == arr[i-1]) continue;
 
             if(arr[i] > target) break;
-            
             ds.add(arr[i]);
             findCombination(i+1 , arr , target - arr[i] , ans , ds);
             ds.remove(ds.size() - 1);

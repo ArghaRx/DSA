@@ -1,0 +1,76 @@
+gfg - https://ide.geeksforgeeks.org/online-java-compiler/9becc772-ee1e-4c30-894d-26e213ddbd8e
+
+
+/*
+
+  delete a Node after a given value
+
+*/
+
+import java.util.*;
+class Node{
+    public int data;
+    public Node next;
+    
+    Node(int data)
+    {
+        this.data = data;
+        this.next = null;
+    }
+    Node(int data, Node next)
+    {
+        this.data = data;
+        this.next = next;
+    }
+}
+class A{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        int arr[] = new int[n];
+        for(int i = 0 ;i < n; i++)
+        arr[i] = sc.nextInt();
+        
+        Node head = convertArrayToLL(arr);
+        
+        int deleteNode = sc.nextInt();
+        
+        DeleteAfterANode(head, deleteNode);
+        printLinkedList(head);
+    }
+    public static Node DeleteAfterANode(Node head, int delNode){
+        Node cur = head;
+        while(cur.data != delNode){
+            cur = cur.next;
+        }
+        //Node poiter present that node, jar porer node k delete korbo
+        // now there is a condition if that is the last Node
+        if(cur.next == null) return head;
+        else
+        cur.next = cur.next.next;
+        
+        return head;
+    }
+    public static Node convertArrayToLL(int arr[]){
+        if (arr.length == 0) return null; // Handle empty array case
+        Node head = new Node(arr[0]);
+        Node temp = head;
+        
+        for(int i = 1; i < arr.length; i++)
+        {
+            Node cur = new Node(arr[i]);
+            temp.next = cur;
+            // cur = temp;
+            temp = cur;
+        }
+        return head;
+    }
+     public static void printLinkedList(Node head) {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " ");
+            curr = curr.next;
+        }
+    }
+}

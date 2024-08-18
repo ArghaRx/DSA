@@ -27,3 +27,34 @@ class Solution {
         
     }
 }
+
+--------------------------------- Approach(Same as subset 1) ----------------------------------------------------
+
+// Only difference -  before add to list of list , chech the current list is already present or not
+
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        findcombination(0, ans, new ArrayList<>(), nums);
+        return ans;
+    }
+    public void findcombination(int ind, List<List<Integer>> ans, List<Integer> sub, int arr[])
+    {
+        if(ind == arr.length)
+        {
+            if(ans.contains(sub)) return;
+            else
+            {
+                ans.add(new ArrayList<>(sub));
+                return;
+            }
+        }
+
+        sub.add(arr[ind]);
+        findcombination(ind + 1, ans, sub, arr);
+
+        sub.remove(sub.size() - 1);
+        findcombination(ind + 1, ans, sub, arr);
+    }
+}

@@ -7,7 +7,7 @@ https://www.codingninjas.com/studio/problems/add-one-to-a-number-represented-as-
 public class Solution {
 
 //call reverse function
-	 public static Node reverse(Node head) {
+    public static Node reverse(Node head) {
         Node prev = null;
         Node temp = head;
         while (temp != null) {
@@ -23,14 +23,13 @@ public class Solution {
 	public static Node addOne(Node head) {
 		// Write your code here.
 
-		 head = reverse(head);
+	head = reverse(head);
+		
         int carry = 1;
         Node temp = head;
         while (temp != null) 
         {
-
-
-            temp.data += carry;
+            temp.data = temp.data +  carry;
 
             if (temp.data < 10)
             {
@@ -41,7 +40,6 @@ public class Solution {
                 temp.data = 0;
                 carry = 1;
             }
-
 
             temp = temp.next;
         }
