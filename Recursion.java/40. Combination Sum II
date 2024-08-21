@@ -1,5 +1,7 @@
 https://leetcode.com/problems/combination-sum-ii/
 
+All solution(Combination sum 1, 2 , permutation sum 1 2) - https://leetcode.com/problems/permutations/solutions/18239/a-general-approach-to-backtracking-questions-in-java-subsets-permutations-combination-sum-palindrome-partioning
+
 gfg compiler--> https://ide.geeksforgeeks.org/online-java-compiler/131df1a1-7d39-42fc-9c67-aae85c8f6942
 
 TC - O(2 ^ n × n) (in the worst case)
