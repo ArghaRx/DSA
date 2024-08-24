@@ -30,7 +30,8 @@ class Solution {
 
 
 
-********   Optimal  ***********
+****************   Optimal  *********************
+<<<< DUTCH National Flag Algorithm  >>>>>>>
 
 class Solution {
     public void swap(int nums[],int start,int end)
