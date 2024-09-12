@@ -5,6 +5,9 @@ public static void main()
 {
 Scanner sc=new Scanner(System.in);
 int n1,n2,n;
+n1 = sc.nextInt();
+n2 = sc.nextInt();
+n = sc.nextInt();
 System.out.println("enter size: ");
 int a[]=new int[n1]; 
 int b[]=new int[n2];
@@ -14,10 +17,11 @@ for(int i=0;i<n1;i++)
 a[i]=sc.nextInt();
 }
 System.out.println("enter all elements of matrix b: ");
-for(i=0;i<n2;i++)
+for(int i=0;i<n2;i++)
 {
 b[i]=sc.nextInt();
 }
+
 int c[]=new int[n];
 for(int i=0;i<n;i++)
 {
