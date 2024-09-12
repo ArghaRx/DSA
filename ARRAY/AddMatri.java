@@ -9,7 +9,7 @@ System.out.println("enter size: ");
 int a[]=new int[n1]; 
 int b[]=new int[n2];
 System.out.println("enter all elements of matrix a: ");
-for(i=0;i<n1;i++)
+for(int i=0;i<n1;i++)
 {
 a[i]=sc.nextInt();
 }
@@ -19,7 +19,7 @@ for(i=0;i<n2;i++)
 b[i]=sc.nextInt();
 }
 int c[]=new int[n];
-for(i=0;i<n;i++)
+for(int i=0;i<n;i++)
 {
 if(n1==n2)
 {
@@ -30,7 +30,7 @@ else
 System.out.println("NOT POSSIBLE");
 }
 }
-for(i=0;i<n;i++)
+for(int i=0;i<n;i++)
 {
 System.out.println("Addition is:"+c[i]);
 }

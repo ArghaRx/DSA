@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/count-pairs-of-similar-strings/description/
 
+import java.util.*;
 class Solution {
     public int similarPairs(String[] words) {
         int n = words.length;

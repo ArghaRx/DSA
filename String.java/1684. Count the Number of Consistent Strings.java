@@ -1,5 +1,5 @@
 // https://leetcode.com/problems/count-the-number-of-consistent-strings/description/
-
+import java.util.*;
 class Solution {
     public int countConsistentStrings(String allowed, String[] words) {
         Map<Character, Integer> map = new HashMap<>();
