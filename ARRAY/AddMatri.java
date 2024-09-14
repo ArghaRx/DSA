@@ -21,6 +21,7 @@ for(int i=0;i<n2;i++)
 {
 b[i]=sc.nextInt();
 }
+sc.close();
 
 int c[]=new int[n];
 for(int i=0;i<n;i++)
