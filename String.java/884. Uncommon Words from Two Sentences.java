@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/uncommon-words-from-two-sentences/description/
 
 
-
 class Solution {
     public String[] uncommonFromSentences(String s1, String s2) {
         String arr1[] = s1.split(" ");
