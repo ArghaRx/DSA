@@ -1,0 +1,32 @@
+// https://www.geeksforgeeks.org/problems/longest-prefix-suffix2527/
+
+
+class Solution {
+    int lps(String str) {
+        // code here
+       int i = 0, j = 1;
+       int k = 2;
+       int cnt = 0;
+       int n = str.length();
+
+       while(i < n - 1 && j < n)
+       {
+           if(str.charAt(i) == str.charAt(j))
+           {
+               i++;
+               j++;
+
+               cnt++;
+           }
+           else
+           {
+               
+               cnt = 0;
+               i = 0;
+               j = k;
+               k++;
+           }
+       }
+       return cnt;
+    }
+}
