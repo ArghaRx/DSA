@@ -1,0 +1,80 @@
+https://ide.geeksforgeeks.org/online-java-compiler/7a100b08-661e-41e6-888d-7895826273e7
+
+
+
+import java.util.*;
+
+class TreeNode {
+    int data;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode() {}  // default constructor
+
+    TreeNode(int val) {  // constructor only value
+        data = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {  // constructor with node and value
+        data = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class A {
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        int val1 = sc.nextInt();
+        int val2 = sc.nextInt();
+        int val3 = sc.nextInt();
+        int val4 = sc.nextInt();
+        int val5 = sc.nextInt();
+        int val6 = sc.nextInt();
+        int val7 = sc.nextInt();
+        
+        TreeNode root = new TreeNode(val1);
+        root.left = new TreeNode(val2);
+        root.left.left = new TreeNode(val3);
+        root.left.right = new TreeNode(val4);
+        root.right = new TreeNode(val5);
+        root.right.left = new TreeNode(val6);
+        root.right.right = new TreeNode(val7);
+
+        List<List<TreeNode>> ans = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        List<List<Integer>> result = levelTraverse(root, ans, queue);
+
+        // Print result
+        for (List<Integer> level : result) {
+            System.out.println(level);
+        }
+    }
+
+    public static List<List<Integer>> levelTraverse(TreeNode root, List<List<TreeNode>> ans, Queue<TreeNode> queue) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        if (root == null) return result;
+
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            List<Integer> sub = new ArrayList<>();
+            int size = queue.size();
+
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();  // Remove the node from the queue
+                sub.add(node.data);  // Add its value to the sublist
+
+                if (node.left != null) queue.offer(node.left);  // Add left child if it exists
+                if (node.right != null) queue.offer(node.right);  // Add right child if it exists
+            }
+
+            result.add(sub);  // Add sublist of current level to result
+        }
+
+        return result;
+    }
+}
