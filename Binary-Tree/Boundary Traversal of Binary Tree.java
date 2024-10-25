@@ -34,28 +34,37 @@ public class Solution {
         return ans;
     }
 
+
+	
     static boolean isLeaf(TreeNode node){
     return (node.left == null && node.right == null);
     }
+
+	
      static void addLeftBoundary(TreeNode root, ArrayList <Integer> res)
     {
         TreeNode cur = root.left;
         while (cur != null)
         {
+	   // all left boundaries node come excluding leave
             if(isLeaf(cur) == false)
             res.add(cur.data);
-
+		
+	   // left boundary traversal tai aga left e jaba
             if(cur.left != null)
             cur = cur.left; // (see)
             else
             cur = cur.right; //(see)
         }
     }
+
+
+	
      static void addRightBoundary(TreeNode root,ArrayList <Integer> res)
     {
         TreeNode cur = root.right;  // (see)
 
-         ArrayList<Integer> temp = new ArrayList<>();
+         ArrayList<Integer> temp = new ArrayList<>(); // for reverse order enter in ans list
         while(cur != null)
         {
             if(isLeaf(cur) == false) temp.add(cur.data);  // (see)
@@ -65,16 +74,20 @@ public class Solution {
             else
             cur = cur.left;   // (see)
         }
+
+	// reverse order so last to first loop cholbe 
         for(int i = temp.size() - 1 ; i>=0 ; i--)
         {
             res.add(temp.get(i));
         }
             
     }
+
+	
    static void addLeaves(TreeNode root, ArrayList < Integer > res) {
         if (isLeaf(root)) {
             res.add(root.data);
-            return;
+            return; // return must after take one leaf
         }
         if (root.left != null) addLeaves(root.left, res);   // (see)// (see)
         if (root.right != null) addLeaves(root.right, res);  // (see)// (see)
