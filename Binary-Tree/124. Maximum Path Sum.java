@@ -1,38 +1,6 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-class Solution {
-    public int maxPathSum(TreeNode root) {
-        int maxValue[] = new int[1];
-        maxValue[0] = Integer.MIN_VALUE;
-        maxDownValue(root,maxValue);
-        return maxValue[0];
-    }
+/*
+https://leetcode.com/problems/binary-tree-maximum-path-sum/
 
-    public int maxDownValue(TreeNode root,int maxValue[] )
-    {
-        if(root == null) return 0;
-        int lh = Math.max(0,maxDownValue(root.left , maxValue));
-        int rh = Math.max(0,maxDownValue(root.right , maxValue));
-        maxValue[0] = Math.max(maxValue[0], rh + lh + root.val);
-
-        return (root.val + Math.max(lh,rh));
-
-
-    }
-}
 
 Time Complexity: O(N).
 
@@ -41,3 +9,38 @@ Reason: We are doing a tree traversal.
 Space Complexity: O(N)
 
 Reason: Space is needed for the recursion stack. In the worst case (skewed tree), space complexity can be O(N).
+
+
+*/
+
+
+
+class Solution {
+    int maxValue = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxDownValue(root);
+        return maxValue;
+    }
+
+    // height eri formula just 1 er jaiga gulo root.val kre6i,
+    //karon ultimately otai chai
+    public int maxDownValue(TreeNode root)
+    {
+        if(root == null) return 0;
+
+        // for any root, left or right --> comes -ve value,that can never be my highest value
+        // so 0 return tai, max(0,...) kore6i
+        int lh = Math.max(0,maxDownValue(root.left));
+        int rh = Math.max(0,maxDownValue(root.right));
+
+        // update maxvalue for each node
+        maxValue = Math.max(maxValue, rh + lh + root.val);
+
+        // traverse e sei path tai nbo jeta maximum, tai backtarcking r jnno ota,
+        // val + max(lh, rh)
+        return (root.val + Math.max(lh,rh));
+
+
+    }
+}
+
